@@ -1,0 +1,26 @@
+{
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@727-ventures/typechain-polkadot": "^1.1.1",
+    "@727-ventures/typechain-types": "^1.1.2",
+    "@babel/core": "^7.21.4",
+    "@babel/register": "^7.18.9",
+    "@polkadot/api": "^10.9.1",
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "ts-node": "^10.9.1"
+  },
+  "scripts": {
+    "test:mocha": "mocha --require @babel/register --require ts-node/register ./ --extension \".ts\" --exit --no-timeouts",
+    "test:random": "mocha --require @babel/register --require ts-node/register  1.betaz_random_test.ts --exit --no-timeouts",
+    "test:token": "mocha --require @babel/register --require ts-node/register  2.betaz_token_test.ts --exit --no-timeouts",
+    "test:core": "mocha --require @babel/register --require ts-node/register  3.betaz_core_test.ts --exit --no-timeouts",
+    "test:staking": "mocha --require @babel/register --require ts-node/register  4.staking_test.ts --exit --no-timeouts",
+    "test:sale": "mocha --require @babel/register --require ts-node/register  5.sale_test.ts --exit --no-timeouts",
+    "test:pandora": "mocha --require @babel/register --require ts-node/register  6.pandora_test.ts --exit --no-timeouts"
+  }
+}

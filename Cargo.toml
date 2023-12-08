@@ -1,0 +1,31 @@
+[package]
+name = "bet_a0"
+version = "1.0.0"
+edition = "2021"
+authors = ["bet_a0 <admin@betA0.net>"]
+
+[dependencies]
+
+ink = { version = "4.3.0", default-features = false}
+
+scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
+scale-info = { version = "2.6", default-features = false, features = ["derive"], optional = true }
+
+# These dependencies
+openbrush = { tag = "4.0.0", git = "https://github.com/Brushfam/openbrush-contracts", default-features = false, features = ["psp22", "psp34", "upgradeable", "pausable", "ownable", "access_control"] }
+
+[lib]
+name = "bet_a0"
+path = "src/lib.rs"
+
+
+[features]
+default = ["std"]
+std = [
+    "ink/std",
+    "scale/std",
+    "scale-info/std",
+
+    "openbrush/std",
+]
+ink-as-dependency = [] 

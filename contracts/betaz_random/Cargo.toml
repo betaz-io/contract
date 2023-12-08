@@ -1,0 +1,41 @@
+[package]
+name = "betaz_random"
+version = "1.0.0"
+authors = ["bet_a0 <admin@betA0.net>"]
+edition = "2021"
+
+[dependencies]
+ink = { version = "4.3.0", default-features = false}
+
+scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
+scale-info = { version = "2.6", default-features = false, features = ["derive"], optional = true }
+
+# These dependencies
+bet_a0 = { path = "../..", default-features = false }
+openbrush = {  tag = "4.0.0", git = "https://github.com/Brushfam/openbrush-contracts", default-features = false, features = ["psp22", "upgradeable", "pausable", "ownable", "access_control"] }
+dia-randomness-oracle = { path = "../dia-randomness-oracle", default-features = false, features = ["ink-as-dependency"] }
+dia-oracle-randomness-getter = { path = "../oracle-randomness-getter", default-features = false, features = ["ink-as-dependency"] }
+
+[lib]
+name = "betaz_random"
+path = "lib.rs"
+
+[features]
+default = ["std"]
+std = [
+    "ink/std",
+    "scale/std",
+    "scale-info/std",
+    "bet_a0/std",
+    "openbrush/std",
+    "dia-randomness-oracle/std",
+    "dia-oracle-randomness-getter/std"
+]
+ink-as-dependency = []
+
+[profile.dev]
+codegen-units = 16
+overflow-checks = false
+
+[profile.release]
+overflow-checks = false

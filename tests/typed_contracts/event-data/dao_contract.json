@@ -1,0 +1,3 @@
+{
+"UpdatePoolsRatio": {"name":"UpdatePoolsRatio","body":{"corePoolRatio":{"name":"number","isResult":false,"isPrimitive":true,"isConvertable":false},"stakingPoolRatio":{"name":"number","isResult":false,"isPrimitive":true,"isConvertable":false},"pandoraPoolRatio":{"name":"number","isResult":false,"isPrimitive":true,"isConvertable":false},"treasuryPoolRatio":{"name":"number","isResult":false,"isPrimitive":true,"isConvertable":false}},"isResult":false,"isPrimitive":false,"isConvertable":false}
+}
