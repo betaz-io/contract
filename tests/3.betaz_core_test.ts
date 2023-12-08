@@ -371,222 +371,222 @@ describe('Betaz token test', () => {
         await setup();
     });
 
-    // it('Can initialize', async () => {
-    //     // Check owner
-    //     let owner = (await coreQuery.owner()).value.ok!.toString();
-    //     expect(owner).to.equal(signerAddress);
+    it('Can initialize', async () => {
+        // Check owner
+        let owner = (await coreQuery.owner()).value.ok!.toString();
+        expect(owner).to.equal(signerAddress);
 
-    //     // Check max bet ratio
-    //     let max_bet_ratio = (await coreQuery.getMaxBetRatio()).value.ok!;
-    //     expect(max_bet_ratio).to.equal(coreMaxBetRatio);
+        // Check max bet ratio
+        let max_bet_ratio = (await coreQuery.getMaxBetRatio()).value.ok!;
+        expect(max_bet_ratio).to.equal(coreMaxBetRatio);
 
-    //     // Check token ratio 
-    //     let token_ratio = (await coreQuery.getTokenRatio()).value.ok!;
-    //     expect(token_ratio).to.equal(coreTokenRatio);
+        // Check token ratio 
+        let token_ratio = (await coreQuery.getTokenRatio()).value.ok!;
+        expect(token_ratio).to.equal(coreTokenRatio);
 
-    //     // Check min over number
-    //     let min_over_number = (await coreQuery.getMinNumberOverRoll()).value.ok!;
-    //     expect(min_over_number).to.equal(coreMinOverNumber);
+        // Check min over number
+        let min_over_number = (await coreQuery.getMinNumberOverRoll()).value.ok!;
+        expect(min_over_number).to.equal(coreMinOverNumber);
 
-    //     // Check max over number
-    //     let max_over_number = (await coreQuery.getMaxNumberOverRoll()).value.ok!;
-    //     expect(max_over_number).to.equal(coreMaxOverNumber);
+        // Check max over number
+        let max_over_number = (await coreQuery.getMaxNumberOverRoll()).value.ok!;
+        expect(max_over_number).to.equal(coreMaxOverNumber);
 
-    //     // Check min under number
-    //     let min_under_number = (await coreQuery.getMinNumberUnderRoll()).value.ok!;
-    //     expect(min_under_number).to.equal(coreMinUnderNumber);
+        // Check min under number
+        let min_under_number = (await coreQuery.getMinNumberUnderRoll()).value.ok!;
+        expect(min_under_number).to.equal(coreMinUnderNumber);
 
-    //     // Check max under number
-    //     let max_under_number = (await coreQuery.getMaxNumberUnderRoll()).value.ok!;
-    //     expect(max_under_number).to.equal(coreMaxUnderNumber);
+        // Check max under number
+        let max_under_number = (await coreQuery.getMaxNumberUnderRoll()).value.ok!;
+        expect(max_under_number).to.equal(coreMaxUnderNumber);
 
-    //     // Check core pool ratio
-    //     let core_pool_ratio = (await coreQuery.getCorePoolRatio()).value.ok!;
-    //     expect(core_pool_ratio).to.equal(corePoolRatio);
+        // Check core pool ratio
+        let core_pool_ratio = (await coreQuery.getCorePoolRatio()).value.ok!;
+        expect(core_pool_ratio).to.equal(corePoolRatio);
 
-    //     // Check staking pool ratio
-    //     let staking_pool_ratio = (await coreQuery.getStakingPoolRatio()).value.ok!;
-    //     expect(staking_pool_ratio).to.equal(stakingPoolRatio);
+        // Check staking pool ratio
+        let staking_pool_ratio = (await coreQuery.getStakingPoolRatio()).value.ok!;
+        expect(staking_pool_ratio).to.equal(stakingPoolRatio);
 
-    //     // Check treasury pool ratio
-    //     let treasury_pool_ratio = (await coreQuery.getTreasuryPoolRatio()).value.ok!;
-    //     expect(treasury_pool_ratio).to.equal(treasuryPoolRatio);
+        // Check treasury pool ratio
+        let treasury_pool_ratio = (await coreQuery.getTreasuryPoolRatio()).value.ok!;
+        expect(treasury_pool_ratio).to.equal(treasuryPoolRatio);
 
-    //     // Check pandora pool ratio
-    //     let pandora_pool_ratio = (await coreQuery.getPandoraPoolRatio()).value.ok!;
-    //     expect(pandora_pool_ratio).to.equal(pandoraPoolRatio);
+        // Check pandora pool ratio
+        let pandora_pool_ratio = (await coreQuery.getPandoraPoolRatio()).value.ok!;
+        expect(pandora_pool_ratio).to.equal(pandoraPoolRatio);
 
-    //     // Check admin Address
-    //     let is_admin_address = (await coreQuery.hasRole(RoleType, coreAdminAddress)).value.ok!;
-    //     expect(is_admin_address).to.equal(true);
+        // Check admin Address
+        let is_admin_address = (await coreQuery.hasRole(RoleType, coreAdminAddress)).value.ok!;
+        expect(is_admin_address).to.equal(true);
 
-    //     // Check betaz Address
-    //     let betaz_address = (await coreQuery.getBetazAddress()).value.ok!.toString();
-    //     expect(betaz_address).to.equal(coreBetazAddress);
+        // Check betaz Address
+        let betaz_address = (await coreQuery.getBetazAddress()).value.ok!.toString();
+        expect(betaz_address).to.equal(coreBetazAddress);
 
-    //     // Check bet token address
-    //     let bet_token_address = (await coreQuery.betTokenAddress()).value.ok!.toString();
-    //     expect(bet_token_address).to.equal(coreTokenContractAddress);
+        // Check bet token address
+        let bet_token_address = (await coreQuery.betTokenAddress()).value.ok!.toString();
+        expect(bet_token_address).to.equal(coreTokenContractAddress);
 
-    //     // check staking address
-    //     let staking_address = (await coreQuery.getStakingAddress()).value.ok!;
-    //     expect(staking_address).to.equal(coreStakingAddress);
+        // check staking address
+        let staking_address = (await coreQuery.getStakingAddress()).value.ok!;
+        expect(staking_address).to.equal(coreStakingAddress);
 
-    //     // check treasury address
-    //     let treasury_address = (await coreQuery.getTreasuryAddress()).value.ok!;
-    //     expect(treasury_address).to.equal(coreTreasuryAddress);
+        // check treasury address
+        let treasury_address = (await coreQuery.getTreasuryAddress()).value.ok!;
+        expect(treasury_address).to.equal(coreTreasuryAddress);
 
-    //     // check pandora address
-    //     let pandora_address = (await coreQuery.getPandoraAddress()).value.ok!;
-    //     expect(pandora_address).to.equal(corePandoraAddress);
+        // check pandora address
+        let pandora_address = (await coreQuery.getPandoraAddress()).value.ok!;
+        expect(pandora_address).to.equal(corePandoraAddress);
 
-    //     // check random contract address
-    //     let random_contract_address = (await coreQuery.getOracleRandomnessAddress()).value.ok!;
-    //     expect(random_contract_address).to.equal(coreOracleRandomnessAddress);
+        // check random contract address
+        let random_contract_address = (await coreQuery.getOracleRandomnessAddress()).value.ok!;
+        expect(random_contract_address).to.equal(coreOracleRandomnessAddress);
 
-    //     // check dao address
-    //     let dao_address = (await coreQuery.getDaoAddress()).value.ok!;
-    //     expect(dao_address).to.equal(coreDaoAddress);
-    // });
+        // check dao address
+        let dao_address = (await coreQuery.getDaoAddress()).value.ok!;
+        expect(dao_address).to.equal(coreDaoAddress);
+    });
 
-    // it('Can update initialize', async () => {
-    //     const new_coreMaxBetRatio = 100;
-    //     const new_coreTokenRatio = 2;
-    //     const new_coreMinOverNumber = 5;
-    //     const new_coreMaxOverNumber = 99;
-    //     const new_coreMinUnderNumber = 2;
-    //     const new_coreMaxUnderNumber = 96;
-    //     const new_corePoolRatio = 4;
-    //     const new_stakingPoolRatio = 3;
-    //     const new_treasuryPoolRatio = 3;
-    //     const new_pandoraPoolRatio = 3;
-    //     const new_coreAdminAddress = signerAddress;
-    //     const new_coreBetazAddress = signerAddress;
-    //     const new_coreTokenContractAddress = signerAddress;
-    //     const new_coreStakingAddress = signerAddress;
-    //     const new_coreTreasuryAddress = signerAddress;
-    //     const new_corePandoraAddress = signerAddress;
-    //     const new_coreOracleRandomnessAddress = signerAddress;
-    //     const new_coreDaoAddress = signerAddress;
-    //     const new_coreRoundDistance = 2;
+    it('Can update initialize', async () => {
+        const new_coreMaxBetRatio = 100;
+        const new_coreTokenRatio = 2;
+        const new_coreMinOverNumber = 5;
+        const new_coreMaxOverNumber = 99;
+        const new_coreMinUnderNumber = 2;
+        const new_coreMaxUnderNumber = 96;
+        const new_corePoolRatio = 4;
+        const new_stakingPoolRatio = 3;
+        const new_treasuryPoolRatio = 3;
+        const new_pandoraPoolRatio = 3;
+        const new_coreAdminAddress = signerAddress;
+        const new_coreBetazAddress = signerAddress;
+        const new_coreTokenContractAddress = signerAddress;
+        const new_coreStakingAddress = signerAddress;
+        const new_coreTreasuryAddress = signerAddress;
+        const new_corePandoraAddress = signerAddress;
+        const new_coreOracleRandomnessAddress = signerAddress;
+        const new_coreDaoAddress = signerAddress;
+        const new_coreRoundDistance = 2;
 
-    //     // Check max bet ratio
-    //     await coreTx.setMaxBetRatio(new_coreMaxBetRatio)
-    //     let max_bet_ratio = (await coreQuery.getMaxBetRatio()).value.ok!;
-    //     expect(max_bet_ratio).to.equal(new_coreMaxBetRatio);
+        // Check max bet ratio
+        await coreTx.setMaxBetRatio(new_coreMaxBetRatio)
+        let max_bet_ratio = (await coreQuery.getMaxBetRatio()).value.ok!;
+        expect(max_bet_ratio).to.equal(new_coreMaxBetRatio);
 
-    //     // Check token ratio 
-    //     await coreTx.setTokenRatio(new_coreTokenRatio)
-    //     let token_ratio = (await coreQuery.getTokenRatio()).value.ok!;
-    //     expect(token_ratio).to.equal(new_coreTokenRatio);
+        // Check token ratio 
+        await coreTx.setTokenRatio(new_coreTokenRatio)
+        let token_ratio = (await coreQuery.getTokenRatio()).value.ok!;
+        expect(token_ratio).to.equal(new_coreTokenRatio);
 
-    //     // Check min over number
-    //     await coreTx.setMinNumberOverRoll(new_coreMinOverNumber)
-    //     let min_over_number = (await coreQuery.getMinNumberOverRoll()).value.ok!;
-    //     expect(min_over_number).to.equal(new_coreMinOverNumber);
+        // Check min over number
+        await coreTx.setMinNumberOverRoll(new_coreMinOverNumber)
+        let min_over_number = (await coreQuery.getMinNumberOverRoll()).value.ok!;
+        expect(min_over_number).to.equal(new_coreMinOverNumber);
 
-    //     // Check max over number
-    //     await coreTx.setMaxNumberOverRoll(new_coreMaxOverNumber)
-    //     let max_over_number = (await coreQuery.getMaxNumberOverRoll()).value.ok!;
-    //     expect(max_over_number).to.equal(new_coreMaxOverNumber);
+        // Check max over number
+        await coreTx.setMaxNumberOverRoll(new_coreMaxOverNumber)
+        let max_over_number = (await coreQuery.getMaxNumberOverRoll()).value.ok!;
+        expect(max_over_number).to.equal(new_coreMaxOverNumber);
 
-    //     // Check min under number
-    //     await coreTx.setMinNumberUnderRoll(new_coreMinUnderNumber)
-    //     let min_under_number = (await coreQuery.getMinNumberUnderRoll()).value.ok!;
-    //     expect(min_under_number).to.equal(new_coreMinUnderNumber);
+        // Check min under number
+        await coreTx.setMinNumberUnderRoll(new_coreMinUnderNumber)
+        let min_under_number = (await coreQuery.getMinNumberUnderRoll()).value.ok!;
+        expect(min_under_number).to.equal(new_coreMinUnderNumber);
 
-    //     // Check max under number
-    //     await coreTx.setMaxNumberUnderRoll(new_coreMaxUnderNumber)
-    //     let max_under_number = (await coreQuery.getMaxNumberUnderRoll()).value.ok!;
-    //     expect(max_under_number).to.equal(new_coreMaxUnderNumber);
+        // Check max under number
+        await coreTx.setMaxNumberUnderRoll(new_coreMaxUnderNumber)
+        let max_under_number = (await coreQuery.getMaxNumberUnderRoll()).value.ok!;
+        expect(max_under_number).to.equal(new_coreMaxUnderNumber);
 
-    //     // Check pool ratio
-    //     await coreTx.setPoolRatio(new_corePoolRatio, new_stakingPoolRatio, new_pandoraPoolRatio, new_treasuryPoolRatio)
-    //     let core_pool_ratio = (await coreQuery.getCorePoolRatio()).value.ok!;
-    //     expect(core_pool_ratio).to.equal(new_corePoolRatio);
-    //     let staking_pool_ratio = (await coreQuery.getStakingPoolRatio()).value.ok!;
-    //     expect(staking_pool_ratio).to.equal(new_stakingPoolRatio);
-    //     let pandora_pool_ratio = (await coreQuery.getPandoraPoolRatio()).value.ok!;
-    //     expect(pandora_pool_ratio).to.equal(new_pandoraPoolRatio);
-    //     let treasury_pool_ratio = (await coreQuery.getTreasuryPoolRatio()).value.ok!;
-    //     expect(treasury_pool_ratio).to.equal(new_treasuryPoolRatio);
+        // Check pool ratio
+        await coreTx.setPoolRatio(new_corePoolRatio, new_stakingPoolRatio, new_pandoraPoolRatio, new_treasuryPoolRatio)
+        let core_pool_ratio = (await coreQuery.getCorePoolRatio()).value.ok!;
+        expect(core_pool_ratio).to.equal(new_corePoolRatio);
+        let staking_pool_ratio = (await coreQuery.getStakingPoolRatio()).value.ok!;
+        expect(staking_pool_ratio).to.equal(new_stakingPoolRatio);
+        let pandora_pool_ratio = (await coreQuery.getPandoraPoolRatio()).value.ok!;
+        expect(pandora_pool_ratio).to.equal(new_pandoraPoolRatio);
+        let treasury_pool_ratio = (await coreQuery.getTreasuryPoolRatio()).value.ok!;
+        expect(treasury_pool_ratio).to.equal(new_treasuryPoolRatio);
 
-    //     // Check betaz Address
-    //     await coreTx.setBetazAddress(new_coreBetazAddress)
-    //     let betaz_address = (await coreQuery.getBetazAddress()).value.ok!.toString();
-    //     expect(betaz_address).to.equal(new_coreBetazAddress);
+        // Check betaz Address
+        await coreTx.setBetazAddress(new_coreBetazAddress)
+        let betaz_address = (await coreQuery.getBetazAddress()).value.ok!.toString();
+        expect(betaz_address).to.equal(new_coreBetazAddress);
 
-    //     // Check bet token address
-    //     await coreTx.setBetTokenAddress(new_coreTokenContractAddress)
-    //     let bet_token_address = (await coreQuery.betTokenAddress()).value.ok!.toString();
-    //     expect(bet_token_address).to.equal(new_coreTokenContractAddress);
+        // Check bet token address
+        await coreTx.setBetTokenAddress(new_coreTokenContractAddress)
+        let bet_token_address = (await coreQuery.betTokenAddress()).value.ok!.toString();
+        expect(bet_token_address).to.equal(new_coreTokenContractAddress);
 
-    //     // check staking address
-    //     await coreTx.setStakingAddress(new_coreStakingAddress)
-    //     let staking_address = (await coreQuery.getStakingAddress()).value.ok!;
-    //     expect(staking_address).to.equal(new_coreStakingAddress);
+        // check staking address
+        await coreTx.setStakingAddress(new_coreStakingAddress)
+        let staking_address = (await coreQuery.getStakingAddress()).value.ok!;
+        expect(staking_address).to.equal(new_coreStakingAddress);
 
-    //     // check treasury address
-    //     await coreTx.setTreasuryAddress(new_coreTreasuryAddress)
-    //     let treasury_address = (await coreQuery.getTreasuryAddress()).value.ok!;
-    //     expect(treasury_address).to.equal(new_coreTreasuryAddress);
+        // check treasury address
+        await coreTx.setTreasuryAddress(new_coreTreasuryAddress)
+        let treasury_address = (await coreQuery.getTreasuryAddress()).value.ok!;
+        expect(treasury_address).to.equal(new_coreTreasuryAddress);
 
-    //     // check pandora address
-    //     await coreTx.setPandoraAddress(new_corePandoraAddress)
-    //     let pandora_address = (await coreQuery.getPandoraAddress()).value.ok!;
-    //     expect(pandora_address).to.equal(new_corePandoraAddress);
+        // check pandora address
+        await coreTx.setPandoraAddress(new_corePandoraAddress)
+        let pandora_address = (await coreQuery.getPandoraAddress()).value.ok!;
+        expect(pandora_address).to.equal(new_corePandoraAddress);
 
-    //     // check random contract address
-    //     await coreTx.setOracleRandomnessAddress(new_coreOracleRandomnessAddress)
-    //     let random_contract_address = (await coreQuery.getOracleRandomnessAddress()).value.ok!;
-    //     expect(random_contract_address).to.equal(new_coreOracleRandomnessAddress);
+        // check random contract address
+        await coreTx.setOracleRandomnessAddress(new_coreOracleRandomnessAddress)
+        let random_contract_address = (await coreQuery.getOracleRandomnessAddress()).value.ok!;
+        expect(random_contract_address).to.equal(new_coreOracleRandomnessAddress);
 
-    //     // Check betaz Address
-    //     await coreTx.setDaoAddress(new_coreDaoAddress)
-    //     let dao_address = (await coreQuery.getDaoAddress()).value.ok!.toString();
-    //     expect(dao_address).to.equal(new_coreDaoAddress);
+        // Check betaz Address
+        await coreTx.setDaoAddress(new_coreDaoAddress)
+        let dao_address = (await coreQuery.getDaoAddress()).value.ok!.toString();
+        expect(dao_address).to.equal(new_coreDaoAddress);
 
-    //     // check round distance
-    //     await coreTx.setRoundDistance(new_coreRoundDistance)
-    //     let round_distance = (await coreQuery.getRoundDistance()).value.ok!;
-    //     expect(round_distance).to.equal(new_coreRoundDistance);
+        // check round distance
+        await coreTx.setRoundDistance(new_coreRoundDistance)
+        let round_distance = (await coreQuery.getRoundDistance()).value.ok!;
+        expect(round_distance).to.equal(new_coreRoundDistance);
 
-    //     // back to origin
-    //     await coreTx.setMaxBetRatio(coreMaxBetRatio)
-    //     await coreTx.setTokenRatio(coreTokenRatio)
-    //     await coreTx.setMinNumberOverRoll(coreMinOverNumber)
-    //     await coreTx.setMaxNumberOverRoll(coreMaxOverNumber)
-    //     await coreTx.setMinNumberUnderRoll(coreMinUnderNumber)
-    //     await coreTx.setMaxNumberUnderRoll(coreMaxUnderNumber)
-    //     await coreTx.setPoolRatio(corePoolRatio, stakingPoolRatio, pandoraPoolRatio, treasuryPoolRatio)
-    //     await coreTx.setBetazAddress(coreBetazAddress)
-    //     await coreTx.setBetTokenAddress(coreTokenContractAddress)
-    //     await coreTx.setStakingAddress(coreStakingAddress)
-    //     await coreTx.setTreasuryAddress(coreTreasuryAddress)
-    //     await coreTx.setPandoraAddress(corePandoraAddress)
-    //     await coreTx.setOracleRandomnessAddress(coreOracleRandomnessAddress)
-    //     await coreTx.setDaoAddress(coreDaoAddress)
-    //     await coreTx.setRoundDistance(1)
-    // });
+        // back to origin
+        await coreTx.setMaxBetRatio(coreMaxBetRatio)
+        await coreTx.setTokenRatio(coreTokenRatio)
+        await coreTx.setMinNumberOverRoll(coreMinOverNumber)
+        await coreTx.setMaxNumberOverRoll(coreMaxOverNumber)
+        await coreTx.setMinNumberUnderRoll(coreMinUnderNumber)
+        await coreTx.setMaxNumberUnderRoll(coreMaxUnderNumber)
+        await coreTx.setPoolRatio(corePoolRatio, stakingPoolRatio, pandoraPoolRatio, treasuryPoolRatio)
+        await coreTx.setBetazAddress(coreBetazAddress)
+        await coreTx.setBetTokenAddress(coreTokenContractAddress)
+        await coreTx.setStakingAddress(coreStakingAddress)
+        await coreTx.setTreasuryAddress(coreTreasuryAddress)
+        await coreTx.setPandoraAddress(corePandoraAddress)
+        await coreTx.setOracleRandomnessAddress(coreOracleRandomnessAddress)
+        await coreTx.setDaoAddress(coreDaoAddress)
+        await coreTx.setRoundDistance(1)
+    });
 
-    // it('Can update rate', async () => {
-    //     overRates = (await coreQuery.getOverRates()).value.ok;
-    //     underRates = (await coreQuery.getUnderRates()).value.ok!;
-    //     const new_overRates = [0, 1, 2];
-    //     const new_underRates = [3, 4, 5];
+    it('Can update rate', async () => {
+        overRates = (await coreQuery.getOverRates()).value.ok;
+        underRates = (await coreQuery.getUnderRates()).value.ok!;
+        const new_overRates = [0, 1, 2];
+        const new_underRates = [3, 4, 5];
 
-    //     // update rates
-    //     await coreTx.setRates(new_overRates, new_underRates);
-    //     const [newOverRates, newUnderRates] = await Promise.all([
-    //         coreQuery.getOverRates(),
-    //         coreQuery.getUnderRates()
-    //     ])
-    //     expect(newOverRates.value.ok![0]).to.equal(new_overRates[0]);
-    //     expect(newUnderRates.value.ok![0]).to.equal(new_underRates[0]);
+        // update rates
+        await coreTx.setRates(new_overRates, new_underRates);
+        const [newOverRates, newUnderRates] = await Promise.all([
+            coreQuery.getOverRates(),
+            coreQuery.getUnderRates()
+        ])
+        expect(newOverRates.value.ok![0]).to.equal(new_overRates[0]);
+        expect(newUnderRates.value.ok![0]).to.equal(new_underRates[0]);
 
-    //     // back to orign
-    //     await coreTx.setRates(overRates, underRates);
-    // });
+        // back to orign
+        await coreTx.setRates(overRates, underRates);
+    });
 
     it('Can update core pool', async () => {
         let core_pool_amount = (await coreQuery.getCorePoolAmout()).value.ok!;
@@ -619,369 +619,363 @@ describe('Betaz token test', () => {
         console.log({ new_core_pool_amount: toNumber(new_core_pool_amount) })
     });
 
-    // it('Can play is over', async () => {
-    //     const isOver = 1;
-    //     const max_bet = (await coreQuery.getMaxBet()).value.ok.rawNumber;
-    //     console.log({ max_bet: toNumber(max_bet) })
-    //     let balanceContract = await showAZBalance(api, coreContractAddress);
-    //     console.log({ balanceContract })
-    //     /** Player 1 play */
-    //     // case 1: bet_amount > max_bet => failed
-    //     console.log(`===========Case 1=============`);
-    //     let bet_number = 49;
-    //     let bet_amount = new BN(1).add(max_bet);
-    //     try {
-    //         await coreContract.withSigner(player1).tx.play(bet_number, isOver, { value: bet_amount })
-    //     } catch {
+    it('Can play is over', async () => {
+        const isOver = 1;
+        const max_bet = (await coreQuery.getMaxBet()).value.ok.rawNumber;
+        console.log({ max_bet: toNumber(max_bet) })
+        let balanceContract = await showAZBalance(api, coreContractAddress);
+        console.log({ balanceContract })
+        /** Player 1 play */
+        // case 1: bet_amount > max_bet => failed
+        console.log(`===========Case 1=============`);
+        let bet_number = 49;
+        let bet_amount = new BN(1).add(max_bet);
+        try {
+            await coreContract.withSigner(player1).tx.play(bet_number, isOver, { value: bet_amount })
+        } catch {
 
-    //     }
+        }
 
-    //     let new_balanceContract = await showAZBalance(api, coreContractAddress);
-    //     expect(new_balanceContract).to.equal(balanceContract);
+        let new_balanceContract = await showAZBalance(api, coreContractAddress);
+        expect(new_balanceContract).to.equal(balanceContract);
 
-    //     // case 2: bet_number < min_over_number || bet_number > max_over_number && 0 < bet_amount <= max_bet => failed
-    //     console.log(`===========Case 2=============`);
-    //     let min_over_number = (await coreQuery.getMinNumberOverRoll()).value.ok!;
-    //     bet_number = min_over_number - 1;
-    //     bet_amount = new BN(1 * (10 ** 12));
+        // case 2: bet_number < min_over_number || bet_number > max_over_number && 0 < bet_amount <= max_bet => failed
+        console.log(`===========Case 2=============`);
+        let min_over_number = (await coreQuery.getMinNumberOverRoll()).value.ok!;
+        bet_number = min_over_number - 1;
+        bet_amount = new BN(10 * (10 ** 12));
 
-    //     try {
-    //         await coreContract.withSigner(player1).tx.play(bet_number, isOver, { value: bet_amount })
-    //     } catch {
+        try {
+            await coreContract.withSigner(player1).tx.play(bet_number, isOver, { value: bet_amount })
+        } catch {
 
-    //     }
+        }
 
-    //     new_balanceContract = await showAZBalance(api, coreContractAddress);
-    //     expect(new_balanceContract).to.equal(balanceContract);
+        new_balanceContract = await showAZBalance(api, coreContractAddress);
+        expect(new_balanceContract).to.equal(balanceContract);
 
-    //     // case 3: 0 < bet_amount <= max_bet && min_over_number <= bet_number <=  max_over_number && => success
-    //     console.log(`===========Case 3=============`);
-    //     let max_over_number = (await coreQuery.getMaxNumberOverRoll()).value.ok!;
-    //     bet_number = max_over_number;
+        // case 3: 0 < bet_amount <= max_bet && min_over_number <= bet_number <=  max_over_number && => success
+        console.log(`===========Case 3=============`);
+        let max_over_number = (await coreQuery.getMaxNumberOverRoll()).value.ok!;
+        bet_number = max_over_number;
 
-    //     try {
-    //         await coreContract.withSigner(player1).tx.play(bet_number, isOver, { value: bet_amount })
-    //     } catch (err) {
-    //         console.log({ err })
-    //     }
+        try {
+            await coreContract.withSigner(player1).tx.play(bet_number, isOver, { value: bet_amount })
+        } catch (err) {
+            console.log({ err })
+        }
 
-    //     new_balanceContract = await showAZBalance(api, coreContractAddress);
-    //     expect((new_balanceContract - balanceContract)).to.equal((toNumber(bet_amount)));
+        new_balanceContract = await showAZBalance(api, coreContractAddress);
+        expect((new_balanceContract - balanceContract)).to.equal((toNumber(bet_amount)));
 
-    //     // case 4:  bet is exists => failed
-    //     console.log(`===========Case 4=============`);
-    //     balanceContract = await showAZBalance(api, coreContractAddress);
-    //     try {
-    //         await coreContract.withSigner(player1).tx.play(bet_number, isOver, { value: bet_amount })
-    //     } catch {
+        // case 4:  bet is exists => failed
+        console.log(`===========Case 4=============`);
+        balanceContract = await showAZBalance(api, coreContractAddress);
+        try {
+            await coreContract.withSigner(player1).tx.play(bet_number, isOver, { value: bet_amount })
+        } catch {
 
-    //     }
+        }
 
-    //     new_balanceContract = await showAZBalance(api, coreContractAddress);
-    //     expect(new_balanceContract).to.equal(balanceContract);
-    //     console.log({ new_balanceContract })
-    // });
+        new_balanceContract = await showAZBalance(api, coreContractAddress);
+        expect(new_balanceContract).to.equal(balanceContract);
+        console.log({ new_balanceContract })
+    });
 
-    // it('Can play is under', async () => {
-    //     const isOver = 0;
-    //     const max_bet = (await coreQuery.getMaxBet()).value.ok.rawNumber;
-    //     console.log({ max_bet: toNumber(max_bet) })
-    //     let balanceContract = await showAZBalance(api, coreContractAddress);
-    //     console.log({ balanceContract })
-    //     /** Player 2 play */
-    //     // case 1: bet_amount > max_bet => failed
-    //     console.log(`===========Case 1=============`);
-    //     let bet_number = 49;
-    //     let bet_amount = new BN(1).add(max_bet);
-    //     try {
-    //         await coreContract.withSigner(player2).tx.play(bet_number, isOver, { value: bet_amount })
-    //     } catch {
+    it('Can play is under', async () => {
+        const isOver = 0;
+        const max_bet = (await coreQuery.getMaxBet()).value.ok.rawNumber;
+        console.log({ max_bet: toNumber(max_bet) })
+        let balanceContract = await showAZBalance(api, coreContractAddress);
+        console.log({ balanceContract })
+        /** Player 2 play */
+        // case 1: bet_amount > max_bet => failed
+        console.log(`===========Case 1=============`);
+        let bet_number = 49;
+        let bet_amount = new BN(1).add(max_bet);
+        try {
+            await coreContract.withSigner(player2).tx.play(bet_number, isOver, { value: bet_amount })
+        } catch {
 
-    //     }
+        }
 
-    //     let new_balanceContract = await showAZBalance(api, coreContractAddress);
-    //     expect(new_balanceContract).to.equal(balanceContract);
+        let new_balanceContract = await showAZBalance(api, coreContractAddress);
+        expect(new_balanceContract).to.equal(balanceContract);
 
-    //     // case 2: bet_number < min_under_number || bet_number > max_under_number && 0 < bet_amount <= max_bet => failed
-    //     console.log(`===========Case 2=============`);
-    //     let max_under_number = (await coreQuery.getMaxNumberUnderRoll()).value.ok!;
-    //     bet_number = max_under_number + 1;
-    //     bet_amount = new BN(1 * (10 ** 12));
+        // case 2: bet_number < min_under_number || bet_number > max_under_number && 0 < bet_amount <= max_bet => failed
+        console.log(`===========Case 2=============`);
+        let max_under_number = (await coreQuery.getMaxNumberUnderRoll()).value.ok!;
+        bet_number = max_under_number + 1;
+        bet_amount = new BN(10 * (10 ** 12));
 
-    //     try {
-    //         await coreContract.withSigner(player2).tx.play(bet_number, isOver, { value: bet_amount })
-    //     } catch {
+        try {
+            await coreContract.withSigner(player2).tx.play(bet_number, isOver, { value: bet_amount })
+        } catch {
 
-    //     }
+        }
 
-    //     new_balanceContract = await showAZBalance(api, coreContractAddress);
-    //     expect(new_balanceContract).to.equal(balanceContract);
+        new_balanceContract = await showAZBalance(api, coreContractAddress);
+        expect(new_balanceContract).to.equal(balanceContract);
 
-    //     // case 3: 0 < bet_amount <= max_bet && min_over_number <= bet_number <=  max_over_number && => success
-    //     console.log(`===========Case 3=============`);
-    //     bet_number = max_under_number;
+        // case 3: 0 < bet_amount <= max_bet && min_over_number <= bet_number <=  max_over_number && => success
+        console.log(`===========Case 3=============`);
+        bet_number = max_under_number;
 
-    //     try {
-    //         await coreContract.withSigner(player2).tx.play(bet_number, isOver, { value: bet_amount })
-    //     } catch (err) {
-    //         console.log({ err })
-    //     }
+        try {
+            await coreContract.withSigner(player2).tx.play(bet_number, isOver, { value: bet_amount })
+        } catch (err) {
+            console.log({ err })
+        }
 
-    //     new_balanceContract = await showAZBalance(api, coreContractAddress);
-    //     expect((new_balanceContract - balanceContract)).to.equal((toNumber(bet_amount)));
+        new_balanceContract = await showAZBalance(api, coreContractAddress);
+        expect((new_balanceContract - balanceContract)).to.equal((toNumber(bet_amount)));
 
-    //     // case 4:  bet is exists => failed
-    //     console.log(`===========Case 4=============`);
-    //     balanceContract = await showAZBalance(api, coreContractAddress);
-    //     try {
-    //         await coreContract.withSigner(player2).tx.play(bet_number, isOver, { value: bet_amount })
-    //     } catch {
+        // case 4:  bet is exists => failed
+        console.log(`===========Case 4=============`);
+        balanceContract = await showAZBalance(api, coreContractAddress);
+        try {
+            await coreContract.withSigner(player2).tx.play(bet_number, isOver, { value: bet_amount })
+        } catch {
 
-    //     }
+        }
 
-    //     new_balanceContract = await showAZBalance(api, coreContractAddress);
-    //     expect(new_balanceContract).to.equal(balanceContract);
-    //     console.log({ new_balanceContract })
-    // });
+        new_balanceContract = await showAZBalance(api, coreContractAddress);
+        expect(new_balanceContract).to.equal(balanceContract);
+        console.log({ new_balanceContract })
+    });
 
-    // it('Can finalize', async () => {
-    //     let player1_bet_info = (await coreQuery.getBet(player1.address)).value.ok!;
-    //     let player2_bet_info = (await coreQuery.getBet(player2.address)).value.ok!;
-    //     let player1_oracleRound = player1_bet_info.oracleRound;
-    //     let player2_oracleRound = player2_bet_info.oracleRound;
-    //     let player1_bet_number = player1_bet_info.betNumber;
-    //     let player2_bet_number = player2_bet_info.betNumber;
-    //     let random_number_player1 = false;
-    //     let random_number_player2 = false;
-    //     let balancePlayer1 = await showAZBalance(api, player1.address);
-    //     let balancePlayer2 = await showAZBalance(api, player2.address);
-    //     let core_pool_amount = (await coreQuery.getCorePoolAmout()).value.ok!;
-    //     let staking_pool_amount = (await coreQuery.getStakingPoolAmount()).value.ok!;
-    //     let pandora_pool_amount = (await coreQuery.getPandoraPoolAmount()).value.ok!;
-    //     let treasury_pool_amount = (await coreQuery.getTreasuryPoolAmount()).value.ok!;
+    it('Can finalize', async () => {
+        let player1_bet_info = (await coreQuery.getBet(player1.address)).value.ok!;
+        let player2_bet_info = (await coreQuery.getBet(player2.address)).value.ok!;
+        let player1_oracleRound = player1_bet_info.oracleRound;
+        let player2_oracleRound = player2_bet_info.oracleRound;
+        let player1_bet_number = player1_bet_info.betNumber;
+        let player2_bet_number = player2_bet_info.betNumber;
+        let random_number_player1 = false;
+        let random_number_player2 = false;
+        let balancePlayer1 = await showAZBalance(api, player1.address);
+        let balancePlayer2 = await showAZBalance(api, player2.address);
+        let core_pool_amount = (await coreQuery.getCorePoolAmout()).value.ok!;
+        let staking_pool_amount = (await coreQuery.getStakingPoolAmount()).value.ok!;
+        let pandora_pool_amount = (await coreQuery.getPandoraPoolAmount()).value.ok!;
+        let treasury_pool_amount = (await coreQuery.getTreasuryPoolAmount()).value.ok!;
 
-    //     // case 1: finalize with roll over and bet is exist
-    //     console.log(`===========Case 1=============`);
-    //     /// delay until random number exists
-    //     while (!random_number_player1) {
-    //         try {
-    //             random_number_player1 = (await randomQuery.getRandomNumberForRound(player1_oracleRound)).value.ok!;
-    //             await delay(1000);
-    //         } catch (err) {
-    //             console.log({ errorGetRandomValueForRound: err });
-    //             break;
-    //         }
-    //     }
-    //     console.log({ player1_bet_number, random_number_player1 })
+        // case 1: finalize with roll over and bet is exist
+        console.log(`===========Case 1=============`);
+        /// delay until random number exists
+        while (!random_number_player1) {
+            try {
+                random_number_player1 = (await randomQuery.getRandomNumberForRound(player1_oracleRound)).value.ok!;
+                await delay(1000);
+            } catch (err) {
+                console.log({ errorGetRandomValueForRound: err });
+                break;
+            }
+        }
+        console.log({ player1_bet_number, random_number_player1 })
 
-    //     try {
-    //         await coreContract.withSigner(player1).tx.finalize();
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
+        try {
+            await coreContract.withSigner(player1).tx.finalize();
+        } catch (error) {
+            console.log(error)
+        }
 
-    //     if (random_number_player1 > player1_bet_number) {
-    //         // win
-    //         let new_balancePlayer1 = await showAZBalance(api, player1.address);
-    //         expect(new_balancePlayer1 - balancePlayer1 > 0).to.equal(true);
-    //         console.log({ balancePlayer1, new_balancePlayer1 })
-    //     } else {
-    //         // lose
-    //         let new_core_pool_amount = (await coreQuery.getCorePoolAmout()).value.ok!;
-    //         expect(toNumber(new_core_pool_amount) - toNumber(core_pool_amount) > 0).to.equal(true);
-    //         console.log({
-    //             core_pool_amount: toNumber(core_pool_amount),
-    //             new_core_pool_amount: toNumber(new_core_pool_amount)
-    //         })
+        if (random_number_player1 > player1_bet_number) {
+            // win
+            let new_balancePlayer1 = await showAZBalance(api, player1.address);
+            expect(new_balancePlayer1 - balancePlayer1 > 0).to.equal(true);
+            console.log({ balancePlayer1, new_balancePlayer1 })
+        } else {
+            // lose
+            let new_core_pool_amount = (await coreQuery.getCorePoolAmout()).value.ok!;
+            expect(toNumber(new_core_pool_amount) - toNumber(core_pool_amount) > 0).to.equal(true);
+            console.log({
+                core_pool_amount: toNumber(core_pool_amount),
+                new_core_pool_amount: toNumber(new_core_pool_amount)
+            })
 
-    //         let new_staking_pool_amount = (await coreQuery.getStakingPoolAmount()).value.ok!;
-    //         expect(toNumber(new_staking_pool_amount) - toNumber(staking_pool_amount) > 0).to.equal(true);
-    //         console.log({
-    //             staking_pool_amount: toNumber(staking_pool_amount),
-    //             new_staking_pool_amount: toNumber(new_staking_pool_amount)
-    //         })
+            let new_staking_pool_amount = (await coreQuery.getStakingPoolAmount()).value.ok!;
+            expect(toNumber(new_staking_pool_amount) - toNumber(staking_pool_amount) > 0).to.equal(true);
+            console.log({
+                staking_pool_amount: toNumber(staking_pool_amount),
+                new_staking_pool_amount: toNumber(new_staking_pool_amount)
+            })
 
-    //         let new_pandora_pool_amount = (await coreQuery.getPandoraPoolAmount()).value.ok!;
-    //         expect(toNumber(new_pandora_pool_amount) - toNumber(pandora_pool_amount) > 0).to.equal(true);
-    //         console.log({
-    //             pandora_pool_amount: toNumber(pandora_pool_amount),
-    //             new_pandora_pool_amount: toNumber(new_pandora_pool_amount)
-    //         })
+            let new_pandora_pool_amount = (await coreQuery.getPandoraPoolAmount()).value.ok!;
+            expect(toNumber(new_pandora_pool_amount) - toNumber(pandora_pool_amount) > 0).to.equal(true);
+            console.log({
+                pandora_pool_amount: toNumber(pandora_pool_amount),
+                new_pandora_pool_amount: toNumber(new_pandora_pool_amount)
+            })
 
-    //         let new_treasury_pool_amount = (await coreQuery.getTreasuryPoolAmount()).value.ok!;
-    //         expect(toNumber(new_treasury_pool_amount) - toNumber(treasury_pool_amount) > 0).to.equal(true);
-    //         console.log({
-    //             treasury_pool_amount: toNumber(treasury_pool_amount),
-    //             new_treasury_pool_amount: toNumber(new_treasury_pool_amount)
-    //         })
-    //     }
+            let new_treasury_pool_amount = (await coreQuery.getTreasuryPoolAmount()).value.ok!;
+            expect(toNumber(new_treasury_pool_amount) - toNumber(treasury_pool_amount) > 0).to.equal(true);
+            console.log({
+                treasury_pool_amount: toNumber(treasury_pool_amount),
+                new_treasury_pool_amount: toNumber(new_treasury_pool_amount)
+            })
+        }
 
-    //     // case 2: finalize with roll under and bet is exist
-    //     console.log(`===========Case 2=============`);
-    //     /// delay until random number exists
-    //     while (!random_number_player2) {
-    //         try {
-    //             random_number_player2 = (await randomQuery.getRandomNumberForRound(player2_oracleRound)).value.ok!;
-    //             await delay(1000);
-    //         } catch (err) {
-    //             console.log({ errorGetRandomValueForRound: err });
-    //             break;
-    //         }
-    //     }
-    //     console.log({ player2_bet_number, random_number_player2 })
+        // case 2: finalize with roll under and bet is exist
+        console.log(`===========Case 2=============`);
+        /// delay until random number exists
+        while (!random_number_player2) {
+            try {
+                random_number_player2 = (await randomQuery.getRandomNumberForRound(player2_oracleRound)).value.ok!;
+                await delay(1000);
+            } catch (err) {
+                console.log({ errorGetRandomValueForRound: err });
+                break;
+            }
+        }
+        console.log({ player2_bet_number, random_number_player2 })
 
-    //     try {
-    //         await coreContract.withSigner(player2).tx.finalize();
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
+        try {
+            await coreContract.withSigner(player2).tx.finalize();
+        } catch (error) {
+            console.log(error)
+        }
 
-    //     if (random_number_player2 < player2_bet_number) {
-    //         // win
-    //         let new_balancePlayer2 = await showAZBalance(api, player2.address);
-    //         expect(new_balancePlayer2 - balancePlayer2 > 0).to.equal(true);
-    //         console.log({ balancePlayer2, new_balancePlayer2 })
-    //     } else {
-    //         // lose
-    //         let new_core_pool_amount = (await coreQuery.getCorePoolAmout()).value.ok!;
-    //         expect(toNumber(new_core_pool_amount) - toNumber(core_pool_amount) > 0).to.equal(true);
-    //         console.log({
-    //             core_pool_amount: toNumber(core_pool_amount),
-    //             new_core_pool_amount: toNumber(new_core_pool_amount)
-    //         })
+        if (random_number_player2 < player2_bet_number) {
+            // win
+            let new_balancePlayer2 = await showAZBalance(api, player2.address);
+            expect(new_balancePlayer2 - balancePlayer2 > 0).to.equal(true);
+            console.log({ balancePlayer2, new_balancePlayer2 })
+        } else {
+            // lose
+            let new_core_pool_amount = (await coreQuery.getCorePoolAmout()).value.ok!;
+            expect(toNumber(new_core_pool_amount) - toNumber(core_pool_amount) > 0).to.equal(true);
+            console.log({
+                core_pool_amount: toNumber(core_pool_amount),
+                new_core_pool_amount: toNumber(new_core_pool_amount)
+            })
 
-    //         let new_staking_pool_amount = (await coreQuery.getStakingPoolAmount()).value.ok!;
-    //         expect(toNumber(new_staking_pool_amount) - toNumber(staking_pool_amount) > 0).to.equal(true);
-    //         console.log({
-    //             staking_pool_amount: toNumber(staking_pool_amount),
-    //             new_staking_pool_amount: toNumber(new_staking_pool_amount)
-    //         })
+            let new_staking_pool_amount = (await coreQuery.getStakingPoolAmount()).value.ok!;
+            expect(toNumber(new_staking_pool_amount) - toNumber(staking_pool_amount) > 0).to.equal(true);
+            console.log({
+                staking_pool_amount: toNumber(staking_pool_amount),
+                new_staking_pool_amount: toNumber(new_staking_pool_amount)
+            })
 
-    //         let new_pandora_pool_amount = (await coreQuery.getPandoraPoolAmount()).value.ok!;
-    //         expect(toNumber(new_pandora_pool_amount) - toNumber(pandora_pool_amount) > 0).to.equal(true);
-    //         console.log({
-    //             pandora_pool_amount: toNumber(pandora_pool_amount),
-    //             new_pandora_pool_amount: toNumber(new_pandora_pool_amount)
-    //         })
+            let new_pandora_pool_amount = (await coreQuery.getPandoraPoolAmount()).value.ok!;
+            expect(toNumber(new_pandora_pool_amount) - toNumber(pandora_pool_amount) > 0).to.equal(true);
+            console.log({
+                pandora_pool_amount: toNumber(pandora_pool_amount),
+                new_pandora_pool_amount: toNumber(new_pandora_pool_amount)
+            })
 
-    //         let new_treasury_pool_amount = (await coreQuery.getTreasuryPoolAmount()).value.ok!;
-    //         expect(toNumber(new_treasury_pool_amount) - toNumber(treasury_pool_amount) > 0).to.equal(true);
-    //         console.log({
-    //             treasury_pool_amount: toNumber(treasury_pool_amount),
-    //             new_treasury_pool_amount: toNumber(new_treasury_pool_amount)
-    //         })
-    //     }
+            let new_treasury_pool_amount = (await coreQuery.getTreasuryPoolAmount()).value.ok!;
+            expect(toNumber(new_treasury_pool_amount) - toNumber(treasury_pool_amount) > 0).to.equal(true);
+            console.log({
+                treasury_pool_amount: toNumber(treasury_pool_amount),
+                new_treasury_pool_amount: toNumber(new_treasury_pool_amount)
+            })
+        }
 
-    //     // case 3: finalize when bet not is exist
-    //     console.log(`===========Case 3=============`);
-    //     player1_bet_info = (await coreQuery.getBet(player1.address)).value.ok!;
-    //     expect(player1_bet_info === null).to.equal(true);
-    //     balancePlayer1 = await showAZBalance(api, player1.address);
-    //     let balanceContract = await showAZBalance(api, coreContractAddress);
-    //     try {
-    //         await coreContract.withSigner(player1).tx.finalize();
-    //     } catch (error) {
+        // case 3: finalize when bet not is exist
+        console.log(`===========Case 3=============`);
+        let player3_bet_info = (await coreQuery.getBet(player3.address)).value.ok!;
+        expect(player3_bet_info === null).to.equal(true);
+        let balancePlayer3 = await showAZBalance(api, player3.address);
+        try {
+            await coreContract.withSigner(player3).tx.finalize();
+        } catch (error) {
 
-    //     }
+        }
+    });
 
-    //     let new_balancePlayer1 = await showAZBalance(api, player1.address);
-    //     expect(new_balancePlayer1).to.equal(balancePlayer1);
-    //     let new_balanceContract = await showAZBalance(api, coreContractAddress);
-    //     expect(new_balanceContract).to.equal(balanceContract);
-    // });
+    it('Can update reward pool', async () => {
+        let reward_pool_amount = (await coreQuery.getRewardPoolAmount()).value.ok!;
+        console.log({ reward_pool_amount: toNumber(reward_pool_amount) })
 
-    // it('Can update reward pool', async () => {
-    //     let reward_pool_amount = (await coreQuery.getRewardPoolAmount()).value.ok!;
-    //     console.log({ reward_pool_amount: toNumber(reward_pool_amount) })
+        const amount = new BN(1000 * (10 ** 12))
+        // Step 1: Set minter
+        console.log(`===========Update reward pool - step 1=============`);
+        try {
+            await tokenTx.setMinterAddress(coreContractAddress)
+        } catch (error) {
+            console.log(error)
+        }
+        // step 2: update
+        console.log(`===========Update reward pool - step 2=============`);
+        /** Case 1: update when caller not adminer */
+        console.log(`===========Case 1=============`);
+        let hasRole = (await coreQuery.hasRole(RoleType, aliceAddress)).value.ok!;
+        expect(hasRole).to.equal(false);
+        try { await coreContract.withSigner(alice).tx.updateRewardPool(amount); } catch {
 
-    //     const amount = new BN(1000 * (10 ** 12))
-    //     // Step 1: Set minter
-    //     console.log(`===========Update reward pool - step 1=============`);
-    //     try {
-    //         await tokenTx.setMinterAddress(coreContractAddress)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    //     // step 2: update
-    //     console.log(`===========Update reward pool - step 2=============`);
-    //     /** Case 1: update when caller not adminer */
-    //     console.log(`===========Case 1=============`);
-    //     let hasRole = (await coreQuery.hasRole(RoleType, aliceAddress)).value.ok!;
-    //     expect(hasRole).to.equal(false);
-    //     try { await coreContract.withSigner(alice).tx.updateRewardPool(amount); } catch {
+        }
 
-    //     }
+        let new_reward_pool_amount = (await coreQuery.getRewardPoolAmount()).value.ok!;
+        let gain = new BN(new_reward_pool_amount.toString()).sub(new BN(reward_pool_amount.toString()))
+        expect(toNumber(gain)).to.equal(0);
 
-    //     let new_reward_pool_amount = (await coreQuery.getRewardPoolAmount()).value.ok!;
-    //     let gain = new BN(new_reward_pool_amount.toString()).sub(new BN(reward_pool_amount.toString()))
-    //     expect(toNumber(gain)).to.equal(0);
+        /** Case 2: update when caller is adminer */
+        console.log(`===========Case 2=============`);
+        hasRole = (await coreQuery.hasRole(RoleType, signerAddress)).value.ok!;
+        expect(hasRole).to.equal(true);
+        try { await coreContract.withSigner(defaultSigner).tx.updateRewardPool(amount); } catch (err) {
+            console.log({ err })
+        }
 
-    //     /** Case 2: update when caller is adminer */
-    //     console.log(`===========Case 2=============`);
-    //     hasRole = (await coreQuery.hasRole(RoleType, signerAddress)).value.ok!;
-    //     expect(hasRole).to.equal(true);
-    //     try { await coreContract.withSigner(defaultSigner).tx.updateRewardPool(amount); } catch (err) {
-    //         console.log({ err })
-    //     }
+        new_reward_pool_amount = (await coreQuery.getRewardPoolAmount()).value.ok!;
+        gain = new BN(new_reward_pool_amount.toString()).sub(new BN(reward_pool_amount.toString()))
+        expect(toNumber(gain)).to.equal(toNumber(amount));
+        console.log({ new_reward_pool_amount: toNumber(new_reward_pool_amount) })
+    });
 
-    //     new_reward_pool_amount = (await coreQuery.getRewardPoolAmount()).value.ok!;
-    //     gain = new BN(new_reward_pool_amount.toString()).sub(new BN(reward_pool_amount.toString()))
-    //     expect(toNumber(gain)).to.equal(toNumber(amount));
-    //     console.log({ new_reward_pool_amount: toNumber(new_reward_pool_amount) })
-    // });
+    it('Can receive bet tokens when finalized', async () => {
+        let reward_pool_amount = (await coreQuery.getRewardPoolAmount()).value.ok!;
+        let player3_bet_token_balance = (await tokenQuery.balanceOf(player3.address)).value.ok!;
+        console.log({ 
+            reward_pool_amount: toNumber(reward_pool_amount), 
+            player3_bet_token_balance: toNumber(player3_bet_token_balance) 
+        })
+        /** Player 3 play */
+        const isOver = 1;
+        let max_over_number = (await coreQuery.getMaxNumberOverRoll()).value.ok!;
+        let bet_amount = new BN(1 * (10 ** 12));
+        let bet_number = max_over_number;
 
-    // it('Can receive bet tokens when finalized', async () => {
-    //     let reward_pool_amount = (await coreQuery.getRewardPoolAmount()).value.ok!;
-    //     let player3_bet_token_balance = (await tokenQuery.balanceOf(player3.address)).value.ok!;
-    //     console.log({ 
-    //         reward_pool_amount: toNumber(reward_pool_amount), 
-    //         player3_bet_token_balance: toNumber(player3_bet_token_balance) 
-    //     })
-    //     /** Player 3 play */
-    //     const isOver = 1;
-    //     let max_over_number = (await coreQuery.getMaxNumberOverRoll()).value.ok!;
-    //     let bet_amount = new BN(1 * (10 ** 12));
-    //     let bet_number = max_over_number;
+        try {
+            await coreContract.withSigner(player3).tx.play(bet_number, isOver, { value: bet_amount })
+        } catch (err) {
+            console.log({ err })
+        }
 
-    //     try {
-    //         await coreContract.withSigner(player3).tx.play(bet_number, isOver, { value: bet_amount })
-    //     } catch (err) {
-    //         console.log({ err })
-    //     }
+        let player3_bet_info = (await coreQuery.getBet(player3.address)).value.ok!;
+        console.log({ player3_bet_info })
 
-    //     let player3_bet_info = (await coreQuery.getBet(player3.address)).value.ok!;
-    //     console.log({ player3_bet_info })
+        /** Player 3 finalize */
+        let player3_oracleRound = player3_bet_info.oracleRound;
+        let random_number_player3 = false;
 
-    //     /** Player 3 finalize */
-    //     let player3_oracleRound = player3_bet_info.oracleRound;
-    //     let random_number_player3 = false;
+        console.log("DIA random number")
+        while (!random_number_player3) {
+            try {
+                random_number_player3 = (await randomQuery.getRandomNumberForRound(player3_oracleRound)).value.ok!;
+                await delay(1000);
+            } catch (err) {
+                console.log({ errorGetRandomValueForRound: err });
+                break;
+            }
+        }
+        console.log({ random_number_player3 })
 
-    //     console.log("DIA random number")
-    //     while (!random_number_player3) {
-    //         try {
-    //             random_number_player3 = (await randomQuery.getRandomNumberForRound(player3_oracleRound)).value.ok!;
-    //             await delay(1000);
-    //         } catch (err) {
-    //             console.log({ errorGetRandomValueForRound: err });
-    //             break;
-    //         }
-    //     }
-    //     console.log({ random_number_player3 })
+        await coreContract.withSigner(player3).tx.finalize();
 
-    //     await coreContract.withSigner(player3).tx.finalize();
+        let new_reward_pool_amount = (await coreQuery.getRewardPoolAmount()).value.ok!;
+        let gain = new BN(reward_pool_amount.toString()).sub(new BN(new_reward_pool_amount.toString()))
+        expect(toNumber(gain)).to.equal(toNumber(bet_amount));
+        let new_player3_bet_token_balance = (await tokenQuery.balanceOf(player3.address)).value.ok!;
+        gain = new BN(new_player3_bet_token_balance.toString()).sub(new BN(player3_bet_token_balance.toString()))
+        expect(toNumber(gain)).to.equal(toNumber(bet_amount));
 
-    //     let new_reward_pool_amount = (await coreQuery.getRewardPoolAmount()).value.ok!;
-    //     let gain = new BN(reward_pool_amount.toString()).sub(new BN(new_reward_pool_amount.toString()))
-    //     expect(toNumber(gain)).to.equal(toNumber(bet_amount));
-    //     let new_player3_bet_token_balance = (await tokenQuery.balanceOf(player3.address)).value.ok!;
-    //     gain = new BN(new_player3_bet_token_balance.toString()).sub(new BN(player3_bet_token_balance.toString()))
-    //     expect(toNumber(gain)).to.equal(toNumber(bet_amount));
-
-    //     console.log({ 
-    //         new_reward_pool_amount: toNumber(new_reward_pool_amount), 
-    //         new_player3_bet_token_balance: toNumber(new_player3_bet_token_balance) 
-    //     })
-    // });
+        console.log({ 
+            new_reward_pool_amount: toNumber(new_reward_pool_amount), 
+            new_player3_bet_token_balance: toNumber(new_player3_bet_token_balance) 
+        })
+    });
 
     it('Can hold amount when finalized', async () => {
         let hold_bidder_count = (await coreQuery.getHoldBidderCount()).value.ok!;
@@ -1036,9 +1030,6 @@ describe('Betaz token test', () => {
         }
     });
 
-    it('Can withdraw core pool', async () => {
-    });
-
     it('Can withdraw hold amount', async () => {
         let balancePlayer4 = await showAZBalance(api, player4.address);
         let hold_amount = (await coreQuery.getHoldAmountPlayers(player4.address)).value.ok!;
@@ -1078,7 +1069,7 @@ describe('Betaz token test', () => {
         if (toNumber(amount) < toNumber(hold_amount)) {
             let new_hold_amount = (await coreQuery.getHoldAmountPlayers(player4.address)).value.ok!;
             expect(toNumber(hold_amount) - toNumber(new_hold_amount)).to.equal(toNumber(amount));
-            console.log({new_hold_amount})
+            console.log({ new_hold_amount })
         } else {
             let new_hold_bidder_count = (await coreQuery.getHoldBidderCount()).value.ok!;
             expect(hold_bidder_count - new_hold_bidder_count).to.equal(1);
@@ -1089,13 +1080,92 @@ describe('Betaz token test', () => {
         console.log({ new_balancePlayer4 });
     });
 
+    it('Can withdraw core pool', async () => {
+        let amount = new BN(1 * (10 ** 12));
+        let balanceContract = await showAZBalance(api, coreContractAddress);
+        let balanceAlice = await showAZBalance(api, aliceAddress);
+        console.log({ balanceContract, balanceAlice });
+
+        await coreTx.withdrawFee(aliceAddress, amount);
+
+        let new_balanceContract = await showAZBalance(api, coreContractAddress);
+        let new_balanceAlice = await showAZBalance(api, aliceAddress);
+        expect(balanceContract - new_balanceContract).to.equal(toNumber(amount));
+        expect(new_balanceAlice - balanceAlice).to.equal(toNumber(amount));
+        console.log({ new_balanceContract, new_balanceAlice });
+    });
+
     it('Can transfer And Update Session Pandora Pool', async () => {
+        // add bet session
+        await pandoraTx.addNewBetSession();
+        let last_bet_session_id = (await pandoraQuery.getLastSessionId()).value.ok!;
+        let total_win_amount = (await pandoraQuery.getTotalWinAmount()).value.ok!;
+        let bet_session_info = (await pandoraQuery.getBetSession(last_bet_session_id)).value.ok!;
+        let balanceContract = await showAZBalance(api, pandoraContractAddress);
+        console.log({
+            balanceContract: balanceContract,
+            last_bet_session_id,
+            bet_session_info,
+            total_win_amount: toNumber(total_win_amount)
+        })
+
+        // grant role core contract
+        await pandoraTx.grantRole(RoleType, coreContractAddress)
+
+        // tranfer
+        await coreTx.transferAndUpdateSessionPandoraPool(last_bet_session_id);
+
+        let new_bet_session_info = (await pandoraQuery.getBetSession(last_bet_session_id)).value.ok!;
+        let new_total_win_amount = (await pandoraQuery.getTotalWinAmount()).value.ok!;
+        let new_balanceContract = await showAZBalance(api, pandoraContractAddress);
+        expect(new_balanceContract - balanceContract > 0).to.equal(true);
+        console.log({
+            new_balanceContract: new_balanceContract,
+            new_bet_session_info,
+            new_total_win_amount: toNumber(new_total_win_amount)
+        })
     });
 
     it('Can transfer And Update Staking Pool', async () => {
+        // add bet session
+        let balanceContract = await showAZBalance(api, stakingContractAddress);
+        let rewardPool = (await stakingQuery.getRewardPool()).value.ok;
+        console.log({
+            balanceContract: balanceContract,
+            rewardPool: toNumber(rewardPool)
+        })
+
+        // grant role core contract
+        await stakingTx.grantRole(RoleType, coreContractAddress)
+
+        // lock 
+        await stakingTx.updateIsLocked(true)
+
+        // tranfer
+        await coreTx.transferAndUpdateStakingPool();
+
+        let new_rewardPool = (await stakingQuery.getRewardPool()).value.ok;
+        let new_balanceContract = await showAZBalance(api, stakingContractAddress);
+        expect(new_balanceContract - balanceContract > 0).to.equal(true);
+        console.log({
+            new_balanceContract: new_balanceContract,
+            new_rewardPool: toNumber(new_rewardPool)
+        })
     });
 
     it('Can tranfer treasury pool', async () => {
+        let amount = (await coreQuery.getTreasuryPoolAmount()).value.ok.rawNumber;
+        console.log({ amount: toNumber(amount) })
+        let balanceContract = await showAZBalance(api, coreContractAddress);
+        let balanceTreasuryPool = await showAZBalance(api, treasuryContractAddress);
+        console.log({ balanceContract, balanceTreasuryPool });
+
+        await coreTx.transferTreasuryPool();
+
+        let new_balanceContract = await showAZBalance(api, coreContractAddress);
+        let new_balanceTreasuryPool = await showAZBalance(api, treasuryContractAddress);
+        expect(new_balanceTreasuryPool - balanceTreasuryPool > 0).to.equal(true);
+        console.log({ new_balanceContract, new_balanceTreasuryPool });
     });
 
     after(async () => {
