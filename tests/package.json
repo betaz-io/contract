@@ -21,6 +21,7 @@
     "test:core": "mocha --require @babel/register --require ts-node/register  3.betaz_core_test.ts --exit --no-timeouts",
     "test:staking": "mocha --require @babel/register --require ts-node/register  4.staking_test.ts --exit --no-timeouts",
     "test:sale": "mocha --require @babel/register --require ts-node/register  5.sale_test.ts --exit --no-timeouts",
-    "test:pandora": "mocha --require @babel/register --require ts-node/register  6.pandora_test.ts --exit --no-timeouts"
+    "test:pandora": "mocha --require @babel/register --require ts-node/register  6.pandora_test.ts --exit --no-timeouts",
+    "test:dao": "mocha --require @babel/register --require ts-node/register  7.dao_test.ts --exit --no-timeouts"
   }
 }
