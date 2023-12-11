@@ -324,6 +324,210 @@ describe('Betaz token test', () => {
         expect(unstake_time).to.equal(new_stakingLimitUnstakeTime);
     });
 
+    it('Can update is locked', async () => {
+        // locked is false
+        let is_locked = (await stakingQuery.getIsLocked()).value.ok!;
+        expect(is_locked).to.equal(false);
+
+        // set locked to true
+        await stakingTx.updateIsLocked(true);
+        is_locked = (await stakingQuery.getIsLocked()).value.ok!;
+        expect(is_locked).to.equal(true);
+
+        // set locked to false
+        await stakingTx.updateIsLocked(false);
+        is_locked = (await stakingQuery.getIsLocked()).value.ok!;
+        expect(is_locked).to.equal(false);
+    });
+
+    it('Can update is locked', async () => {
+        // locked is false
+        let is_reward_started = (await stakingQuery.getRewardStarted()).value.ok!;
+        let is_locked = (await stakingQuery.getIsLocked()).value.ok!;
+        expect(is_locked).to.equal(false);
+        expect(is_reward_started).to.equal(false);
+
+        // update Status Reward Distribution
+        /// case 1: is locked false => failed
+        console.log(`===========Case 1=============`);
+        try {
+            await stakingTx.updateStatusRewardDistribution(true);
+        } catch (error) {
+
+        }
+
+        is_reward_started = (await stakingQuery.getRewardStarted()).value.ok!;
+        expect(is_reward_started).to.equal(false);
+
+        /// case 2: is locked true => success
+        console.log(`===========Case 2=============`);
+        await stakingTx.updateIsLocked(true);
+        is_locked = (await stakingQuery.getIsLocked()).value.ok!;
+        expect(is_locked).to.equal(true);
+        try {
+            await stakingTx.updateStatusRewardDistribution(true);
+        } catch (error) {
+
+        }
+
+        /// back to origin
+        await stakingTx.updateStatusRewardDistribution(false);
+        await stakingTx.updateIsLocked(false);
+    });
+
+    it('Can stake', async () => {
+        // Step 1: mint tokens to alice
+        console.log(`===========Step 1=============`);
+        let alice_token_balance = (await tokenQuery.balanceOf(aliceAddress)).value.ok!;
+        let staking_contract_token_balance = (await tokenQuery.balanceOf(stakingContractAddress)).value.ok!;
+        const amount = new BN(100 * (10 ** tokenDecimal));
+        console.log({ alice_token_balance: toNumber(alice_token_balance) })
+
+        try {
+            await tokenContract.withSigner(minter).tx["betAzTrait::mint"](aliceAddress, amount);
+        } catch (error) {
+            console.log({ error })
+        }
+
+        alice_token_balance = (await tokenQuery.balanceOf(aliceAddress)).value.ok!;
+        console.log({ new_alice_token_balance: toNumber(alice_token_balance) });
+        // Step 2: approve tokens to contract
+        console.log(`===========Step 2=============`);
+        await tokenContract.withSigner(alice).tx.increaseAllowance(stakingContractAddress, amount);
+
+        //  check allowance
+        const allowance = (await tokenQuery.allowance(aliceAddress, stakingContractAddress)).value.ok!;
+        expect(toNumber(allowance)).to.equal(toNumber(amount));
+        // Step 3: stake
+        console.log(`===========Step 3=============`);
+        // case 1: locked false && reward started false => success
+        console.log(`===========Step 3 - case 1=============`);
+
+        let stake_amount = new BN(10 * (10 ** 12));
+        try {
+            await stakingContract.withSigner(alice).tx.stake(stake_amount);
+        } catch (error) {
+            console.log({ error })
+        }
+
+        let new_alice_token_balance = (await tokenQuery.balanceOf(aliceAddress)).value.ok!;
+        let gain = new BN(alice_token_balance.toString()).sub(new BN(new_alice_token_balance.toString()))
+        expect(toNumber(gain)).to.equal(toNumber(stake_amount));
+        let new_staking_contract_token_balance = (await tokenQuery.balanceOf(stakingContractAddress)).value.ok!;
+        gain = new BN(new_staking_contract_token_balance.toString()).sub(new BN(staking_contract_token_balance.toString()))
+        expect(toNumber(gain)).to.equal(toNumber(stake_amount));
+        console.log({
+            new_alice_token_balance: toNumber(new_alice_token_balance),
+            new_staking_contract_token_balance: toNumber(new_staking_contract_token_balance)
+        });
+
+        // case 2: locked true => failed
+        console.log(`===========Step 3 - case 2=============`);
+        alice_token_balance = (await tokenQuery.balanceOf(aliceAddress)).value.ok!;
+        staking_contract_token_balance = (await tokenQuery.balanceOf(stakingContractAddress)).value.ok!;
+
+        // set locked true
+        await stakingTx.updateIsLocked(true);
+        let is_locked = (await stakingQuery.getIsLocked()).value.ok!;
+        expect(is_locked).to.equal(true);
+
+        stake_amount = new BN(1 * (10 ** 12));
+        try {
+            await stakingContract.withSigner(alice).tx.stake(stake_amount);
+        } catch (error) {
+
+        }
+
+        new_alice_token_balance = (await tokenQuery.balanceOf(aliceAddress)).value.ok!;
+        gain = new BN(alice_token_balance.toString()).sub(new BN(new_alice_token_balance.toString()))
+        expect(toNumber(gain)).to.equal(0);
+        new_staking_contract_token_balance = (await tokenQuery.balanceOf(stakingContractAddress)).value.ok!;
+        gain = new BN(new_staking_contract_token_balance.toString()).sub(new BN(staking_contract_token_balance.toString()))
+        expect(toNumber(gain)).to.equal(0);
+
+        // case 3: reward started true && locked false => failed
+        console.log(`===========Step 3 - case 3=============`);
+
+        // set reward started true
+        alice_token_balance = (await tokenQuery.balanceOf(aliceAddress)).value.ok!;
+        staking_contract_token_balance = (await tokenQuery.balanceOf(stakingContractAddress)).value.ok!;
+
+        await stakingTx.updateStatusRewardDistribution(true);
+        let is_reward_started = (await stakingQuery.getRewardStarted()).value.ok!;
+        expect(is_reward_started).to.equal(true);
+
+        await stakingTx.updateIsLocked(false);
+
+        stake_amount = new BN(1 * (10 ** 12));
+        try {
+            await stakingContract.withSigner(alice).tx.stake(stake_amount);
+        } catch (error) {
+
+        }
+
+        new_alice_token_balance = (await tokenQuery.balanceOf(aliceAddress)).value.ok!;
+        gain = new BN(alice_token_balance.toString()).sub(new BN(new_alice_token_balance.toString()))
+        expect(toNumber(gain)).to.equal(0);
+        new_staking_contract_token_balance = (await tokenQuery.balanceOf(stakingContractAddress)).value.ok!;
+        gain = new BN(new_staking_contract_token_balance.toString()).sub(new BN(staking_contract_token_balance.toString()))
+        expect(toNumber(gain)).to.equal(0);
+
+        // back to origin
+        await stakingTx.updateIsLocked(true);
+        await stakingTx.updateStatusRewardDistribution(false);
+        await stakingTx.updateIsLocked(false);
+    });
+
+    it('Can request unstake', async () => {
+        let staked_amount = (await stakingQuery.getStakeAmountByAccount(aliceAddress)).value.ok!;
+
+        console.log({
+            staked_amount: toNumber(staked_amount)
+        })
+        // case 1: staked_amount < amount => failed
+        console.log(`===========Case 1=============`);
+        let amount = new BN(1).add(new BN(staked_amount.toString()))
+
+        try {
+            await stakingContract.withSigner(alice).tx.requestUnstake(amount);
+        } catch (error) {
+
+        }
+
+        let new_staked_amount = (await stakingQuery.getStakeAmountByAccount(aliceAddress)).value.ok!;
+        let gain = new BN(staked_amount.toString()).sub(new BN(new_staked_amount.toString()))
+        expect(toNumber(gain)).to.equal(0);
+
+        // case 2: staked_amount >= amount => sucess
+        console.log(`===========Case 2=============`);
+
+        amount = new BN(1 * (10 ** 12));
+        gain = new BN(staked_amount.toString()).sub(new BN(amount.toString()))
+        expect(toNumber(gain) > 0).to.equal(true);
+
+        try {
+            await stakingContract.withSigner(alice).tx.requestUnstake(amount);
+        } catch (error) {
+            console.log({ error })
+        }
+
+        new_staked_amount = (await stakingQuery.getStakeAmountByAccount(aliceAddress)).value.ok!;
+        gain = new BN(staked_amount.toString()).sub(new BN(new_staked_amount.toString()))
+        expect(toNumber(gain)).to.equal(toNumber(amount));
+
+        console.log({
+            new_staked_amount: toNumber(new_staked_amount)
+        })
+
+        // case 3: staked_amount >= amount and locked true => failed
+
+        // set locked true
+
+        console.log(`===========Case 3=============`);
+
+        // back to origin
+    });
+
     after(async () => {
         // api.disconnect();
         // console.log("End");
