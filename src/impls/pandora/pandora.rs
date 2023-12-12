@@ -96,11 +96,15 @@ pub trait PandoraPoolTraitsImpl:
     #[modifiers(when_not_paused)]
     #[modifiers(only_role(ADMINER))]
     fn withdraw_fee(&mut self, account: AccountId, value: Balance) -> Result<(), Error> {
-        if value > Self::env().balance() {
+        if value > self.data::<Manager>().total_win_amounts {
             return Err(Error::NotEnoughBalance);
         }
         assert!(Self::env().transfer(account, value).is_ok());
-        Ok(())
+        Ok(self.data::<Manager>().total_win_amounts = self
+            .data::<Manager>()
+            .total_win_amounts
+            .checked_sub(value)
+            .unwrap())
     }
 
     /// Lock nft - Only owner token

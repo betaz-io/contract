@@ -70,11 +70,15 @@ pub trait StakingPoolTraitImpl:
     #[modifiers(when_not_paused)]
     #[modifiers(only_role(ADMINER))]
     fn withdraw_fee(&mut self, account: AccountId, value: Balance) -> Result<(), Error> {
-        if value > Self::env().balance() {
+        if value > self.data::<data::Data>().reward_pool {
             return Err(Error::NotEnoughBalance);
         }
         assert!(Self::env().transfer(account, value).is_ok());
-        Ok(())
+        Ok(self.data::<data::Data>().reward_pool = self
+            .data::<data::Data>()
+            .reward_pool
+            .checked_sub(value)
+            .unwrap())
     }
 
     // SET FUNCTIONS
@@ -251,7 +255,7 @@ pub trait StakingPoolTraitImpl:
     fn get_reward_pool(&self) -> Balance {
         self.data::<data::Data>().reward_pool
     }
-    
+
     fn get_claimable_reward(&self) -> Balance {
         self.data::<data::Data>().claimable_reward
     }
