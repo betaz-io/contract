@@ -131,29 +131,17 @@ export default class Methods {
 	}
 
 	/**
-	* setLimitUnstakeTime
+	* updateIsLocked
 	*
-	* @param { (number | string | BN) } limitUnstakeTime,
+	* @param { boolean } isLocked,
 	*/
-	"setLimitUnstakeTime" (
-		limitUnstakeTime: (number | string | BN),
+	"updateIsLocked" (
+		isLocked: boolean,
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::setLimitUnstakeTime", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::updateIsLocked", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [limitUnstakeTime], __options);
-	}
-
-	/**
-	* getRewardStarted
-	*
-	*/
-	"getRewardStarted" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getRewardStarted", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
+		}, [isLocked], __options);
 	}
 
 	/**
@@ -166,50 +154,6 @@ export default class Methods {
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getIsLocked", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [], __options);
-	}
-
-	/**
-	* isClaimed
-	*
-	* @param { ArgumentTypes.AccountId } account,
-	*/
-	"isClaimed" (
-		account: ArgumentTypes.AccountId,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::isClaimed", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [account], __options);
-	}
-
-	/**
-	* getRequestUnstakeAccountsIndexByAccount
-	*
-	* @param { ArgumentTypes.AccountId } account,
-	*/
-	"getRequestUnstakeAccountsIndexByAccount" (
-		account: ArgumentTypes.AccountId,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getRequestUnstakeAccountsIndexByAccount", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [account], __options);
-	}
-
-	/**
-	* getRequestUnstakeTime
-	*
-	* @param { ArgumentTypes.AccountId } account,
-	* @param { (string | number | BN) } index,
-	*/
-	"getRequestUnstakeTime" (
-		account: ArgumentTypes.AccountId,
-		index: (string | number | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getRequestUnstakeTime", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [account, index], __options);
 	}
 
 	/**
@@ -231,34 +175,6 @@ export default class Methods {
 	}
 
 	/**
-	* getStakedAccountsByIndex
-	*
-	* @param { (number | string | BN) } index,
-	*/
-	"getStakedAccountsByIndex" (
-		index: (number | string | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getStakedAccountsByIndex", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [index], __options);
-	}
-
-	/**
-	* getRequestUnstakeAccountsByIndex
-	*
-	* @param { (number | string | BN) } index,
-	*/
-	"getRequestUnstakeAccountsByIndex" (
-		index: (number | string | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getRequestUnstakeAccountsByIndex", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [index], __options);
-	}
-
-	/**
 	* getRewardPool
 	*
 	*/
@@ -266,6 +182,18 @@ export default class Methods {
 		__options ? : GasLimit,
 	){
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getRewardPool", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* getClaimableReward
+	*
+	*/
+	"getClaimableReward" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getClaimableReward", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [], __options);
 	}
@@ -283,6 +211,88 @@ export default class Methods {
 	}
 
 	/**
+	* getPendingUnstakingAmount
+	*
+	* @param { ArgumentTypes.AccountId } account,
+	* @param { (string | number | BN) } index,
+	*/
+	"getPendingUnstakingAmount" (
+		account: ArgumentTypes.AccountId,
+		index: (string | number | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getPendingUnstakingAmount", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [account, index], __options);
+	}
+
+	/**
+	* isClaimed
+	*
+	* @param { ArgumentTypes.AccountId } account,
+	*/
+	"isClaimed" (
+		account: ArgumentTypes.AccountId,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::isClaimed", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [account], __options);
+	}
+
+	/**
+	* changeState
+	*
+	*/
+	"changeState" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::changeState", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* setLimitUnstakeTime
+	*
+	* @param { (number | string | BN) } limitUnstakeTime,
+	*/
+	"setLimitUnstakeTime" (
+		limitUnstakeTime: (number | string | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::setLimitUnstakeTime", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [limitUnstakeTime], __options);
+	}
+
+	/**
+	* getLimitUnstakeTime
+	*
+	*/
+	"getLimitUnstakeTime" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getLimitUnstakeTime", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* getStakedAccountsIndexByAccount
+	*
+	* @param { ArgumentTypes.AccountId } account,
+	*/
+	"getStakedAccountsIndexByAccount" (
+		account: ArgumentTypes.AccountId,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getStakedAccountsIndexByAccount", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [account], __options);
+	}
+
+	/**
 	* updateStatusRewardDistribution
 	*
 	* @param { boolean } start,
@@ -297,71 +307,17 @@ export default class Methods {
 	}
 
 	/**
-	* getStakeAmountByAccount
+	* getStakedAccountsByIndex
 	*
-	* @param { ArgumentTypes.AccountId } account,
+	* @param { (number | string | BN) } index,
 	*/
-	"getStakeAmountByAccount" (
-		account: ArgumentTypes.AccountId,
+	"getStakedAccountsByIndex" (
+		index: (number | string | BN),
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getStakeAmountByAccount", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getStakedAccountsByIndex", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [account], __options);
-	}
-
-	/**
-	* getClaimableReward
-	*
-	*/
-	"getClaimableReward" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getClaimableReward", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
-	}
-
-	/**
-	* updateIsLocked
-	*
-	* @param { boolean } isLocked,
-	*/
-	"updateIsLocked" (
-		isLocked: boolean,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::updateIsLocked", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [isLocked], __options);
-	}
-
-	/**
-	* setClaimedStatus
-	*
-	* @param { ArgumentTypes.AccountId } staker,
-	* @param { boolean } status,
-	*/
-	"setClaimedStatus" (
-		staker: ArgumentTypes.AccountId,
-		status: boolean,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::setClaimedStatus", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [staker, status], __options);
-	}
-
-	/**
-	* getTotalStaked
-	*
-	*/
-	"getTotalStaked" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getTotalStaked", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
+		}, [index], __options);
 	}
 
 	/**
@@ -393,29 +349,33 @@ export default class Methods {
 	}
 
 	/**
-	* getTotalPendingUnstakedByAccount
+	* setBetazTokenAddress
 	*
-	* @param { ArgumentTypes.AccountId } account,
+	* @param { ArgumentTypes.AccountId } betazTokenAddress,
 	*/
-	"getTotalPendingUnstakedByAccount" (
-		account: ArgumentTypes.AccountId,
+	"setBetazTokenAddress" (
+		betazTokenAddress: ArgumentTypes.AccountId,
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getTotalPendingUnstakedByAccount", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::setBetazTokenAddress", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [account], __options);
+		}, [betazTokenAddress], __options);
 	}
 
 	/**
-	* changeState
+	* setClaimedStatus
 	*
+	* @param { ArgumentTypes.AccountId } staker,
+	* @param { boolean } status,
 	*/
-	"changeState" (
+	"setClaimedStatus" (
+		staker: ArgumentTypes.AccountId,
+		status: boolean,
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::changeState", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::setClaimedStatus", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
+		}, [staker, status], __options);
 	}
 
 	/**
@@ -431,59 +391,111 @@ export default class Methods {
 	}
 
 	/**
-	* getLimitUnstakeTime
+	* getRewardStarted
 	*
 	*/
-	"getLimitUnstakeTime" (
+	"getRewardStarted" (
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getLimitUnstakeTime", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getRewardStarted", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [], __options);
 	}
 
 	/**
-	* getPendingUnstakingAmount
+	* getRequestUnstakeAccountsByIndex
+	*
+	* @param { (number | string | BN) } index,
+	*/
+	"getRequestUnstakeAccountsByIndex" (
+		index: (number | string | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getRequestUnstakeAccountsByIndex", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [index], __options);
+	}
+
+	/**
+	* getStakeAmountByAccount
+	*
+	* @param { ArgumentTypes.AccountId } account,
+	*/
+	"getStakeAmountByAccount" (
+		account: ArgumentTypes.AccountId,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getStakeAmountByAccount", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [account], __options);
+	}
+
+	/**
+	* getTotalPendingUnstakedByAccount
+	*
+	* @param { ArgumentTypes.AccountId } account,
+	*/
+	"getTotalPendingUnstakedByAccount" (
+		account: ArgumentTypes.AccountId,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getTotalPendingUnstakedByAccount", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [account], __options);
+	}
+
+	/**
+	* getRequestUnstakeTime
 	*
 	* @param { ArgumentTypes.AccountId } account,
 	* @param { (string | number | BN) } index,
 	*/
-	"getPendingUnstakingAmount" (
+	"getRequestUnstakeTime" (
 		account: ArgumentTypes.AccountId,
 		index: (string | number | BN),
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getPendingUnstakingAmount", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getRequestUnstakeTime", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [account, index], __options);
 	}
 
 	/**
-	* setBetazTokenAddress
+	* getTotalStaked
 	*
-	* @param { ArgumentTypes.AccountId } betazTokenAddress,
 	*/
-	"setBetazTokenAddress" (
-		betazTokenAddress: ArgumentTypes.AccountId,
+	"getTotalStaked" (
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::setBetazTokenAddress", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getTotalStaked", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [betazTokenAddress], __options);
+		}, [], __options);
 	}
 
 	/**
-	* getStakedAccountsIndexByAccount
+	* getRequestUnstakeAccountsIndexByAccount
 	*
 	* @param { ArgumentTypes.AccountId } account,
 	*/
-	"getStakedAccountsIndexByAccount" (
+	"getRequestUnstakeAccountsIndexByAccount" (
 		account: ArgumentTypes.AccountId,
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getStakedAccountsIndexByAccount", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::getRequestUnstakeAccountsIndexByAccount", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [account], __options);
+	}
+
+	/**
+	* owner
+	*
+	*/
+	"owner" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "ownable::owner", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
 	}
 
 	/**
@@ -498,18 +510,6 @@ export default class Methods {
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "ownable::transferOwnership", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [newOwner], __options);
-	}
-
-	/**
-	* owner
-	*
-	*/
-	"owner" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "ownable::owner", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
 	}
 
 	/**
@@ -551,6 +551,22 @@ export default class Methods {
 	}
 
 	/**
+	* renounceRole
+	*
+	* @param { (number | string | BN) } role,
+	* @param { ArgumentTypes.AccountId | null } account,
+	*/
+	"renounceRole" (
+		role: (number | string | BN),
+		account: ArgumentTypes.AccountId | null,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::renounceRole", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [role, account], __options);
+	}
+
+	/**
 	* revokeRole
 	*
 	* @param { (number | string | BN) } role,
@@ -564,6 +580,20 @@ export default class Methods {
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::revokeRole", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [role, account], __options);
+	}
+
+	/**
+	* getRoleAdmin
+	*
+	* @param { (number | string | BN) } role,
+	*/
+	"getRoleAdmin" (
+		role: (number | string | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::getRoleAdmin", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [role], __options);
 	}
 
 	/**
@@ -583,20 +613,6 @@ export default class Methods {
 	}
 
 	/**
-	* getRoleAdmin
-	*
-	* @param { (number | string | BN) } role,
-	*/
-	"getRoleAdmin" (
-		role: (number | string | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::getRoleAdmin", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [role], __options);
-	}
-
-	/**
 	* grantRole
 	*
 	* @param { (number | string | BN) } role,
@@ -608,22 +624,6 @@ export default class Methods {
 		__options ? : GasLimit,
 	){
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::grantRole", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [role, account], __options);
-	}
-
-	/**
-	* renounceRole
-	*
-	* @param { (number | string | BN) } role,
-	* @param { ArgumentTypes.AccountId | null } account,
-	*/
-	"renounceRole" (
-		role: (number | string | BN),
-		account: ArgumentTypes.AccountId | null,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::renounceRole", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [role, account], __options);
 	}

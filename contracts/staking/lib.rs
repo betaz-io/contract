@@ -501,7 +501,7 @@ pub mod staking {
 
                 let current_time = self.env().block_timestamp();
 
-                if current_time < pending_unstake_info.time {
+                if current_time < pending_unstake_info.time.checked_add(self.data.limit_unstake_time).unwrap() {
                     return Err(Error::NotTimeToUnstaked);
                 }
 

@@ -147,29 +147,18 @@ export default class Methods {
 	}
 
 	/**
-	* setLimitUnstakeTime
+	* updateIsLocked
 	*
-	* @param { (number | string | BN) } limitUnstakeTime,
+	* @param { boolean } isLocked,
 	* @returns { void }
 	*/
-	"setLimitUnstakeTime" (
-		limitUnstakeTime: (number | string | BN),
+	"updateIsLocked" (
+		isLocked: boolean,
 		__options: GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::setLimitUnstakeTime", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::updateIsLocked", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [limitUnstakeTime], __options);
-	}
-
-	/**
-	* getRewardStarted
-	*
-	* @returns { Result<boolean, ReturnTypes.LangError> }
-	*/
-	"getRewardStarted" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<boolean, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getRewardStarted", [], __options, (result) => { return handleReturnType(result, getTypeDescription(20, DATA_TYPE_DESCRIPTIONS)); });
+		}, [isLocked], __options);
 	}
 
 	/**
@@ -181,47 +170,6 @@ export default class Methods {
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<boolean, ReturnTypes.LangError> > >{
 		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getIsLocked", [], __options, (result) => { return handleReturnType(result, getTypeDescription(20, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* isClaimed
-	*
-	* @param { ArgumentTypes.AccountId } account,
-	* @returns { Result<boolean, ReturnTypes.LangError> }
-	*/
-	"isClaimed" (
-		account: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<boolean, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::isClaimed", [account], __options, (result) => { return handleReturnType(result, getTypeDescription(20, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getRequestUnstakeAccountsIndexByAccount
-	*
-	* @param { ArgumentTypes.AccountId } account,
-	* @returns { Result<ReturnNumber | null, ReturnTypes.LangError> }
-	*/
-	"getRequestUnstakeAccountsIndexByAccount" (
-		account: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getRequestUnstakeAccountsIndexByAccount", [account], __options, (result) => { return handleReturnType(result, getTypeDescription(21, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getRequestUnstakeTime
-	*
-	* @param { ArgumentTypes.AccountId } account,
-	* @param { (string | number | BN) } index,
-	* @returns { Result<number | null, ReturnTypes.LangError> }
-	*/
-	"getRequestUnstakeTime" (
-		account: ArgumentTypes.AccountId,
-		index: (string | number | BN),
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getRequestUnstakeTime", [account, index], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -242,32 +190,6 @@ export default class Methods {
 	}
 
 	/**
-	* getStakedAccountsByIndex
-	*
-	* @param { (number | string | BN) } index,
-	* @returns { Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> }
-	*/
-	"getStakedAccountsByIndex" (
-		index: (number | string | BN),
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getStakedAccountsByIndex", [index], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getRequestUnstakeAccountsByIndex
-	*
-	* @param { (number | string | BN) } index,
-	* @returns { Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> }
-	*/
-	"getRequestUnstakeAccountsByIndex" (
-		index: (number | string | BN),
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getRequestUnstakeAccountsByIndex", [index], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
 	* getRewardPool
 	*
 	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
@@ -275,7 +197,18 @@ export default class Methods {
 	"getRewardPool" (
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getRewardPool", [], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getRewardPool", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getClaimableReward
+	*
+	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
+	*/
+	"getClaimableReward" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getClaimableReward", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -286,7 +219,87 @@ export default class Methods {
 	"getRequestUnstakeAccountsLastIndex" (
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getRequestUnstakeAccountsLastIndex", [], __options, (result) => { return handleReturnType(result, getTypeDescription(28, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getRequestUnstakeAccountsLastIndex", [], __options, (result) => { return handleReturnType(result, getTypeDescription(24, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getPendingUnstakingAmount
+	*
+	* @param { ArgumentTypes.AccountId } account,
+	* @param { (string | number | BN) } index,
+	* @returns { Result<ReturnNumber | null, ReturnTypes.LangError> }
+	*/
+	"getPendingUnstakingAmount" (
+		account: ArgumentTypes.AccountId,
+		index: (string | number | BN),
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnNumber | null, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getPendingUnstakingAmount", [account, index], __options, (result) => { return handleReturnType(result, getTypeDescription(21, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* isClaimed
+	*
+	* @param { ArgumentTypes.AccountId } account,
+	* @returns { Result<boolean, ReturnTypes.LangError> }
+	*/
+	"isClaimed" (
+		account: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<boolean, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::isClaimed", [account], __options, (result) => { return handleReturnType(result, getTypeDescription(20, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* changeState
+	*
+	* @returns { void }
+	*/
+	"changeState" (
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::changeState", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* setLimitUnstakeTime
+	*
+	* @param { (number | string | BN) } limitUnstakeTime,
+	* @returns { void }
+	*/
+	"setLimitUnstakeTime" (
+		limitUnstakeTime: (number | string | BN),
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::setLimitUnstakeTime", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [limitUnstakeTime], __options);
+	}
+
+	/**
+	* getLimitUnstakeTime
+	*
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getLimitUnstakeTime" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getLimitUnstakeTime", [], __options, (result) => { return handleReturnType(result, getTypeDescription(24, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getStakedAccountsIndexByAccount
+	*
+	* @param { ArgumentTypes.AccountId } account,
+	* @returns { Result<ReturnNumber | null, ReturnTypes.LangError> }
+	*/
+	"getStakedAccountsIndexByAccount" (
+		account: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnNumber | null, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getStakedAccountsIndexByAccount", [account], __options, (result) => { return handleReturnType(result, getTypeDescription(21, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -305,70 +318,16 @@ export default class Methods {
 	}
 
 	/**
-	* getStakeAmountByAccount
+	* getStakedAccountsByIndex
 	*
-	* @param { ArgumentTypes.AccountId } account,
-	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
+	* @param { (number | string | BN) } index,
+	* @returns { Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> }
 	*/
-	"getStakeAmountByAccount" (
-		account: ArgumentTypes.AccountId,
+	"getStakedAccountsByIndex" (
+		index: (number | string | BN),
 		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getStakeAmountByAccount", [account], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getClaimableReward
-	*
-	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
-	*/
-	"getClaimableReward" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getClaimableReward", [], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* updateIsLocked
-	*
-	* @param { boolean } isLocked,
-	* @returns { void }
-	*/
-	"updateIsLocked" (
-		isLocked: boolean,
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::updateIsLocked", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [isLocked], __options);
-	}
-
-	/**
-	* setClaimedStatus
-	*
-	* @param { ArgumentTypes.AccountId } staker,
-	* @param { boolean } status,
-	* @returns { void }
-	*/
-	"setClaimedStatus" (
-		staker: ArgumentTypes.AccountId,
-		status: boolean,
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::setClaimedStatus", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [staker, status], __options);
-	}
-
-	/**
-	* getTotalStaked
-	*
-	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
-	*/
-	"getTotalStaked" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getTotalStaked", [], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
+	): Promise< QueryReturnType< Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getStakedAccountsByIndex", [index], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -379,7 +338,7 @@ export default class Methods {
 	"getStakedAccountsLastIndex" (
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getStakedAccountsLastIndex", [], __options, (result) => { return handleReturnType(result, getTypeDescription(28, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getStakedAccountsLastIndex", [], __options, (result) => { return handleReturnType(result, getTypeDescription(24, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -400,69 +359,6 @@ export default class Methods {
 	}
 
 	/**
-	* getTotalPendingUnstakedByAccount
-	*
-	* @param { ArgumentTypes.AccountId } account,
-	* @returns { Result<number, ReturnTypes.LangError> }
-	*/
-	"getTotalPendingUnstakedByAccount" (
-		account: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getTotalPendingUnstakedByAccount", [account], __options, (result) => { return handleReturnType(result, getTypeDescription(28, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* changeState
-	*
-	* @returns { void }
-	*/
-	"changeState" (
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::changeState", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
-	}
-
-	/**
-	* getBetazTokenAddress
-	*
-	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
-	*/
-	"getBetazTokenAddress" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getBetazTokenAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(29, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getLimitUnstakeTime
-	*
-	* @returns { Result<number, ReturnTypes.LangError> }
-	*/
-	"getLimitUnstakeTime" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getLimitUnstakeTime", [], __options, (result) => { return handleReturnType(result, getTypeDescription(28, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getPendingUnstakingAmount
-	*
-	* @param { ArgumentTypes.AccountId } account,
-	* @param { (string | number | BN) } index,
-	* @returns { Result<ReturnNumber | null, ReturnTypes.LangError> }
-	*/
-	"getPendingUnstakingAmount" (
-		account: ArgumentTypes.AccountId,
-		index: (string | number | BN),
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getPendingUnstakingAmount", [account, index], __options, (result) => { return handleReturnType(result, getTypeDescription(21, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
 	* setBetazTokenAddress
 	*
 	* @param { ArgumentTypes.AccountId } betazTokenAddress,
@@ -478,16 +374,131 @@ export default class Methods {
 	}
 
 	/**
-	* getStakedAccountsIndexByAccount
+	* setClaimedStatus
+	*
+	* @param { ArgumentTypes.AccountId } staker,
+	* @param { boolean } status,
+	* @returns { void }
+	*/
+	"setClaimedStatus" (
+		staker: ArgumentTypes.AccountId,
+		status: boolean,
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "stakingPoolTrait::setClaimedStatus", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [staker, status], __options);
+	}
+
+	/**
+	* getBetazTokenAddress
+	*
+	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
+	*/
+	"getBetazTokenAddress" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getBetazTokenAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getRewardStarted
+	*
+	* @returns { Result<boolean, ReturnTypes.LangError> }
+	*/
+	"getRewardStarted" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<boolean, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getRewardStarted", [], __options, (result) => { return handleReturnType(result, getTypeDescription(20, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getRequestUnstakeAccountsByIndex
+	*
+	* @param { (number | string | BN) } index,
+	* @returns { Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> }
+	*/
+	"getRequestUnstakeAccountsByIndex" (
+		index: (number | string | BN),
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getRequestUnstakeAccountsByIndex", [index], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getStakeAmountByAccount
+	*
+	* @param { ArgumentTypes.AccountId } account,
+	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
+	*/
+	"getStakeAmountByAccount" (
+		account: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getStakeAmountByAccount", [account], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getTotalPendingUnstakedByAccount
+	*
+	* @param { ArgumentTypes.AccountId } account,
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getTotalPendingUnstakedByAccount" (
+		account: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getTotalPendingUnstakedByAccount", [account], __options, (result) => { return handleReturnType(result, getTypeDescription(24, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getRequestUnstakeTime
+	*
+	* @param { ArgumentTypes.AccountId } account,
+	* @param { (string | number | BN) } index,
+	* @returns { Result<number | null, ReturnTypes.LangError> }
+	*/
+	"getRequestUnstakeTime" (
+		account: ArgumentTypes.AccountId,
+		index: (string | number | BN),
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number | null, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getRequestUnstakeTime", [account, index], __options, (result) => { return handleReturnType(result, getTypeDescription(28, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getTotalStaked
+	*
+	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
+	*/
+	"getTotalStaked" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getTotalStaked", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getRequestUnstakeAccountsIndexByAccount
 	*
 	* @param { ArgumentTypes.AccountId } account,
 	* @returns { Result<ReturnNumber | null, ReturnTypes.LangError> }
 	*/
-	"getStakedAccountsIndexByAccount" (
+	"getRequestUnstakeAccountsIndexByAccount" (
 		account: ArgumentTypes.AccountId,
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<ReturnNumber | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getStakedAccountsIndexByAccount", [account], __options, (result) => { return handleReturnType(result, getTypeDescription(21, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "stakingPoolTrait::getRequestUnstakeAccountsIndexByAccount", [account], __options, (result) => { return handleReturnType(result, getTypeDescription(21, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* owner
+	*
+	* @returns { Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> }
+	*/
+	"owner" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "ownable::owner", [], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -503,17 +514,6 @@ export default class Methods {
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "ownable::transferOwnership", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [newOwner], __options);
-	}
-
-	/**
-	* owner
-	*
-	* @returns { Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> }
-	*/
-	"owner" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "ownable::owner", [], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -556,6 +556,23 @@ export default class Methods {
 	}
 
 	/**
+	* renounceRole
+	*
+	* @param { (number | string | BN) } role,
+	* @param { ArgumentTypes.AccountId | null } account,
+	* @returns { void }
+	*/
+	"renounceRole" (
+		role: (number | string | BN),
+		account: ArgumentTypes.AccountId | null,
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::renounceRole", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [role, account], __options);
+	}
+
+	/**
 	* revokeRole
 	*
 	* @param { (number | string | BN) } role,
@@ -570,6 +587,19 @@ export default class Methods {
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::revokeRole", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [role, account], __options);
+	}
+
+	/**
+	* getRoleAdmin
+	*
+	* @param { (number | string | BN) } role,
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getRoleAdmin" (
+		role: (number | string | BN),
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControl::getRoleAdmin", [role], __options, (result) => { return handleReturnType(result, getTypeDescription(38, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -588,19 +618,6 @@ export default class Methods {
 	}
 
 	/**
-	* getRoleAdmin
-	*
-	* @param { (number | string | BN) } role,
-	* @returns { Result<number, ReturnTypes.LangError> }
-	*/
-	"getRoleAdmin" (
-		role: (number | string | BN),
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControl::getRoleAdmin", [role], __options, (result) => { return handleReturnType(result, getTypeDescription(38, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
 	* grantRole
 	*
 	* @param { (number | string | BN) } role,
@@ -613,23 +630,6 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::grantRole", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [role, account], __options);
-	}
-
-	/**
-	* renounceRole
-	*
-	* @param { (number | string | BN) } role,
-	* @param { ArgumentTypes.AccountId | null } account,
-	* @returns { void }
-	*/
-	"renounceRole" (
-		role: (number | string | BN),
-		account: ArgumentTypes.AccountId | null,
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::renounceRole", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [role, account], __options);
 	}

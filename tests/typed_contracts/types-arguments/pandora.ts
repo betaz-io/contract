@@ -77,6 +77,8 @@ export interface Error {
 	notTimeToFinalized ? : null,
 	callerDoNotHaveVoting ? : null,
 	setPoolRationFailed ? : null,
+	failToDecreaseClaimableReward ? : null,
+	rewardNotAdded ? : null,
 	ownableError ? : OwnableError,
 	accessControlError ? : AccessControlError,
 	psp22Error ? : PSP22Error,
@@ -436,6 +438,16 @@ export class ErrorBuilder {
 			setPoolRationFailed: null,
 		};
 	}
+	static FailToDecreaseClaimableReward(): Error {
+		return {
+			failToDecreaseClaimableReward: null,
+		};
+	}
+	static RewardNotAdded(): Error {
+		return {
+			rewardNotAdded: null,
+		};
+	}
 	static OwnableError(value: OwnableError): Error {
 		return {
 			ownableError: value,
@@ -646,6 +658,11 @@ export class IdBuilder {
 	}
 }
 
+export type SessionInfo = {
+	randomNumber: (number | string | BN),
+	status: SessionsStatusType
+}
+
 export enum SessionsStatusType {
 	processing = 'Processing',
 	finalized = 'Finalized',
@@ -657,11 +674,6 @@ export type NFTInfomation = {
 	betNumber: (number | string | BN),
 	time: (number | string | BN),
 	used: boolean
-}
-
-export type SessionInfo = {
-	randomNumber: (number | string | BN),
-	status: SessionsStatusType
 }
 
 export type Hash = string | number[]
