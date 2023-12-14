@@ -287,7 +287,19 @@ pub mod pandora {
             PandoraPoolTraitsImpl::set_max_bet_number(self, max_bet_number)
         }
 
+        /// update is locked
+        #[ink(message)]
+        fn update_is_locked(&mut self, is_locked: bool) -> Result<(), Error> {
+            PandoraPoolTraitsImpl::update_is_locked(self, is_locked)
+        }
+
         // GET FUNCTIONS
+        /// get is locked
+        #[ink(message)]
+        fn get_is_locked(&self) -> bool {
+            PandoraPoolTraitsImpl::get_is_locked(self)
+        }
+
         /// get max_bet_number
         #[ink(message)]
         fn get_max_bet_number(&self) -> u32 {
@@ -545,6 +557,7 @@ pub mod pandora {
 
         #[ink(message)]
         #[modifiers(only_role(ADMINER))]
+        #[modifiers(only_locked)]
         pub fn update_win_amount_and_session_status(
             &mut self,
             session_id: u32,

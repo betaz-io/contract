@@ -104,7 +104,15 @@ pub trait PandoraPoolTraits: PSP34 + PSP34Metadata + Ownable {
     #[ink(message)]
     fn set_max_bet_number(&mut self, max_bet_number: u32) -> Result<(), Error>;
 
+    /// update is locked
+    #[ink(message)]
+    fn update_is_locked(&mut self, is_locked: bool) -> Result<(), Error>;
+
     // GET FUNCTIONS
+    /// get is locked
+    #[ink(message)]
+    fn get_is_locked(&self) -> bool;
+
     /// get max_bet_number
     #[ink(message)]
     fn get_max_bet_number(&self) -> u32;

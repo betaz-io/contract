@@ -1,4 +1,4 @@
-use crate::traits::error::Error;
+use crate::traits::error::{Error, LockError};
 pub use crate::{
     impls::pandora::{
         data,
@@ -27,6 +27,35 @@ use openbrush::{
 
 use ink::env::CallFlags;
 
+/// Throws if is_locked is false
+#[modifier_definition]
+pub fn only_locked<T, F, R, E>(instance: &mut T, body: F) -> Result<R, E>
+where
+    T: Storage<Manager>,
+    F: FnOnce(&mut T) -> Result<R, E>,
+    E: From<LockError>,
+{
+    if instance.data().is_locked == false {
+        return Err(From::from(LockError::NotLocked));
+    }
+    body(instance)
+}
+
+/// Throws if is_locked is true
+#[modifier_definition]
+pub fn only_not_locked<T, F, R, E>(instance: &mut T, body: F) -> Result<R, E>
+where
+    T: Storage<Manager>,
+    F: FnOnce(&mut T) -> Result<R, E>,
+    E: From<LockError>,
+{
+    if instance.data().is_locked == true {
+        return Err(From::from(LockError::Locked));
+    }
+    body(instance)
+}
+
+// Throws if is token owner
 #[modifier_definition]
 pub fn only_token_owner<T, F, R, E>(
     instance: &mut T,
@@ -175,6 +204,7 @@ pub trait PandoraPoolTraitsImpl:
     // play bet
     #[modifiers(when_not_paused)]
     #[modifiers(only_token_owner(self.owner_of(token_id.clone()).unwrap()))]
+    #[modifiers(only_not_locked)]
     fn play(&mut self, session_id: u32, bet_number: u32, token_id: Id) -> Result<(), Error> {
         let caller = Self::env().caller();
         assert!(
@@ -255,6 +285,7 @@ pub trait PandoraPoolTraitsImpl:
     }
 
     #[modifiers(only_role(ADMINER))]
+    #[modifiers(only_locked)]
     fn handle_find_winner(&mut self, session_id: u32, index: u128) -> Result<(), Error> {
         if let Some(sessions_info) = self.data::<Manager>().sessions.get(&session_id) {
             // check total ticket win
@@ -307,6 +338,7 @@ pub trait PandoraPoolTraitsImpl:
     }
 
     #[modifiers(only_role(ADMINER))]
+    #[modifiers(only_locked)]
     fn finalize(&mut self, session_id: u32, random_number: u32) -> Result<(), Error> {
         if let Some(mut sessions_info) = self.data::<Manager>().sessions.get(&session_id) {
             // update session
@@ -329,6 +361,7 @@ pub trait PandoraPoolTraitsImpl:
 
     // withdraw by winner
     #[modifiers(when_not_paused)]
+    #[modifiers(only_not_locked)]
     fn withdraw_win_amount(&mut self, winner: AccountId, session_id: u32) -> Result<(), Error> {
         if let Some(sessions_info) = self.data::<Manager>().sessions.get(&session_id) {
             if sessions_info.status == Completed {
@@ -574,7 +607,22 @@ pub trait PandoraPoolTraitsImpl:
         Ok(self.data::<Manager>().max_bet_number = max_bet_number)
     }
 
+    /// update is locked
+    #[modifiers(only_role(ADMINER))]
+    fn update_is_locked(&mut self, is_locked: bool) -> Result<(), Error> {
+        if is_locked == self.data::<Manager>().is_locked {
+            return Err(Error::InvalidInput);
+        }
+        self.data::<Manager>().is_locked = is_locked;
+        Ok(())
+    }
+
     // GET FUNCTIONS
+    /// get is locked
+    fn get_is_locked(&self) -> bool {
+        self.data::<Manager>().is_locked
+    }
+
     /// get max_bet_number
     fn get_max_bet_number(&self) -> u32 {
         self.data::<Manager>().max_bet_number

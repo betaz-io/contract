@@ -59,6 +59,7 @@ pub struct Manager {
     pub locked_token_count: u64,
     pub betaz_token_address: AccountId,
     // vote
+    pub is_locked: bool,
     pub max_bet_number: u32,
     pub session_total_ticket_amount: u128,
     pub ticket_in_session: MultiMapping<u32, Id>, // session_id => nft_id
@@ -85,6 +86,7 @@ impl Default for Manager {
             locked_token_count: Default::default(),
             betaz_token_address: [0u8; 32].into(),
             // vote
+            is_locked: Default::default(),
             max_bet_number: Default::default(),
             session_total_ticket_amount: Default::default(),
             ticket_in_session: Default::default(),
