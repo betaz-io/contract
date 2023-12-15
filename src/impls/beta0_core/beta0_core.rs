@@ -41,9 +41,6 @@ pub trait BetA0CoreTraitImpl:
     + ownable::Ownable
     + pausable::Pausable
 {
-    fn add_reward_staking_pool(&mut self, _amount: Balance) -> Result<(), Error>;
-    fn add_reward_pandora_pool(&mut self, amount: Balance) -> Result<(), Error>;
-
     // emit event
     fn _emit_transfer_staking_pool_event(&self, _staking_pool_address: AccountId, _amount: Balance);
     fn _emit_transfer_treasury_pool_event(

@@ -72,6 +72,7 @@ pub struct Manager {
     pub player_win_amount: Mapping<(u32, AccountId), Balance, WinnerKey>, // (session_id, player_address) => azero
     pub ticket_player_link: MultiMapping<(u32, u32), Id, TicketKey>, // (session_id, bet_number) => nft_id
     pub player_nfts: Mapping<Id, AccountId>,
+    pub chainlink_request_id_session_link: Mapping<u32, String>,
     pub _reserved: Option<()>,
 }
 
@@ -99,6 +100,7 @@ impl Default for Manager {
             player_win_amount: Default::default(), // (session_id, player_address) => azero
             ticket_player_link: Default::default(), // (session_id, bet_number) => nft_id
             player_nfts: Default::default(),
+            chainlink_request_id_session_link: Default::default(),
             _reserved: Default::default(),
         }
     }

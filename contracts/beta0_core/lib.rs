@@ -107,26 +107,6 @@ pub mod beta0_core {
 
     impl AdminTraitImpl for BetA0CoreContract {}
     impl BetA0CoreTraitImpl for BetA0CoreContract {
-        fn add_reward_staking_pool(&mut self, amount: Balance) -> Result<(), Error> {
-            let mut staking_pool_contract: StakingPoolContractRef =
-                ink::env::call::FromAccountId::from_account_id(self.manager.staking_address);
-            assert!(
-                StakingPoolContractRef::add_reward(&mut staking_pool_contract, amount,).is_ok()
-            );
-            Ok(())
-        }
-
-        fn add_reward_pandora_pool(&mut self, amount: Balance) -> Result<(), Error> {
-            let mut pandora_pool_contract: PandoraPoolContractRef =
-                ink::env::call::FromAccountId::from_account_id(self.manager.pandora_pool_address);
-            assert!(PandoraPoolContractRef::update_total_win_amount(
-                &mut pandora_pool_contract,
-                amount
-            )
-            .is_ok());
-            Ok(())
-        }
-
         fn _emit_transfer_staking_pool_event(
             &self,
             _staking_pool_address: AccountId,

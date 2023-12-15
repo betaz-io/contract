@@ -293,7 +293,22 @@ pub mod pandora {
             PandoraPoolTraitsImpl::update_is_locked(self, is_locked)
         }
 
+        /// add chainlink request id
+        #[ink(message)]
+        fn add_chainlink_request_id(
+            &mut self,
+            session_id: u32,
+            chainlink_request_id: String,
+        ) -> Result<(), Error>{
+            PandoraPoolTraitsImpl::add_chainlink_request_id(self, session_id, chainlink_request_id)
+        }
+
         // GET FUNCTIONS
+        /// get chainlink request id by session id
+        #[ink(message)]
+        fn get_chainlink_request_id_by_session_id(&self, session_id: u32) -> Option<String>{
+            PandoraPoolTraitsImpl::get_chainlink_request_id_by_session_id(self, session_id)
+        }
         /// get is locked
         #[ink(message)]
         fn get_is_locked(&self) -> bool {
@@ -557,7 +572,6 @@ pub mod pandora {
 
         #[ink(message)]
         #[modifiers(only_role(ADMINER))]
-        #[modifiers(only_locked)]
         pub fn update_win_amount_and_session_status(
             &mut self,
             session_id: u32,
@@ -577,6 +591,8 @@ pub mod pandora {
 
         /// update total win amount
         #[ink(message)]
+        #[modifiers(only_locked)]
+        #[modifiers(only_role(ADMINER))]
         pub fn update_total_win_amount(&mut self, amount: Balance) -> Result<(), Error> {
             PandoraPoolTraitsImpl::update_total_win_amount(self, amount)
         }
