@@ -107,6 +107,26 @@ pub mod beta0_core {
 
     impl AdminTraitImpl for BetA0CoreContract {}
     impl BetA0CoreTraitImpl for BetA0CoreContract {
+        fn add_reward_staking_pool(&mut self, amount: Balance) -> Result<(), Error> {
+            let mut staking_pool_contract: StakingPoolContractRef =
+                ink::env::call::FromAccountId::from_account_id(self.manager.staking_address);
+            assert!(
+                StakingPoolContractRef::add_reward(&mut staking_pool_contract, amount,).is_ok()
+            );
+            Ok(())
+        }
+
+        fn add_reward_pandora_pool(&mut self, amount: Balance) -> Result<(), Error> {
+            let mut pandora_pool_contract: PandoraPoolContractRef =
+                ink::env::call::FromAccountId::from_account_id(self.manager.pandora_pool_address);
+            assert!(PandoraPoolContractRef::update_total_win_amount(
+                &mut pandora_pool_contract,
+                amount
+            )
+            .is_ok());
+            Ok(())
+        }
+
         fn _emit_transfer_staking_pool_event(
             &self,
             _staking_pool_address: AccountId,
@@ -174,12 +194,6 @@ pub mod beta0_core {
         #[ink(message)]
         fn withdraw_fee(&mut self, account: AccountId, value: Balance) -> Result<(), Error> {
             BetA0CoreTraitImpl::withdraw_fee(self, account, value)
-        }
-
-        /// Withdraw Token - only Owner
-        #[ink(message)]
-        fn withdraw_token(&mut self, value: Balance) -> Result<(), Error> {
-            BetA0CoreTraitImpl::withdraw_token(self, value)
         }
 
         /// Update core pool - only owner and admin
@@ -395,12 +409,6 @@ pub mod beta0_core {
         #[ink(message)]
         fn get_token_balance(&self) -> Balance {
             BetA0CoreTraitImpl::get_token_balance(self)
-        }
-
-        /// get token balance pool
-        #[ink(message)]
-        fn get_token_balance_pool(&self, pool: AccountId) -> Balance {
-            BetA0CoreTraitImpl::get_token_balance_pool(self, pool)
         }
 
         /// Is bet exist
@@ -768,6 +776,12 @@ pub mod beta0_core {
                         if random_number > bet_number {
                             // WIN
                             // How much to send to winner
+                            self.manager.pool_manager.core_pool_amout = self
+                                .manager
+                                .pool_manager
+                                .core_pool_amout
+                                .checked_add(bet_amount)
+                                .unwrap();
                             let win_amount = (self.manager.over_rates[bet_number as usize]
                                 as Balance)
                                 .checked_mul(bet_amount)
@@ -867,6 +881,14 @@ pub mod beta0_core {
                                 .unwrap()
                                 .checked_sub(receive_amount_pandora_pool)
                                 .unwrap();
+                            // fee amount
+                            self.manager.pool_manager.platform_fee_amount = self
+                                .manager
+                                .pool_manager
+                                .platform_fee_amount
+                                .checked_add(to_sent_fee)
+                                .unwrap();
+                            // tranfer
                             assert!(self
                                 .env()
                                 .transfer(self.manager.betaz_address, to_sent_fee)
@@ -922,6 +944,12 @@ pub mod beta0_core {
                         if random_number < bet_number {
                             // WIN
                             // How much to send to winner
+                            self.manager.pool_manager.core_pool_amout = self
+                                .manager
+                                .pool_manager
+                                .core_pool_amout
+                                .checked_add(bet_amount)
+                                .unwrap();
                             let win_amount = (self.manager.under_rates[bet_number as usize]
                                 as Balance)
                                 .checked_mul(bet_amount)
@@ -1021,6 +1049,15 @@ pub mod beta0_core {
                                 .unwrap()
                                 .checked_sub(receive_amount_pandora_pool)
                                 .unwrap();
+
+                            // fee amount
+                            self.manager.pool_manager.platform_fee_amount = self
+                                .manager
+                                .pool_manager
+                                .platform_fee_amount
+                                .checked_add(to_sent_fee)
+                                .unwrap();
+                            // tranfer
                             assert!(self
                                 .env()
                                 .transfer(self.manager.betaz_address, to_sent_fee)
@@ -1138,7 +1175,8 @@ pub mod beta0_core {
             let contract_address = self.manager.staking_address;
 
             if contract_balance > 0 {
-                assert!(self.env()
+                assert!(self
+                    .env()
                     .transfer(contract_address, contract_balance)
                     .is_ok());
                 self.manager.pool_manager.staking_pool_amount = self
@@ -1156,13 +1194,11 @@ pub mod beta0_core {
 
             let mut staking_pool_contract: StakingPoolContractRef =
                 ink::env::call::FromAccountId::from_account_id(self.manager.staking_address);
-            assert!(
-                StakingPoolContractRef::add_reward(
-                    &mut staking_pool_contract,
-                    contract_balance,
-                )
-                .is_ok()
-            );
+            assert!(StakingPoolContractRef::add_reward(
+                &mut staking_pool_contract,
+                contract_balance,
+            )
+            .is_ok());
 
             Ok(())
         }

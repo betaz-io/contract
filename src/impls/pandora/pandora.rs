@@ -617,6 +617,18 @@ pub trait PandoraPoolTraitsImpl:
         Ok(())
     }
 
+    /// update total win amount
+    #[modifiers(only_locked)]
+    #[modifiers(only_role(ADMINER))]
+    fn update_total_win_amount(&mut self, amount: Balance) -> Result<(), Error> {
+        self.data::<Manager>().total_win_amounts = self
+            .data::<Manager>()
+            .total_win_amounts
+            .checked_add(amount)
+            .unwrap();
+        Ok(())
+    }
+
     // GET FUNCTIONS
     /// get is locked
     fn get_is_locked(&self) -> bool {

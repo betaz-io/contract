@@ -9,8 +9,7 @@ pub use crate::{
 use ink::{env::CallFlags, prelude::vec::Vec};
 use openbrush::{
     contracts::{access_control::*, ownable::*, pausable::*, psp22::*},
-    modifiers,
-    modifier_definition,
+    modifier_definition, modifiers,
     traits::{AccountId, Balance, Storage},
 };
 
@@ -42,6 +41,9 @@ pub trait BetA0CoreTraitImpl:
     + ownable::Ownable
     + pausable::Pausable
 {
+    fn add_reward_staking_pool(&mut self, _amount: Balance) -> Result<(), Error>;
+    fn add_reward_pandora_pool(&mut self, amount: Balance) -> Result<(), Error>;
+
     // emit event
     fn _emit_transfer_staking_pool_event(&self, _staking_pool_address: AccountId, _amount: Balance);
     fn _emit_transfer_treasury_pool_event(
@@ -160,28 +162,6 @@ pub trait BetA0CoreTraitImpl:
                 .checked_sub(value)
                 .unwrap(),
         )
-    }
-
-    /// Withdraw Token - only Owner
-    #[modifiers(when_not_paused)]
-    #[modifiers(only_role(ADMINER))]
-    fn withdraw_token(&mut self, value: Balance) -> Result<(), Error> {
-        if value
-            > PSP22Ref::balance_of(
-                &self.data::<data::Manager>().bet_token_address,
-                Self::env().account_id(),
-            )
-        {
-            return Err(Error::NotEnoughBalance);
-        }
-        assert!(PSP22Ref::transfer(
-            &self.data::<data::Manager>().bet_token_address,
-            Self::env().caller(),
-            value,
-            Vec::<u8>::new()
-        )
-        .is_ok());
-        Ok(())
     }
 
     /// Update core pool - only owner and admin
@@ -487,6 +467,13 @@ pub trait BetA0CoreTraitImpl:
     }
 
     // GET FUCTIONS
+    /// Get platform fee amount
+    fn get_platform_fee_amount(&self) -> Balance {
+        self.data::<data::Manager>()
+            .pool_manager
+            .platform_fee_amount
+    }
+
     /// Get dao contract address
     fn get_dao_address(&self) -> AccountId {
         self.data::<data::Manager>().dao_address
@@ -559,11 +546,6 @@ pub trait BetA0CoreTraitImpl:
             &self.data::<data::Manager>().bet_token_address,
             Self::env().account_id(),
         )
-    }
-
-    /// get token balance pool
-    fn get_token_balance_pool(&self, pool: AccountId) -> Balance {
-        PSP22Ref::balance_of(&self.data::<data::Manager>().bet_token_address, pool)
     }
 
     /// Is bet exist

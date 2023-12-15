@@ -563,11 +563,9 @@ pub mod pandora {
             session_id: u32,
             win_amount: Balance,
         ) -> Result<(), Error> {
-            self.manager.total_win_amounts = self
-                .manager
-                .total_win_amounts
-                .checked_add(win_amount)
-                .unwrap();
+            if PandoraPoolTraitsImpl::update_total_win_amount(self, win_amount).is_err() {
+                return Err(Error::RewardNotAdded);
+            }
             if let Some(mut secssion_info) = self.manager.sessions.get(&session_id) {
                 secssion_info.status = Finalized;
                 self.manager.sessions.insert(&session_id, &secssion_info);
@@ -575,6 +573,12 @@ pub mod pandora {
                 return Err(Error::SessionNotExists);
             }
             Ok(())
+        }
+
+        /// update total win amount
+        #[ink(message)]
+        pub fn update_total_win_amount(&mut self, amount: Balance) -> Result<(), Error> {
+            PandoraPoolTraitsImpl::update_total_win_amount(self, amount)
         }
 
         pub fn emit_event<EE: EmitEvent<Self>>(emitter: EE, event: Event) {
