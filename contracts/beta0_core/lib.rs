@@ -176,12 +176,6 @@ pub mod beta0_core {
             BetA0CoreTraitImpl::withdraw_fee(self, account, value)
         }
 
-        /// Withdraw Token - only Owner
-        #[ink(message)]
-        fn withdraw_token(&mut self, value: Balance) -> Result<(), Error> {
-            BetA0CoreTraitImpl::withdraw_token(self, value)
-        }
-
         /// Update core pool - only owner and admin
         #[ink(message, payable)]
         fn update_core_pool(&mut self) -> Result<(), Error> {
@@ -395,12 +389,6 @@ pub mod beta0_core {
         #[ink(message)]
         fn get_token_balance(&self) -> Balance {
             BetA0CoreTraitImpl::get_token_balance(self)
-        }
-
-        /// get token balance pool
-        #[ink(message)]
-        fn get_token_balance_pool(&self, pool: AccountId) -> Balance {
-            BetA0CoreTraitImpl::get_token_balance_pool(self, pool)
         }
 
         /// Is bet exist
@@ -873,6 +861,14 @@ pub mod beta0_core {
                                 .unwrap()
                                 .checked_sub(receive_amount_pandora_pool)
                                 .unwrap();
+                            // fee amount
+                            self.manager.pool_manager.platform_fee_amount = self
+                                .manager
+                                .pool_manager
+                                .platform_fee_amount
+                                .checked_add(to_sent_fee)
+                                .unwrap();
+                            // tranfer
                             assert!(self
                                 .env()
                                 .transfer(self.manager.betaz_address, to_sent_fee)
@@ -1033,6 +1029,15 @@ pub mod beta0_core {
                                 .unwrap()
                                 .checked_sub(receive_amount_pandora_pool)
                                 .unwrap();
+
+                            // fee amount
+                            self.manager.pool_manager.platform_fee_amount = self
+                                .manager
+                                .pool_manager
+                                .platform_fee_amount
+                                .checked_add(to_sent_fee)
+                                .unwrap();
+                            // tranfer
                             assert!(self
                                 .env()
                                 .transfer(self.manager.betaz_address, to_sent_fee)

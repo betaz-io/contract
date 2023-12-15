@@ -108,7 +108,19 @@ pub trait PandoraPoolTraits: PSP34 + PSP34Metadata + Ownable {
     #[ink(message)]
     fn update_is_locked(&mut self, is_locked: bool) -> Result<(), Error>;
 
+    /// add chainlink request id
+    #[ink(message)]
+    fn add_chainlink_request_id(
+        &mut self,
+        session_id: u32,
+        chainlink_request_id: String,
+    ) -> Result<(), Error>;
+
     // GET FUNCTIONS
+    /// get chainlink request id by session id
+    #[ink(message)]
+    fn get_chainlink_request_id_by_session_id(&self, session_id: u32) -> Option<String>;
+
     /// get is locked
     #[ink(message)]
     fn get_is_locked(&self) -> bool;

@@ -78,6 +78,7 @@ pub enum Error {
     SetPoolRationFailed,
     FailToDecreaseClaimableReward,
     RewardNotAdded,
+    ChainlinkRequestIdIsExists,
     OwnableError(OwnableError),
     AccessControlError(AccessControlError),
     PSP22Error(PSP22Error),
