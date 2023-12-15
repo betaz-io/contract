@@ -116,6 +116,10 @@ pub trait BetA0CoreTrait {
     fn set_dao_address(&mut self, address: AccountId) -> Result<(), Error>;
 
     // GET FUCTIONS
+    /// Get platform fee amount
+    #[ink(message)]
+    fn get_platform_fee_amount(&self) -> Balance;
+
     /// Get dao contract address
     #[ink(message)]
     fn get_dao_address(&self) -> AccountId;
