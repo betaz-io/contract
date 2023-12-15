@@ -308,6 +308,12 @@ pub mod beta0_core {
         }
 
         // GET FUCTIONS
+        /// Get platform fee amount
+        #[ink(message)]
+        fn get_platform_fee_amount(&self) -> Balance {
+            BetA0CoreTraitImpl::get_platform_fee_amount(self)
+        }
+
         /// Get dao contract address
         #[ink(message)]
         fn get_dao_address(&self) -> AccountId {
