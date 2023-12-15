@@ -768,6 +768,12 @@ pub mod beta0_core {
                         if random_number > bet_number {
                             // WIN
                             // How much to send to winner
+                            self.manager.pool_manager.core_pool_amout = self
+                                .manager
+                                .pool_manager
+                                .core_pool_amout
+                                .checked_add(bet_amount)
+                                .unwrap();
                             let win_amount = (self.manager.over_rates[bet_number as usize]
                                 as Balance)
                                 .checked_mul(bet_amount)
@@ -922,6 +928,12 @@ pub mod beta0_core {
                         if random_number < bet_number {
                             // WIN
                             // How much to send to winner
+                            self.manager.pool_manager.core_pool_amout = self
+                                .manager
+                                .pool_manager
+                                .core_pool_amout
+                                .checked_add(bet_amount)
+                                .unwrap();
                             let win_amount = (self.manager.under_rates[bet_number as usize]
                                 as Balance)
                                 .checked_mul(bet_amount)
@@ -1138,7 +1150,8 @@ pub mod beta0_core {
             let contract_address = self.manager.staking_address;
 
             if contract_balance > 0 {
-                assert!(self.env()
+                assert!(self
+                    .env()
                     .transfer(contract_address, contract_balance)
                     .is_ok());
                 self.manager.pool_manager.staking_pool_amount = self
@@ -1156,13 +1169,11 @@ pub mod beta0_core {
 
             let mut staking_pool_contract: StakingPoolContractRef =
                 ink::env::call::FromAccountId::from_account_id(self.manager.staking_address);
-            assert!(
-                StakingPoolContractRef::add_reward(
-                    &mut staking_pool_contract,
-                    contract_balance,
-                )
-                .is_ok()
-            );
+            assert!(StakingPoolContractRef::add_reward(
+                &mut staking_pool_contract,
+                contract_balance,
+            )
+            .is_ok());
 
             Ok(())
         }
