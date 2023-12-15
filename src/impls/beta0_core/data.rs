@@ -34,6 +34,7 @@ pub struct PoolManager {
     pub staking_pool_amount: Balance,
     pub treasury_pool_amount: Balance,
     pub pandora_pool_amount: Balance,
+    pub platform_fee_amount: Balance,
 }
 
 // RoleType = 3739740293 (0xDEE7E885)

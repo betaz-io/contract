@@ -293,7 +293,22 @@ pub mod pandora {
             PandoraPoolTraitsImpl::update_is_locked(self, is_locked)
         }
 
+        /// add chainlink request id
+        #[ink(message)]
+        fn add_chainlink_request_id(
+            &mut self,
+            session_id: u32,
+            chainlink_request_id: String,
+        ) -> Result<(), Error>{
+            PandoraPoolTraitsImpl::add_chainlink_request_id(self, session_id, chainlink_request_id)
+        }
+
         // GET FUNCTIONS
+        /// get chainlink request id by session id
+        #[ink(message)]
+        fn get_chainlink_request_id_by_session_id(&self, session_id: u32) -> Option<String>{
+            PandoraPoolTraitsImpl::get_chainlink_request_id_by_session_id(self, session_id)
+        }
         /// get is locked
         #[ink(message)]
         fn get_is_locked(&self) -> bool {
@@ -557,17 +572,14 @@ pub mod pandora {
 
         #[ink(message)]
         #[modifiers(only_role(ADMINER))]
-        #[modifiers(only_locked)]
         pub fn update_win_amount_and_session_status(
             &mut self,
             session_id: u32,
             win_amount: Balance,
         ) -> Result<(), Error> {
-            self.manager.total_win_amounts = self
-                .manager
-                .total_win_amounts
-                .checked_add(win_amount)
-                .unwrap();
+            if PandoraPoolTraitsImpl::update_total_win_amount(self, win_amount).is_err() {
+                return Err(Error::RewardNotAdded);
+            }
             if let Some(mut secssion_info) = self.manager.sessions.get(&session_id) {
                 secssion_info.status = Finalized;
                 self.manager.sessions.insert(&session_id, &secssion_info);
@@ -575,6 +587,14 @@ pub mod pandora {
                 return Err(Error::SessionNotExists);
             }
             Ok(())
+        }
+
+        /// update total win amount
+        #[ink(message)]
+        #[modifiers(only_locked)]
+        #[modifiers(only_role(ADMINER))]
+        pub fn update_total_win_amount(&mut self, amount: Balance) -> Result<(), Error> {
+            PandoraPoolTraitsImpl::update_total_win_amount(self, amount)
         }
 
         pub fn emit_event<EE: EmitEvent<Self>>(emitter: EE, event: Event) {

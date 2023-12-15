@@ -341,6 +341,9 @@ pub trait PandoraPoolTraitsImpl:
     #[modifiers(only_locked)]
     fn finalize(&mut self, session_id: u32, random_number: u32) -> Result<(), Error> {
         if let Some(mut sessions_info) = self.data::<Manager>().sessions.get(&session_id) {
+            if sessions_info.status != Finalized {
+                return Err(Error::SessionNotFinished);
+            }
             // update session
             sessions_info.random_number = random_number;
             sessions_info.status = Completed;
@@ -617,7 +620,53 @@ pub trait PandoraPoolTraitsImpl:
         Ok(())
     }
 
+    /// update total win amount
+    #[modifiers(only_role(ADMINER))]
+    fn update_total_win_amount(&mut self, amount: Balance) -> Result<(), Error> {
+        self.data::<Manager>().total_win_amounts = self
+            .data::<Manager>()
+            .total_win_amounts
+            .checked_add(amount)
+            .unwrap();
+        Ok(())
+    }
+
+    /// add chainlink request id
+    #[modifiers(only_locked)]
+    #[modifiers(only_role(ADMINER))]
+    fn add_chainlink_request_id(
+        &mut self,
+        session_id: u32,
+        chainlink_request_id: String,
+    ) -> Result<(), Error> {
+        if self
+            .data::<Manager>()
+            .chainlink_request_id_session_link
+            .get(&session_id)
+            .is_some()
+        {
+            return Err(Error::ChainlinkRequestIdIsExists);
+        }
+        self.data::<Manager>()
+            .chainlink_request_id_session_link
+            .insert(&session_id, &chainlink_request_id);
+        Ok(())
+    }
+
     // GET FUNCTIONS
+    /// get chainlink request id by session id
+    fn get_chainlink_request_id_by_session_id(&self, session_id: u32) -> Option<String> {
+        if let Some(chainlink_request_id) = self
+            .data::<Manager>()
+            .chainlink_request_id_session_link
+            .get(&session_id)
+        {
+            Some(chainlink_request_id)
+        } else {
+            return None;
+        }
+    }
+
     /// get is locked
     fn get_is_locked(&self) -> bool {
         self.data::<Manager>().is_locked

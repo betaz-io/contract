@@ -30,10 +30,6 @@ pub trait BetA0CoreTrait {
     #[ink(message)]
     fn withdraw_fee(&mut self, account: AccountId, value: Balance) -> Result<(), Error>;
 
-    /// Withdraw Token - only Owner
-    #[ink(message)]
-    fn withdraw_token(&mut self, value: Balance) -> Result<(), Error>;
-
     /// Withdraw hold amount
     #[ink(message)]
     fn withdraw_hold_amount(&mut self, receiver: AccountId, amount: Balance) -> Result<(), Error>;
@@ -174,10 +170,6 @@ pub trait BetA0CoreTrait {
     /// get contract token balance
     #[ink(message)]
     fn get_token_balance(&self) -> Balance;
-
-    /// get token balance pool
-    #[ink(message)]
-    fn get_token_balance_pool(&self, pool: AccountId) -> Balance;
 
     /// Is bet exist
     #[ink(message)]
