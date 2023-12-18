@@ -289,17 +289,12 @@ pub trait PandoraPoolTraitsImpl:
     fn handle_find_winner(&mut self, session_id: u32, index: u128) -> Result<(), Error> {
         if let Some(sessions_info) = self.data::<Manager>().sessions.get(&session_id) {
             // check total ticket win
-            let total_tickets_win = self
-                .data::<Manager>()
-                .ticket_player_link
-                .count(&(&session_id, &sessions_info.random_number));
-
-            if total_tickets_win > 0 {
+            if self.data::<Manager>().total_tickets_win > 0 {
                 // win balace
                 let win_balance = self
                     .data::<Manager>()
                     .total_win_amounts
-                    .checked_div(total_tickets_win)
+                    .checked_div(self.data::<Manager>().total_tickets_win)
                     .unwrap();
 
                 if sessions_info.status == Completed {
@@ -325,6 +320,44 @@ pub trait PandoraPoolTraitsImpl:
                                     .player_win_amount
                                     .insert(&(&session_id, &player_address), &win_balance)
                             }
+
+                            // Add player amount to hold_amount_players
+                            if let Some(hold_amount_player) = self
+                                .data::<Manager>()
+                                .hold_amount_players
+                                .get(&player_address)
+                            {
+                                if let Some(hold_amount_bidder_tmp) =
+                                    hold_amount_player.checked_add(win_balance)
+                                {
+                                    self.data::<Manager>()
+                                        .hold_amount_players
+                                        .insert(&player_address, &hold_amount_bidder_tmp);
+                                } else {
+                                    return Err(Error::CheckedOperations);
+                                }
+                            } else {
+                                self.data::<Manager>()
+                                    .hold_amount_players
+                                    .insert(&player_address, &win_balance);
+                                self.data::<Manager>()
+                                    .hold_players
+                                    .insert(1, &player_address);
+                            }
+
+                            // update total win amount
+                            self.data::<Manager>().total_win_amounts = self
+                                .data::<Manager>()
+                                .total_win_amounts
+                                .checked_sub(win_balance)
+                                .unwrap();
+
+                            // update total ticket win
+                            self.data::<Manager>().total_tickets_win = self
+                                .data::<Manager>()
+                                .total_tickets_win
+                                .checked_sub(1 as u128)
+                                .unwrap();
                         }
                     }
                 } else {
@@ -351,6 +384,11 @@ pub trait PandoraPoolTraitsImpl:
                 .sessions
                 .insert(&session_id, &sessions_info);
 
+            self.data::<Manager>().total_tickets_win = self
+                .data::<Manager>()
+                .ticket_player_link
+                .count(&(&session_id, &random_number));
+
             // add new session
             if self.add_new_bet_session().is_err() {
                 return Err(Error::AddSessionFailed);
@@ -364,43 +402,48 @@ pub trait PandoraPoolTraitsImpl:
 
     // withdraw by winner
     #[modifiers(when_not_paused)]
-    #[modifiers(only_not_locked)]
-    fn withdraw_win_amount(&mut self, winner: AccountId, session_id: u32) -> Result<(), Error> {
-        if let Some(sessions_info) = self.data::<Manager>().sessions.get(&session_id) {
-            if sessions_info.status == Completed {
-                if let Some(win_amount) = self
-                    .data::<Manager>()
-                    .player_win_amount
-                    .get(&(&session_id, &winner))
-                {
-                    // transfer win amount
-                    if win_amount > Self::env().balance() {
-                        return Err(Error::NotEnoughBalance);
+    fn withdraw_hold_amount(&mut self, receiver: AccountId, amount: Balance) -> Result<(), Error> {
+        if let Some(hold_amount) = self.data::<Manager>().hold_amount_players.get(&receiver) {
+            let total_hold_amount = Self::env()
+                .balance()
+                .checked_sub(self.data::<Manager>().total_win_amounts)
+                .unwrap();
+            if hold_amount > 0 {
+                if total_hold_amount == 0 || amount > hold_amount {
+                    return Err(Error::NotEnoughBalance);
+                }
+
+                if amount <= total_hold_amount {
+                    if Self::env().transfer(receiver, amount).is_err() {
+                        return Err(Error::CannotTransfer);
                     }
-                    if Self::env().transfer(winner, win_amount).is_ok() {
-                        // update win amount
-                        self.data::<Manager>().total_win_amounts = self
-                            .data::<Manager>()
-                            .total_win_amounts
-                            .checked_sub(win_amount)
-                            .unwrap();
 
-                        // remove player win amount
+                    // update hold amount
+                    let new_hold_amount = hold_amount.checked_sub(amount).unwrap();
+                    if amount < hold_amount {
                         self.data::<Manager>()
-                            .player_win_amount
-                            .remove(&(&session_id, &winner));
-
-                        // emit event
-                        self._emit_withdraw_win_amount_event(session_id, winner, win_amount)
+                            .hold_amount_players
+                            .insert(&receiver, &new_hold_amount);
+                    } else {
+                        self.data::<Manager>().hold_amount_players.remove(&receiver);
+                        self.data::<Manager>()
+                            .hold_players
+                            .remove_value(1, &receiver);
                     }
                 } else {
-                    return Err(Error::YouAreNotWinner);
+                    if Self::env().transfer(receiver, total_hold_amount).is_err() {
+                        return Err(Error::CannotTransfer);
+                    }
+                    // update hold amount
+                    let new_hold_amount = hold_amount.checked_sub(total_hold_amount).unwrap();
+
+                    self.data::<Manager>()
+                        .hold_amount_players
+                        .insert(&receiver, &new_hold_amount);
                 }
-            } else {
-                return Err(Error::SessionNotCompleted);
             }
         } else {
-            return Err(Error::SessionNotExists);
+            return Err(Error::HoldAmountPlayerNotExist);
         }
 
         Ok(())
@@ -654,6 +697,69 @@ pub trait PandoraPoolTraitsImpl:
     }
 
     // GET FUNCTIONS
+    /// Get hold amount players
+    fn get_player_not_yet_processed(&self) -> u128 {
+        self.data::<data::Manager>().total_tickets_win
+    }
+
+    /// Get hold amount players
+    fn get_hold_amount_players(&self, address: AccountId) -> Option<Balance> {
+        self.data::<data::Manager>()
+            .hold_amount_players
+            .get(&address)
+    }
+
+    /// Get hold players by index
+    fn get_hold_players_by_index(&self, index: u64) -> Option<AccountId> {
+        self.data::<Manager>()
+            .hold_players
+            .get_value(1, &(index as u128))
+    }
+
+    /// Get Hold Player Count
+    fn get_hold_bidder_count(&self) -> u64 {
+        self.data::<Manager>().hold_players.count(1) as u64
+    }
+
+    /// get Id in session
+    fn get_id_in_session_by_index(&self, session_id: u32, index: u128) -> Option<Id> {
+        if let Some(token_id) = self
+            .data::<Manager>()
+            .ticket_in_session
+            .get_value(&session_id, &index)
+        {
+            Some(token_id)
+        } else {
+            return None;
+        }
+    }
+
+    /// get Id in session by random number
+    fn get_id_in_session_by_random_number_and_index(
+        &self,
+        session_id: u32,
+        random_number: u32,
+        index: u128,
+    ) -> Option<Id> {
+        if let Some(token_id) = self
+            .data::<Manager>()
+            .ticket_player_link
+            .get_value(&(&session_id, &random_number), &index)
+        {
+            Some(token_id)
+        } else {
+            return None;
+        }
+    }
+
+    /// get total hold amount
+    fn get_total_hold_amount(&self) -> Balance {
+        Self::env()
+            .balance()
+            .checked_sub(self.data::<Manager>().total_win_amounts)
+            .unwrap()
+    }
+
     /// get chainlink request id by session id
     fn get_chainlink_request_id_by_session_id(&self, session_id: u32) -> Option<String> {
         if let Some(chainlink_request_id) = self

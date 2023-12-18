@@ -73,6 +73,9 @@ pub struct Manager {
     pub ticket_player_link: MultiMapping<(u32, u32), Id, TicketKey>, // (session_id, bet_number) => nft_id
     pub player_nfts: Mapping<Id, AccountId>,
     pub chainlink_request_id_session_link: Mapping<u32, String>,
+    pub hold_amount_players: Mapping<AccountId, Balance>, // hold amount
+    pub hold_players: MultiMapping<u8, AccountId, ValueGuard<u8>>, 
+    pub total_tickets_win: u128,
     pub _reserved: Option<()>,
 }
 
@@ -101,6 +104,9 @@ impl Default for Manager {
             ticket_player_link: Default::default(), // (session_id, bet_number) => nft_id
             player_nfts: Default::default(),
             chainlink_request_id_session_link: Default::default(),
+            hold_amount_players: Default::default(),
+            hold_players: Default::default(),
+            total_tickets_win: Default::default(),
             _reserved: Default::default(),
         }
     }

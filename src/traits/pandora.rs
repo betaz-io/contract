@@ -57,7 +57,7 @@ pub trait PandoraPoolTraits: PSP34 + PSP34Metadata + Ownable {
 
     // withdraw by winner
     #[ink(message)]
-    fn withdraw_win_amount(&mut self, winner: AccountId, session_id: u32) -> Result<(), Error>;
+    fn withdraw_hold_amount(&mut self, receiver: AccountId, amount: Balance) -> Result<(), Error>;
 
     #[ink(message)]
     fn burn_betaz_token(&mut self) -> Result<(), Error>;
@@ -117,6 +117,34 @@ pub trait PandoraPoolTraits: PSP34 + PSP34Metadata + Ownable {
     ) -> Result<(), Error>;
 
     // GET FUNCTIONS
+    /// Get hold amount players
+    #[ink(message)]
+    fn get_player_not_yet_processed(&self) -> u128;
+
+    /// Get hold amount players
+    #[ink(message)]
+    fn get_hold_amount_players(&self, address: AccountId) -> Option<Balance>;
+
+    /// Get hold players by index
+    #[ink(message)]
+    fn get_hold_players_by_index(&self, index: u64) -> Option<AccountId>;
+
+    /// Get Hold Player Count
+    #[ink(message)]
+    fn get_hold_bidder_count(&self) -> u64;
+
+    /// get Id in session
+    #[ink(message)]
+    fn get_id_in_session_by_index(&self, session_id: u32, index: u128) -> Option<Id>;
+
+    /// get Id in session by random number
+    #[ink(message)]
+    fn get_id_in_session_by_random_number_and_index(&self, session_id: u32, random_number: u32, index: u128) -> Option<Id>;
+
+    /// get total hold amount
+    #[ink(message)]
+    fn get_total_hold_amount(&self) -> Balance;
+
     /// get chainlink request id by session id
     #[ink(message)]
     fn get_chainlink_request_id_by_session_id(&self, session_id: u32) -> Option<String>;
