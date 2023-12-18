@@ -212,8 +212,12 @@ pub mod pandora {
 
         // withdraw by winner
         #[ink(message)]
-        fn withdraw_win_amount(&mut self, winner: AccountId, session_id: u32) -> Result<(), Error> {
-            PandoraPoolTraitsImpl::withdraw_win_amount(self, winner, session_id)
+        fn withdraw_hold_amount(
+            &mut self,
+            receiver: AccountId,
+            amount: Balance,
+        ) -> Result<(), Error> {
+            PandoraPoolTraitsImpl::withdraw_hold_amount(self, receiver, amount)
         }
 
         #[ink(message)]
@@ -299,14 +303,55 @@ pub mod pandora {
             &mut self,
             session_id: u32,
             chainlink_request_id: String,
-        ) -> Result<(), Error>{
+        ) -> Result<(), Error> {
             PandoraPoolTraitsImpl::add_chainlink_request_id(self, session_id, chainlink_request_id)
         }
 
         // GET FUNCTIONS
+        #[ink(message)]
+        fn get_player_not_yet_processed(&self) -> u128 {
+            PandoraPoolTraitsImpl::get_player_not_yet_processed(self)
+        }
+
+        /// Get hold amount players
+        #[ink(message)]
+        fn get_hold_amount_players(&self, address: AccountId) -> Option<Balance> {
+            PandoraPoolTraitsImpl::get_hold_amount_players(self, address)
+        }
+
+        /// Get hold players by index
+        #[ink(message)]
+        fn get_hold_players_by_index(&self, index: u64) -> Option<AccountId> {
+            PandoraPoolTraitsImpl::get_hold_players_by_index(self, index)
+        }
+
+        /// get Id in session by random number
+        #[ink(message)]
+        fn get_id_in_session_by_random_number_and_index(&self, session_id: u32, random_number: u32, index: u128) -> Option<Id> {
+            PandoraPoolTraitsImpl::get_id_in_session_by_random_number_and_index(self, session_id, random_number, index)
+        }
+
+        /// Get Hold Player Count
+        #[ink(message)]
+        fn get_hold_bidder_count(&self) -> u64 {
+            PandoraPoolTraitsImpl::get_hold_bidder_count(self)
+        }
+
+        /// get Id in session
+        #[ink(message)]
+        fn get_id_in_session_by_index(&self, session_id: u32, index: u128) -> Option<Id> {
+            PandoraPoolTraitsImpl::get_id_in_session_by_index(self, session_id, index)
+        }
+
+        /// get total hold amount
+        #[ink(message)]
+        fn get_total_hold_amount(&self) -> Balance {
+            PandoraPoolTraitsImpl::get_total_hold_amount(self)
+        }
+
         /// get chainlink request id by session id
         #[ink(message)]
-        fn get_chainlink_request_id_by_session_id(&self, session_id: u32) -> Option<String>{
+        fn get_chainlink_request_id_by_session_id(&self, session_id: u32) -> Option<String> {
             PandoraPoolTraitsImpl::get_chainlink_request_id_by_session_id(self, session_id)
         }
         /// get is locked
