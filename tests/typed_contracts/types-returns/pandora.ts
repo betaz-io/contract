@@ -80,6 +80,7 @@ export interface Error {
 	setPoolRationFailed ? : null,
 	failToDecreaseClaimableReward ? : null,
 	rewardNotAdded ? : null,
+	chainlinkRequestIdIsExists ? : null,
 	ownableError ? : OwnableError,
 	accessControlError ? : AccessControlError,
 	psp22Error ? : PSP22Error,
@@ -447,6 +448,11 @@ export class ErrorBuilder {
 	static RewardNotAdded(): Error {
 		return {
 			rewardNotAdded: null,
+		};
+	}
+	static ChainlinkRequestIdIsExists(): Error {
+		return {
+			chainlinkRequestIdIsExists: null,
 		};
 	}
 	static OwnableError(value: OwnableError): Error {

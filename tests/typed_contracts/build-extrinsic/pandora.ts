@@ -89,6 +89,18 @@ export default class Methods {
 	}
 
 	/**
+	 * updateTotalWinAmount
+	 *
+	 * @param { (string | number | BN) } amount,
+	*/
+	"updateTotalWinAmount" (
+		amount: (string | number | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "updateTotalWinAmount", [amount], __options);
+	}
+
+	/**
 	 * burn
 	 *
 	 * @param { ArgumentTypes.AccountId } account,
@@ -100,6 +112,44 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp34Burnable::burn", [account, id], __options);
+	}
+
+	/**
+	 * addNewBetSession
+	 *
+	*/
+	"addNewBetSession" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::addNewBetSession", [], __options);
+	}
+
+	/**
+	 * sessionTotalTicketAmount
+	 *
+	 * @param { (number | string | BN) } sessionId,
+	*/
+	"sessionTotalTicketAmount" (
+		sessionId: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::sessionTotalTicketAmount", [sessionId], __options);
+	}
+
+	/**
+	 * getIdInSessionByRandomNumberAndIndex
+	 *
+	 * @param { (number | string | BN) } sessionId,
+	 * @param { (number | string | BN) } randomNumber,
+	 * @param { (string | number | BN) } index,
+	*/
+	"getIdInSessionByRandomNumberAndIndex" (
+		sessionId: (number | string | BN),
+		randomNumber: (number | string | BN),
+		index: (string | number | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getIdInSessionByRandomNumberAndIndex", [sessionId, randomNumber, index], __options);
 	}
 
 	/**
@@ -117,73 +167,15 @@ export default class Methods {
 	}
 
 	/**
-	 * getLastSessionId
+	 * getAttributeName
 	 *
+	 * @param { (number | string | BN) } index,
 	*/
-	"getLastSessionId" (
+	"getAttributeName" (
+		index: (number | string | BN),
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getLastSessionId", [], __options);
-	}
-
-	/**
-	 * withdrawFee
-	 *
-	 * @param { ArgumentTypes.AccountId } account,
-	 * @param { (string | number | BN) } value,
-	*/
-	"withdrawFee" (
-		account: ArgumentTypes.AccountId,
-		value: (string | number | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::withdrawFee", [account, value], __options);
-	}
-
-	/**
-	 * burnTicketUsed
-	 *
-	 * @param { Array<ArgumentTypes.Id> } tokenIds,
-	*/
-	"burnTicketUsed" (
-		tokenIds: Array<ArgumentTypes.Id>,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::burnTicketUsed", [tokenIds], __options);
-	}
-
-	/**
-	 * getBetazTokenAddress
-	 *
-	*/
-	"getBetazTokenAddress" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getBetazTokenAddress", [], __options);
-	}
-
-	/**
-	 * getAttributes
-	 *
-	 * @param { ArgumentTypes.Id } tokenId,
-	 * @param { Array<string> } attributes,
-	*/
-	"getAttributes" (
-		tokenId: ArgumentTypes.Id,
-		attributes: Array<string>,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getAttributes", [tokenId, attributes], __options);
-	}
-
-	/**
-	 * getLastTokenId
-	 *
-	*/
-	"getLastTokenId" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getLastTokenId", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getAttributeName", [index], __options);
 	}
 
 	/**
@@ -201,6 +193,100 @@ export default class Methods {
 	}
 
 	/**
+	 * withdrawHoldAmount
+	 *
+	 * @param { ArgumentTypes.AccountId } receiver,
+	 * @param { (string | number | BN) } amount,
+	*/
+	"withdrawHoldAmount" (
+		receiver: ArgumentTypes.AccountId,
+		amount: (string | number | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::withdrawHoldAmount", [receiver, amount], __options);
+	}
+
+	/**
+	 * burnTicketUsed
+	 *
+	 * @param { Array<ArgumentTypes.Id> } tokenIds,
+	*/
+	"burnTicketUsed" (
+		tokenIds: Array<ArgumentTypes.Id>,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::burnTicketUsed", [tokenIds], __options);
+	}
+
+	/**
+	 * publicBuy
+	 *
+	 * @param { (number | string | BN) } amounts,
+	*/
+	"publicBuy" (
+		amounts: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::publicBuy", [amounts], __options);
+	}
+
+	/**
+	 * getTotalHoldAmount
+	 *
+	*/
+	"getTotalHoldAmount" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getTotalHoldAmount", [], __options);
+	}
+
+	/**
+	 * getSessionTotalTicketAmount
+	 *
+	*/
+	"getSessionTotalTicketAmount" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getSessionTotalTicketAmount", [], __options);
+	}
+
+	/**
+	 * getHoldPlayersByIndex
+	 *
+	 * @param { (number | string | BN) } index,
+	*/
+	"getHoldPlayersByIndex" (
+		index: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getHoldPlayersByIndex", [index], __options);
+	}
+
+	/**
+	 * getBetSession
+	 *
+	 * @param { (number | string | BN) } sessionId,
+	*/
+	"getBetSession" (
+		sessionId: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getBetSession", [sessionId], __options);
+	}
+
+	/**
+	 * tokenUri
+	 *
+	 * @param { (number | string | BN) } tokenId,
+	*/
+	"tokenUri" (
+		tokenId: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::tokenUri", [tokenId], __options);
+	}
+
+	/**
 	 * isLockedNft
 	 *
 	 * @param { ArgumentTypes.Id } tokenId,
@@ -213,15 +299,47 @@ export default class Methods {
 	}
 
 	/**
-	 * changeState
+	 * updateNftInfo
 	 *
-	 * @param { boolean } state,
+	 * @param { ArgumentTypes.Id } tokenId,
+	 * @param { (number | string | BN) } sessionId,
+	 * @param { (number | string | BN) } betNumber,
+	 * @param { boolean } status,
 	*/
-	"changeState" (
-		state: boolean,
+	"updateNftInfo" (
+		tokenId: ArgumentTypes.Id,
+		sessionId: (number | string | BN),
+		betNumber: (number | string | BN),
+		status: boolean,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::changeState", [state], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::updateNftInfo", [tokenId, sessionId, betNumber, status], __options);
+	}
+
+	/**
+	 * finalize
+	 *
+	 * @param { (number | string | BN) } sessionId,
+	 * @param { (number | string | BN) } randomNumber,
+	*/
+	"finalize" (
+		sessionId: (number | string | BN),
+		randomNumber: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::finalize", [sessionId, randomNumber], __options);
+	}
+
+	/**
+	 * updateIsLocked
+	 *
+	 * @param { boolean } isLocked,
+	*/
+	"updateIsLocked" (
+		isLocked: boolean,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::updateIsLocked", [isLocked], __options);
 	}
 
 	/**
@@ -239,47 +357,15 @@ export default class Methods {
 	}
 
 	/**
-	 * setPublicMintPrice
+	 * changeState
 	 *
-	 * @param { (string | number | BN) } price,
+	 * @param { boolean } state,
 	*/
-	"setPublicMintPrice" (
-		price: (string | number | BN),
+	"changeState" (
+		state: boolean,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::setPublicMintPrice", [price], __options);
-	}
-
-	/**
-	 * getTotalWinAmount
-	 *
-	*/
-	"getTotalWinAmount" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getTotalWinAmount", [], __options);
-	}
-
-	/**
-	 * getMaxBetNumber
-	 *
-	*/
-	"getMaxBetNumber" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getMaxBetNumber", [], __options);
-	}
-
-	/**
-	 * getBetSession
-	 *
-	 * @param { (number | string | BN) } sessionId,
-	*/
-	"getBetSession" (
-		sessionId: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getBetSession", [sessionId], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::changeState", [state], __options);
 	}
 
 	/**
@@ -292,6 +378,252 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::lock", [tokenId], __options);
+	}
+
+	/**
+	 * addChainlinkRequestId
+	 *
+	 * @param { (number | string | BN) } sessionId,
+	 * @param { string } chainlinkRequestId,
+	*/
+	"addChainlinkRequestId" (
+		sessionId: (number | string | BN),
+		chainlinkRequestId: string,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::addChainlinkRequestId", [sessionId, chainlinkRequestId], __options);
+	}
+
+	/**
+	 * getPlayerNotYetProcessed
+	 *
+	*/
+	"getPlayerNotYetProcessed" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getPlayerNotYetProcessed", [], __options);
+	}
+
+	/**
+	 * totalPlayersInSession
+	 *
+	 * @param { (number | string | BN) } sessionId,
+	*/
+	"totalPlayersInSession" (
+		sessionId: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::totalPlayersInSession", [sessionId], __options);
+	}
+
+	/**
+	 * getPlayerByNftId
+	 *
+	 * @param { ArgumentTypes.Id } tokenId,
+	*/
+	"getPlayerByNftId" (
+		tokenId: ArgumentTypes.Id,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getPlayerByNftId", [tokenId], __options);
+	}
+
+	/**
+	 * play
+	 *
+	 * @param { (number | string | BN) } sessionId,
+	 * @param { (number | string | BN) } betNumber,
+	 * @param { ArgumentTypes.Id } tokenId,
+	*/
+	"play" (
+		sessionId: (number | string | BN),
+		betNumber: (number | string | BN),
+		tokenId: ArgumentTypes.Id,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::play", [sessionId, betNumber, tokenId], __options);
+	}
+
+	/**
+	 * setMaxBetNumber
+	 *
+	 * @param { (number | string | BN) } maxBetNumber,
+	*/
+	"setMaxBetNumber" (
+		maxBetNumber: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::setMaxBetNumber", [maxBetNumber], __options);
+	}
+
+	/**
+	 * getChainlinkRequestIdBySessionId
+	 *
+	 * @param { (number | string | BN) } sessionId,
+	*/
+	"getChainlinkRequestIdBySessionId" (
+		sessionId: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getChainlinkRequestIdBySessionId", [sessionId], __options);
+	}
+
+	/**
+	 * getNftInfo
+	 *
+	 * @param { ArgumentTypes.Id } tokenId,
+	*/
+	"getNftInfo" (
+		tokenId: ArgumentTypes.Id,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getNftInfo", [tokenId], __options);
+	}
+
+	/**
+	 * setSessionTotalTicketAmount
+	 *
+	 * @param { (string | number | BN) } ticketAmountRatio,
+	*/
+	"setSessionTotalTicketAmount" (
+		ticketAmountRatio: (string | number | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::setSessionTotalTicketAmount", [ticketAmountRatio], __options);
+	}
+
+	/**
+	 * getAttributeCount
+	 *
+	*/
+	"getAttributeCount" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getAttributeCount", [], __options);
+	}
+
+	/**
+	 * getLockedTokenCount
+	 *
+	*/
+	"getLockedTokenCount" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getLockedTokenCount", [], __options);
+	}
+
+	/**
+	 * getHoldAmountPlayers
+	 *
+	 * @param { ArgumentTypes.AccountId } address,
+	*/
+	"getHoldAmountPlayers" (
+		address: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getHoldAmountPlayers", [address], __options);
+	}
+
+	/**
+	 * getAttributes
+	 *
+	 * @param { ArgumentTypes.Id } tokenId,
+	 * @param { Array<string> } attributes,
+	*/
+	"getAttributes" (
+		tokenId: ArgumentTypes.Id,
+		attributes: Array<string>,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getAttributes", [tokenId, attributes], __options);
+	}
+
+	/**
+	 * burnBetazToken
+	 *
+	*/
+	"burnBetazToken" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::burnBetazToken", [], __options);
+	}
+
+	/**
+	 * setBaseUri
+	 *
+	 * @param { string } uri,
+	*/
+	"setBaseUri" (
+		uri: string,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::setBaseUri", [uri], __options);
+	}
+
+	/**
+	 * setPublicMintPrice
+	 *
+	 * @param { (string | number | BN) } price,
+	*/
+	"setPublicMintPrice" (
+		price: (string | number | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::setPublicMintPrice", [price], __options);
+	}
+
+	/**
+	 * getIsLocked
+	 *
+	*/
+	"getIsLocked" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getIsLocked", [], __options);
+	}
+
+	/**
+	 * getBetazTokenAddress
+	 *
+	*/
+	"getBetazTokenAddress" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getBetazTokenAddress", [], __options);
+	}
+
+	/**
+	 * getHoldBidderCount
+	 *
+	*/
+	"getHoldBidderCount" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getHoldBidderCount", [], __options);
+	}
+
+	/**
+	 * handleFindWinner
+	 *
+	 * @param { (number | string | BN) } sessionId,
+	 * @param { (string | number | BN) } index,
+	*/
+	"handleFindWinner" (
+		sessionId: (number | string | BN),
+		index: (string | number | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::handleFindWinner", [sessionId, index], __options);
+	}
+
+	/**
+	 * getLastSessionId
+	 *
+	*/
+	"getLastSessionId" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getLastSessionId", [], __options);
 	}
 
 	/**
@@ -319,141 +651,83 @@ export default class Methods {
 	}
 
 	/**
-	 * getPlayerByNftId
+	 * getOwner
 	 *
-	 * @param { ArgumentTypes.Id } tokenId,
 	*/
-	"getPlayerByNftId" (
-		tokenId: ArgumentTypes.Id,
+	"getOwner" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getPlayerByNftId", [tokenId], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getOwner", [], __options);
 	}
 
 	/**
-	 * totalPlayersInSession
+	 * getLastTokenId
+	 *
+	*/
+	"getLastTokenId" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getLastTokenId", [], __options);
+	}
+
+	/**
+	 * getTotalWinAmount
+	 *
+	*/
+	"getTotalWinAmount" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getTotalWinAmount", [], __options);
+	}
+
+	/**
+	 * getIdInSessionByIndex
 	 *
 	 * @param { (number | string | BN) } sessionId,
+	 * @param { (string | number | BN) } index,
 	*/
-	"totalPlayersInSession" (
+	"getIdInSessionByIndex" (
 		sessionId: (number | string | BN),
+		index: (string | number | BN),
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::totalPlayersInSession", [sessionId], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getIdInSessionByIndex", [sessionId, index], __options);
 	}
 
 	/**
-	 * getAttributeName
+	 * setBetazTokenAddress
 	 *
-	 * @param { (number | string | BN) } index,
+	 * @param { ArgumentTypes.AccountId } account,
 	*/
-	"getAttributeName" (
-		index: (number | string | BN),
+	"setBetazTokenAddress" (
+		account: ArgumentTypes.AccountId,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getAttributeName", [index], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::setBetazTokenAddress", [account], __options);
 	}
 
 	/**
-	 * getLockedTokenCount
+	 * getMaxBetNumber
 	 *
 	*/
-	"getLockedTokenCount" (
+	"getMaxBetNumber" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getLockedTokenCount", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getMaxBetNumber", [], __options);
 	}
 
 	/**
-	 * withdrawWinAmount
+	 * withdrawFee
 	 *
-	 * @param { ArgumentTypes.AccountId } winner,
-	 * @param { (number | string | BN) } sessionId,
+	 * @param { ArgumentTypes.AccountId } account,
+	 * @param { (string | number | BN) } value,
 	*/
-	"withdrawWinAmount" (
-		winner: ArgumentTypes.AccountId,
-		sessionId: (number | string | BN),
+	"withdrawFee" (
+		account: ArgumentTypes.AccountId,
+		value: (string | number | BN),
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::withdrawWinAmount", [winner, sessionId], __options);
-	}
-
-	/**
-	 * publicBuy
-	 *
-	 * @param { (number | string | BN) } amounts,
-	*/
-	"publicBuy" (
-		amounts: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::publicBuy", [amounts], __options);
-	}
-
-	/**
-	 * setSessionTotalTicketAmount
-	 *
-	 * @param { (string | number | BN) } ticketAmountRatio,
-	*/
-	"setSessionTotalTicketAmount" (
-		ticketAmountRatio: (string | number | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::setSessionTotalTicketAmount", [ticketAmountRatio], __options);
-	}
-
-	/**
-	 * finalize
-	 *
-	 * @param { (number | string | BN) } sessionId,
-	 * @param { (number | string | BN) } randomNumber,
-	*/
-	"finalize" (
-		sessionId: (number | string | BN),
-		randomNumber: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::finalize", [sessionId, randomNumber], __options);
-	}
-
-	/**
-	 * tokenUri
-	 *
-	 * @param { (number | string | BN) } tokenId,
-	*/
-	"tokenUri" (
-		tokenId: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::tokenUri", [tokenId], __options);
-	}
-
-	/**
-	 * getAttributeCount
-	 *
-	*/
-	"getAttributeCount" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getAttributeCount", [], __options);
-	}
-
-	/**
-	 * updateNftInfo
-	 *
-	 * @param { ArgumentTypes.Id } tokenId,
-	 * @param { (number | string | BN) } sessionId,
-	 * @param { (number | string | BN) } betNumber,
-	 * @param { boolean } status,
-	*/
-	"updateNftInfo" (
-		tokenId: ArgumentTypes.Id,
-		sessionId: (number | string | BN),
-		betNumber: (number | string | BN),
-		status: boolean,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::updateNftInfo", [tokenId, sessionId, betNumber, status], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::withdrawFee", [account, value], __options);
 	}
 
 	/**
@@ -473,145 +747,41 @@ export default class Methods {
 	}
 
 	/**
-	 * setBetazTokenAddress
+	 * balanceOf
 	 *
-	 * @param { ArgumentTypes.AccountId } account,
+	 * @param { ArgumentTypes.AccountId } owner,
 	*/
-	"setBetazTokenAddress" (
-		account: ArgumentTypes.AccountId,
+	"balanceOf" (
+		owner: ArgumentTypes.AccountId,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::setBetazTokenAddress", [account], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp34::balanceOf", [owner], __options);
 	}
 
 	/**
-	 * sessionTotalTicketAmount
+	 * collectionId
 	 *
-	 * @param { (number | string | BN) } sessionId,
 	*/
-	"sessionTotalTicketAmount" (
-		sessionId: (number | string | BN),
+	"collectionId" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::sessionTotalTicketAmount", [sessionId], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp34::collectionId", [], __options);
 	}
 
 	/**
-	 * handleFindWinner
+	 * allowance
 	 *
-	 * @param { (number | string | BN) } sessionId,
-	 * @param { (string | number | BN) } index,
+	 * @param { ArgumentTypes.AccountId } owner,
+	 * @param { ArgumentTypes.AccountId } operator,
+	 * @param { ArgumentTypes.Id | null } id,
 	*/
-	"handleFindWinner" (
-		sessionId: (number | string | BN),
-		index: (string | number | BN),
+	"allowance" (
+		owner: ArgumentTypes.AccountId,
+		operator: ArgumentTypes.AccountId,
+		id: ArgumentTypes.Id | null,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::handleFindWinner", [sessionId, index], __options);
-	}
-
-	/**
-	 * burnBetazToken
-	 *
-	*/
-	"burnBetazToken" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::burnBetazToken", [], __options);
-	}
-
-	/**
-	 * setBaseUri
-	 *
-	 * @param { string } uri,
-	*/
-	"setBaseUri" (
-		uri: string,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::setBaseUri", [uri], __options);
-	}
-
-	/**
-	 * addNewBetSession
-	 *
-	*/
-	"addNewBetSession" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::addNewBetSession", [], __options);
-	}
-
-	/**
-	 * play
-	 *
-	 * @param { (number | string | BN) } sessionId,
-	 * @param { (number | string | BN) } betNumber,
-	 * @param { ArgumentTypes.Id } tokenId,
-	*/
-	"play" (
-		sessionId: (number | string | BN),
-		betNumber: (number | string | BN),
-		tokenId: ArgumentTypes.Id,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::play", [sessionId, betNumber, tokenId], __options);
-	}
-
-	/**
-	 * getSessionTotalTicketAmount
-	 *
-	*/
-	"getSessionTotalTicketAmount" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getSessionTotalTicketAmount", [], __options);
-	}
-
-	/**
-	 * getNftInfo
-	 *
-	 * @param { ArgumentTypes.Id } tokenId,
-	*/
-	"getNftInfo" (
-		tokenId: ArgumentTypes.Id,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getNftInfo", [tokenId], __options);
-	}
-
-	/**
-	 * getOwner
-	 *
-	*/
-	"getOwner" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::getOwner", [], __options);
-	}
-
-	/**
-	 * setMaxBetNumber
-	 *
-	 * @param { (number | string | BN) } maxBetNumber,
-	*/
-	"setMaxBetNumber" (
-		maxBetNumber: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "pandoraPoolTraits::setMaxBetNumber", [maxBetNumber], __options);
-	}
-
-	/**
-	 * ownerOf
-	 *
-	 * @param { ArgumentTypes.Id } id,
-	*/
-	"ownerOf" (
-		id: ArgumentTypes.Id,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp34::ownerOf", [id], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp34::allowance", [owner, operator, id], __options);
 	}
 
 	/**
@@ -628,6 +798,18 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp34::transfer", [to, id, data], __options);
+	}
+
+	/**
+	 * ownerOf
+	 *
+	 * @param { ArgumentTypes.Id } id,
+	*/
+	"ownerOf" (
+		id: ArgumentTypes.Id,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp34::ownerOf", [id], __options);
 	}
 
 	/**
@@ -654,44 +836,6 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp34::approve", [operator, id, approved], __options);
-	}
-
-	/**
-	 * allowance
-	 *
-	 * @param { ArgumentTypes.AccountId } owner,
-	 * @param { ArgumentTypes.AccountId } operator,
-	 * @param { ArgumentTypes.Id | null } id,
-	*/
-	"allowance" (
-		owner: ArgumentTypes.AccountId,
-		operator: ArgumentTypes.AccountId,
-		id: ArgumentTypes.Id | null,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp34::allowance", [owner, operator, id], __options);
-	}
-
-	/**
-	 * balanceOf
-	 *
-	 * @param { ArgumentTypes.AccountId } owner,
-	*/
-	"balanceOf" (
-		owner: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp34::balanceOf", [owner], __options);
-	}
-
-	/**
-	 * collectionId
-	 *
-	*/
-	"collectionId" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp34::collectionId", [], __options);
 	}
 
 	/**
@@ -789,6 +933,20 @@ export default class Methods {
 	}
 
 	/**
+	 * revokeRole
+	 *
+	 * @param { (number | string | BN) } role,
+	 * @param { ArgumentTypes.AccountId | null } account,
+	*/
+	"revokeRole" (
+		role: (number | string | BN),
+		account: ArgumentTypes.AccountId | null,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::revokeRole", [role, account], __options);
+	}
+
+	/**
 	 * getRoleAdmin
 	 *
 	 * @param { (number | string | BN) } role,
@@ -798,6 +956,20 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::getRoleAdmin", [role], __options);
+	}
+
+	/**
+	 * renounceRole
+	 *
+	 * @param { (number | string | BN) } role,
+	 * @param { ArgumentTypes.AccountId | null } account,
+	*/
+	"renounceRole" (
+		role: (number | string | BN),
+		account: ArgumentTypes.AccountId | null,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::renounceRole", [role, account], __options);
 	}
 
 	/**
@@ -826,34 +998,6 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::hasRole", [role, address], __options);
-	}
-
-	/**
-	 * revokeRole
-	 *
-	 * @param { (number | string | BN) } role,
-	 * @param { ArgumentTypes.AccountId | null } account,
-	*/
-	"revokeRole" (
-		role: (number | string | BN),
-		account: ArgumentTypes.AccountId | null,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::revokeRole", [role, account], __options);
-	}
-
-	/**
-	 * renounceRole
-	 *
-	 * @param { (number | string | BN) } role,
-	 * @param { ArgumentTypes.AccountId | null } account,
-	*/
-	"renounceRole" (
-		role: (number | string | BN),
-		account: ArgumentTypes.AccountId | null,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::renounceRole", [role, account], __options);
 	}
 
 }
