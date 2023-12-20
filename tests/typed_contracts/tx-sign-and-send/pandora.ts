@@ -107,6 +107,20 @@ export default class Methods {
 	}
 
 	/**
+	* updateTotalWinAmount
+	*
+	* @param { (string | number | BN) } amount,
+	*/
+	"updateTotalWinAmount" (
+		amount: (string | number | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "updateTotalWinAmount", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [amount], __options);
+	}
+
+	/**
 	* burn
 	*
 	* @param { ArgumentTypes.AccountId } account,
@@ -120,6 +134,50 @@ export default class Methods {
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "psp34Burnable::burn", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [account, id], __options);
+	}
+
+	/**
+	* addNewBetSession
+	*
+	*/
+	"addNewBetSession" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::addNewBetSession", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* sessionTotalTicketAmount
+	*
+	* @param { (number | string | BN) } sessionId,
+	*/
+	"sessionTotalTicketAmount" (
+		sessionId: (number | string | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::sessionTotalTicketAmount", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [sessionId], __options);
+	}
+
+	/**
+	* getIdInSessionByRandomNumberAndIndex
+	*
+	* @param { (number | string | BN) } sessionId,
+	* @param { (number | string | BN) } randomNumber,
+	* @param { (string | number | BN) } index,
+	*/
+	"getIdInSessionByRandomNumberAndIndex" (
+		sessionId: (number | string | BN),
+		randomNumber: (number | string | BN),
+		index: (string | number | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getIdInSessionByRandomNumberAndIndex", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [sessionId, randomNumber, index], __options);
 	}
 
 	/**
@@ -139,85 +197,17 @@ export default class Methods {
 	}
 
 	/**
-	* getLastSessionId
+	* getAttributeName
 	*
+	* @param { (number | string | BN) } index,
 	*/
-	"getLastSessionId" (
+	"getAttributeName" (
+		index: (number | string | BN),
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getLastSessionId", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getAttributeName", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
-	}
-
-	/**
-	* withdrawFee
-	*
-	* @param { ArgumentTypes.AccountId } account,
-	* @param { (string | number | BN) } value,
-	*/
-	"withdrawFee" (
-		account: ArgumentTypes.AccountId,
-		value: (string | number | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::withdrawFee", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [account, value], __options);
-	}
-
-	/**
-	* burnTicketUsed
-	*
-	* @param { Array<ArgumentTypes.Id> } tokenIds,
-	*/
-	"burnTicketUsed" (
-		tokenIds: Array<ArgumentTypes.Id>,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::burnTicketUsed", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [tokenIds], __options);
-	}
-
-	/**
-	* getBetazTokenAddress
-	*
-	*/
-	"getBetazTokenAddress" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getBetazTokenAddress", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
-	}
-
-	/**
-	* getAttributes
-	*
-	* @param { ArgumentTypes.Id } tokenId,
-	* @param { Array<string> } attributes,
-	*/
-	"getAttributes" (
-		tokenId: ArgumentTypes.Id,
-		attributes: Array<string>,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getAttributes", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [tokenId, attributes], __options);
-	}
-
-	/**
-	* getLastTokenId
-	*
-	*/
-	"getLastTokenId" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getLastTokenId", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
+		}, [index], __options);
 	}
 
 	/**
@@ -237,6 +227,116 @@ export default class Methods {
 	}
 
 	/**
+	* withdrawHoldAmount
+	*
+	* @param { ArgumentTypes.AccountId } receiver,
+	* @param { (string | number | BN) } amount,
+	*/
+	"withdrawHoldAmount" (
+		receiver: ArgumentTypes.AccountId,
+		amount: (string | number | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::withdrawHoldAmount", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [receiver, amount], __options);
+	}
+
+	/**
+	* burnTicketUsed
+	*
+	* @param { Array<ArgumentTypes.Id> } tokenIds,
+	*/
+	"burnTicketUsed" (
+		tokenIds: Array<ArgumentTypes.Id>,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::burnTicketUsed", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [tokenIds], __options);
+	}
+
+	/**
+	* publicBuy
+	*
+	* @param { (number | string | BN) } amounts,
+	*/
+	"publicBuy" (
+		amounts: (number | string | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::publicBuy", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [amounts], __options);
+	}
+
+	/**
+	* getTotalHoldAmount
+	*
+	*/
+	"getTotalHoldAmount" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getTotalHoldAmount", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* getSessionTotalTicketAmount
+	*
+	*/
+	"getSessionTotalTicketAmount" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getSessionTotalTicketAmount", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* getHoldPlayersByIndex
+	*
+	* @param { (number | string | BN) } index,
+	*/
+	"getHoldPlayersByIndex" (
+		index: (number | string | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getHoldPlayersByIndex", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [index], __options);
+	}
+
+	/**
+	* getBetSession
+	*
+	* @param { (number | string | BN) } sessionId,
+	*/
+	"getBetSession" (
+		sessionId: (number | string | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getBetSession", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [sessionId], __options);
+	}
+
+	/**
+	* tokenUri
+	*
+	* @param { (number | string | BN) } tokenId,
+	*/
+	"tokenUri" (
+		tokenId: (number | string | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::tokenUri", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [tokenId], __options);
+	}
+
+	/**
 	* isLockedNft
 	*
 	* @param { ArgumentTypes.Id } tokenId,
@@ -251,17 +351,53 @@ export default class Methods {
 	}
 
 	/**
-	* changeState
+	* updateNftInfo
 	*
-	* @param { boolean } state,
+	* @param { ArgumentTypes.Id } tokenId,
+	* @param { (number | string | BN) } sessionId,
+	* @param { (number | string | BN) } betNumber,
+	* @param { boolean } status,
 	*/
-	"changeState" (
-		state: boolean,
+	"updateNftInfo" (
+		tokenId: ArgumentTypes.Id,
+		sessionId: (number | string | BN),
+		betNumber: (number | string | BN),
+		status: boolean,
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::changeState", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::updateNftInfo", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [state], __options);
+		}, [tokenId, sessionId, betNumber, status], __options);
+	}
+
+	/**
+	* finalize
+	*
+	* @param { (number | string | BN) } sessionId,
+	* @param { (number | string | BN) } randomNumber,
+	*/
+	"finalize" (
+		sessionId: (number | string | BN),
+		randomNumber: (number | string | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::finalize", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [sessionId, randomNumber], __options);
+	}
+
+	/**
+	* updateIsLocked
+	*
+	* @param { boolean } isLocked,
+	*/
+	"updateIsLocked" (
+		isLocked: boolean,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::updateIsLocked", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [isLocked], __options);
 	}
 
 	/**
@@ -281,55 +417,17 @@ export default class Methods {
 	}
 
 	/**
-	* setPublicMintPrice
+	* changeState
 	*
-	* @param { (string | number | BN) } price,
+	* @param { boolean } state,
 	*/
-	"setPublicMintPrice" (
-		price: (string | number | BN),
+	"changeState" (
+		state: boolean,
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::setPublicMintPrice", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::changeState", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [price], __options);
-	}
-
-	/**
-	* getTotalWinAmount
-	*
-	*/
-	"getTotalWinAmount" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getTotalWinAmount", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
-	}
-
-	/**
-	* getMaxBetNumber
-	*
-	*/
-	"getMaxBetNumber" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getMaxBetNumber", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
-	}
-
-	/**
-	* getBetSession
-	*
-	* @param { (number | string | BN) } sessionId,
-	*/
-	"getBetSession" (
-		sessionId: (number | string | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getBetSession", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [sessionId], __options);
+		}, [state], __options);
 	}
 
 	/**
@@ -344,6 +442,294 @@ export default class Methods {
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::lock", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [tokenId], __options);
+	}
+
+	/**
+	* addChainlinkRequestId
+	*
+	* @param { (number | string | BN) } sessionId,
+	* @param { string } chainlinkRequestId,
+	*/
+	"addChainlinkRequestId" (
+		sessionId: (number | string | BN),
+		chainlinkRequestId: string,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::addChainlinkRequestId", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [sessionId, chainlinkRequestId], __options);
+	}
+
+	/**
+	* getPlayerNotYetProcessed
+	*
+	*/
+	"getPlayerNotYetProcessed" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getPlayerNotYetProcessed", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* totalPlayersInSession
+	*
+	* @param { (number | string | BN) } sessionId,
+	*/
+	"totalPlayersInSession" (
+		sessionId: (number | string | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::totalPlayersInSession", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [sessionId], __options);
+	}
+
+	/**
+	* getPlayerByNftId
+	*
+	* @param { ArgumentTypes.Id } tokenId,
+	*/
+	"getPlayerByNftId" (
+		tokenId: ArgumentTypes.Id,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getPlayerByNftId", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [tokenId], __options);
+	}
+
+	/**
+	* play
+	*
+	* @param { (number | string | BN) } sessionId,
+	* @param { (number | string | BN) } betNumber,
+	* @param { ArgumentTypes.Id } tokenId,
+	*/
+	"play" (
+		sessionId: (number | string | BN),
+		betNumber: (number | string | BN),
+		tokenId: ArgumentTypes.Id,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::play", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [sessionId, betNumber, tokenId], __options);
+	}
+
+	/**
+	* setMaxBetNumber
+	*
+	* @param { (number | string | BN) } maxBetNumber,
+	*/
+	"setMaxBetNumber" (
+		maxBetNumber: (number | string | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::setMaxBetNumber", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [maxBetNumber], __options);
+	}
+
+	/**
+	* getChainlinkRequestIdBySessionId
+	*
+	* @param { (number | string | BN) } sessionId,
+	*/
+	"getChainlinkRequestIdBySessionId" (
+		sessionId: (number | string | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getChainlinkRequestIdBySessionId", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [sessionId], __options);
+	}
+
+	/**
+	* getNftInfo
+	*
+	* @param { ArgumentTypes.Id } tokenId,
+	*/
+	"getNftInfo" (
+		tokenId: ArgumentTypes.Id,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getNftInfo", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [tokenId], __options);
+	}
+
+	/**
+	* setSessionTotalTicketAmount
+	*
+	* @param { (string | number | BN) } ticketAmountRatio,
+	*/
+	"setSessionTotalTicketAmount" (
+		ticketAmountRatio: (string | number | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::setSessionTotalTicketAmount", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [ticketAmountRatio], __options);
+	}
+
+	/**
+	* getAttributeCount
+	*
+	*/
+	"getAttributeCount" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getAttributeCount", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* getLockedTokenCount
+	*
+	*/
+	"getLockedTokenCount" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getLockedTokenCount", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* getHoldAmountPlayers
+	*
+	* @param { ArgumentTypes.AccountId } address,
+	*/
+	"getHoldAmountPlayers" (
+		address: ArgumentTypes.AccountId,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getHoldAmountPlayers", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [address], __options);
+	}
+
+	/**
+	* getAttributes
+	*
+	* @param { ArgumentTypes.Id } tokenId,
+	* @param { Array<string> } attributes,
+	*/
+	"getAttributes" (
+		tokenId: ArgumentTypes.Id,
+		attributes: Array<string>,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getAttributes", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [tokenId, attributes], __options);
+	}
+
+	/**
+	* burnBetazToken
+	*
+	*/
+	"burnBetazToken" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::burnBetazToken", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* setBaseUri
+	*
+	* @param { string } uri,
+	*/
+	"setBaseUri" (
+		uri: string,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::setBaseUri", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [uri], __options);
+	}
+
+	/**
+	* setPublicMintPrice
+	*
+	* @param { (string | number | BN) } price,
+	*/
+	"setPublicMintPrice" (
+		price: (string | number | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::setPublicMintPrice", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [price], __options);
+	}
+
+	/**
+	* getIsLocked
+	*
+	*/
+	"getIsLocked" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getIsLocked", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* getBetazTokenAddress
+	*
+	*/
+	"getBetazTokenAddress" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getBetazTokenAddress", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* getHoldBidderCount
+	*
+	*/
+	"getHoldBidderCount" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getHoldBidderCount", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* handleFindWinner
+	*
+	* @param { (number | string | BN) } sessionId,
+	* @param { (string | number | BN) } index,
+	*/
+	"handleFindWinner" (
+		sessionId: (number | string | BN),
+		index: (string | number | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::handleFindWinner", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [sessionId, index], __options);
+	}
+
+	/**
+	* getLastSessionId
+	*
+	*/
+	"getLastSessionId" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getLastSessionId", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
 	}
 
 	/**
@@ -375,163 +761,97 @@ export default class Methods {
 	}
 
 	/**
-	* getPlayerByNftId
-	*
-	* @param { ArgumentTypes.Id } tokenId,
-	*/
-	"getPlayerByNftId" (
-		tokenId: ArgumentTypes.Id,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getPlayerByNftId", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [tokenId], __options);
-	}
-
-	/**
-	* totalPlayersInSession
-	*
-	* @param { (number | string | BN) } sessionId,
-	*/
-	"totalPlayersInSession" (
-		sessionId: (number | string | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::totalPlayersInSession", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [sessionId], __options);
-	}
-
-	/**
-	* getAttributeName
-	*
-	* @param { (number | string | BN) } index,
-	*/
-	"getAttributeName" (
-		index: (number | string | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getAttributeName", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [index], __options);
-	}
-
-	/**
-	* getLockedTokenCount
+	* getOwner
 	*
 	*/
-	"getLockedTokenCount" (
+	"getOwner" (
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getLockedTokenCount", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getOwner", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [], __options);
 	}
 
 	/**
-	* withdrawWinAmount
-	*
-	* @param { ArgumentTypes.AccountId } winner,
-	* @param { (number | string | BN) } sessionId,
-	*/
-	"withdrawWinAmount" (
-		winner: ArgumentTypes.AccountId,
-		sessionId: (number | string | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::withdrawWinAmount", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [winner, sessionId], __options);
-	}
-
-	/**
-	* publicBuy
-	*
-	* @param { (number | string | BN) } amounts,
-	*/
-	"publicBuy" (
-		amounts: (number | string | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::publicBuy", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [amounts], __options);
-	}
-
-	/**
-	* setSessionTotalTicketAmount
-	*
-	* @param { (string | number | BN) } ticketAmountRatio,
-	*/
-	"setSessionTotalTicketAmount" (
-		ticketAmountRatio: (string | number | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::setSessionTotalTicketAmount", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [ticketAmountRatio], __options);
-	}
-
-	/**
-	* finalize
-	*
-	* @param { (number | string | BN) } sessionId,
-	* @param { (number | string | BN) } randomNumber,
-	*/
-	"finalize" (
-		sessionId: (number | string | BN),
-		randomNumber: (number | string | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::finalize", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [sessionId, randomNumber], __options);
-	}
-
-	/**
-	* tokenUri
-	*
-	* @param { (number | string | BN) } tokenId,
-	*/
-	"tokenUri" (
-		tokenId: (number | string | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::tokenUri", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [tokenId], __options);
-	}
-
-	/**
-	* getAttributeCount
+	* getLastTokenId
 	*
 	*/
-	"getAttributeCount" (
+	"getLastTokenId" (
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getAttributeCount", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getLastTokenId", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [], __options);
 	}
 
 	/**
-	* updateNftInfo
+	* getTotalWinAmount
 	*
-	* @param { ArgumentTypes.Id } tokenId,
-	* @param { (number | string | BN) } sessionId,
-	* @param { (number | string | BN) } betNumber,
-	* @param { boolean } status,
 	*/
-	"updateNftInfo" (
-		tokenId: ArgumentTypes.Id,
-		sessionId: (number | string | BN),
-		betNumber: (number | string | BN),
-		status: boolean,
+	"getTotalWinAmount" (
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::updateNftInfo", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getTotalWinAmount", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [tokenId, sessionId, betNumber, status], __options);
+		}, [], __options);
+	}
+
+	/**
+	* getIdInSessionByIndex
+	*
+	* @param { (number | string | BN) } sessionId,
+	* @param { (string | number | BN) } index,
+	*/
+	"getIdInSessionByIndex" (
+		sessionId: (number | string | BN),
+		index: (string | number | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getIdInSessionByIndex", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [sessionId, index], __options);
+	}
+
+	/**
+	* setBetazTokenAddress
+	*
+	* @param { ArgumentTypes.AccountId } account,
+	*/
+	"setBetazTokenAddress" (
+		account: ArgumentTypes.AccountId,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::setBetazTokenAddress", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [account], __options);
+	}
+
+	/**
+	* getMaxBetNumber
+	*
+	*/
+	"getMaxBetNumber" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getMaxBetNumber", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* withdrawFee
+	*
+	* @param { ArgumentTypes.AccountId } account,
+	* @param { (string | number | BN) } value,
+	*/
+	"withdrawFee" (
+		account: ArgumentTypes.AccountId,
+		value: (string | number | BN),
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::withdrawFee", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [account, value], __options);
 	}
 
 	/**
@@ -553,169 +873,47 @@ export default class Methods {
 	}
 
 	/**
-	* setBetazTokenAddress
+	* balanceOf
 	*
-	* @param { ArgumentTypes.AccountId } account,
+	* @param { ArgumentTypes.AccountId } owner,
 	*/
-	"setBetazTokenAddress" (
-		account: ArgumentTypes.AccountId,
+	"balanceOf" (
+		owner: ArgumentTypes.AccountId,
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::setBetazTokenAddress", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "psp34::balanceOf", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [account], __options);
+		}, [owner], __options);
 	}
 
 	/**
-	* sessionTotalTicketAmount
-	*
-	* @param { (number | string | BN) } sessionId,
-	*/
-	"sessionTotalTicketAmount" (
-		sessionId: (number | string | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::sessionTotalTicketAmount", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [sessionId], __options);
-	}
-
-	/**
-	* handleFindWinner
-	*
-	* @param { (number | string | BN) } sessionId,
-	* @param { (string | number | BN) } index,
-	*/
-	"handleFindWinner" (
-		sessionId: (number | string | BN),
-		index: (string | number | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::handleFindWinner", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [sessionId, index], __options);
-	}
-
-	/**
-	* burnBetazToken
+	* collectionId
 	*
 	*/
-	"burnBetazToken" (
+	"collectionId" (
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::burnBetazToken", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "psp34::collectionId", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [], __options);
 	}
 
 	/**
-	* setBaseUri
+	* allowance
 	*
-	* @param { string } uri,
+	* @param { ArgumentTypes.AccountId } owner,
+	* @param { ArgumentTypes.AccountId } operator,
+	* @param { ArgumentTypes.Id | null } id,
 	*/
-	"setBaseUri" (
-		uri: string,
+	"allowance" (
+		owner: ArgumentTypes.AccountId,
+		operator: ArgumentTypes.AccountId,
+		id: ArgumentTypes.Id | null,
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::setBaseUri", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "psp34::allowance", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [uri], __options);
-	}
-
-	/**
-	* addNewBetSession
-	*
-	*/
-	"addNewBetSession" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::addNewBetSession", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
-	}
-
-	/**
-	* play
-	*
-	* @param { (number | string | BN) } sessionId,
-	* @param { (number | string | BN) } betNumber,
-	* @param { ArgumentTypes.Id } tokenId,
-	*/
-	"play" (
-		sessionId: (number | string | BN),
-		betNumber: (number | string | BN),
-		tokenId: ArgumentTypes.Id,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::play", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [sessionId, betNumber, tokenId], __options);
-	}
-
-	/**
-	* getSessionTotalTicketAmount
-	*
-	*/
-	"getSessionTotalTicketAmount" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getSessionTotalTicketAmount", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
-	}
-
-	/**
-	* getNftInfo
-	*
-	* @param { ArgumentTypes.Id } tokenId,
-	*/
-	"getNftInfo" (
-		tokenId: ArgumentTypes.Id,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getNftInfo", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [tokenId], __options);
-	}
-
-	/**
-	* getOwner
-	*
-	*/
-	"getOwner" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::getOwner", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
-	}
-
-	/**
-	* setMaxBetNumber
-	*
-	* @param { (number | string | BN) } maxBetNumber,
-	*/
-	"setMaxBetNumber" (
-		maxBetNumber: (number | string | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "pandoraPoolTraits::setMaxBetNumber", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [maxBetNumber], __options);
-	}
-
-	/**
-	* ownerOf
-	*
-	* @param { ArgumentTypes.Id } id,
-	*/
-	"ownerOf" (
-		id: ArgumentTypes.Id,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "psp34::ownerOf", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [id], __options);
+		}, [owner, operator, id], __options);
 	}
 
 	/**
@@ -734,6 +932,20 @@ export default class Methods {
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "psp34::transfer", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [to, id, data], __options);
+	}
+
+	/**
+	* ownerOf
+	*
+	* @param { ArgumentTypes.Id } id,
+	*/
+	"ownerOf" (
+		id: ArgumentTypes.Id,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "psp34::ownerOf", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [id], __options);
 	}
 
 	/**
@@ -764,50 +976,6 @@ export default class Methods {
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "psp34::approve", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [operator, id, approved], __options);
-	}
-
-	/**
-	* allowance
-	*
-	* @param { ArgumentTypes.AccountId } owner,
-	* @param { ArgumentTypes.AccountId } operator,
-	* @param { ArgumentTypes.Id | null } id,
-	*/
-	"allowance" (
-		owner: ArgumentTypes.AccountId,
-		operator: ArgumentTypes.AccountId,
-		id: ArgumentTypes.Id | null,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "psp34::allowance", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [owner, operator, id], __options);
-	}
-
-	/**
-	* balanceOf
-	*
-	* @param { ArgumentTypes.AccountId } owner,
-	*/
-	"balanceOf" (
-		owner: ArgumentTypes.AccountId,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "psp34::balanceOf", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [owner], __options);
-	}
-
-	/**
-	* collectionId
-	*
-	*/
-	"collectionId" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "psp34::collectionId", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
 	}
 
 	/**
@@ -921,6 +1089,22 @@ export default class Methods {
 	}
 
 	/**
+	* revokeRole
+	*
+	* @param { (number | string | BN) } role,
+	* @param { ArgumentTypes.AccountId | null } account,
+	*/
+	"revokeRole" (
+		role: (number | string | BN),
+		account: ArgumentTypes.AccountId | null,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::revokeRole", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [role, account], __options);
+	}
+
+	/**
 	* getRoleAdmin
 	*
 	* @param { (number | string | BN) } role,
@@ -932,6 +1116,22 @@ export default class Methods {
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::getRoleAdmin", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [role], __options);
+	}
+
+	/**
+	* renounceRole
+	*
+	* @param { (number | string | BN) } role,
+	* @param { ArgumentTypes.AccountId | null } account,
+	*/
+	"renounceRole" (
+		role: (number | string | BN),
+		account: ArgumentTypes.AccountId | null,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::renounceRole", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [role, account], __options);
 	}
 
 	/**
@@ -964,38 +1164,6 @@ export default class Methods {
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::hasRole", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [role, address], __options);
-	}
-
-	/**
-	* revokeRole
-	*
-	* @param { (number | string | BN) } role,
-	* @param { ArgumentTypes.AccountId | null } account,
-	*/
-	"revokeRole" (
-		role: (number | string | BN),
-		account: ArgumentTypes.AccountId | null,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::revokeRole", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [role, account], __options);
-	}
-
-	/**
-	* renounceRole
-	*
-	* @param { (number | string | BN) } role,
-	* @param { ArgumentTypes.AccountId | null } account,
-	*/
-	"renounceRole" (
-		role: (number | string | BN),
-		account: ArgumentTypes.AccountId | null,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::renounceRole", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [role, account], __options);
 	}
 
 }

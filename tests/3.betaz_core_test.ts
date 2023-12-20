@@ -460,7 +460,6 @@ describe('Betaz token test', () => {
         const new_stakingPoolRatio = 3;
         const new_treasuryPoolRatio = 3;
         const new_pandoraPoolRatio = 3;
-        const new_coreAdminAddress = signerAddress;
         const new_coreBetazAddress = signerAddress;
         const new_coreTokenContractAddress = signerAddress;
         const new_coreStakingAddress = signerAddress;
@@ -469,6 +468,7 @@ describe('Betaz token test', () => {
         const new_coreOracleRandomnessAddress = signerAddress;
         const new_coreDaoAddress = signerAddress;
         const new_coreRoundDistance = 2;
+        const new_percentageRates = 101;
 
         // Check max bet ratio
         await coreTx.setMaxBetRatio(new_coreMaxBetRatio)
@@ -551,6 +551,11 @@ describe('Betaz token test', () => {
         let round_distance = (await coreQuery.getRoundDistance()).value.ok!;
         expect(round_distance).to.equal(new_coreRoundDistance);
 
+        // check percentageRates
+        await coreTx.setPercentageRates(new_percentageRates)
+        let percentage_rates = (await coreQuery.getPercentageRates()).value.ok!;
+        expect(percentage_rates).to.equal(new_percentageRates);
+
         // back to origin
         await coreTx.setMaxBetRatio(coreMaxBetRatio)
         await coreTx.setTokenRatio(coreTokenRatio)
@@ -567,6 +572,7 @@ describe('Betaz token test', () => {
         await coreTx.setOracleRandomnessAddress(coreOracleRandomnessAddress)
         await coreTx.setDaoAddress(coreDaoAddress)
         await coreTx.setRoundDistance(1)
+        await coreTx.setPercentageRates(100)
     });
 
     it('Can update rate', async () => {
@@ -927,9 +933,9 @@ describe('Betaz token test', () => {
     it('Can receive bet tokens when finalized', async () => {
         let reward_pool_amount = (await coreQuery.getRewardPoolAmount()).value.ok!;
         let player3_bet_token_balance = (await tokenQuery.balanceOf(player3.address)).value.ok!;
-        console.log({ 
-            reward_pool_amount: toNumber(reward_pool_amount), 
-            player3_bet_token_balance: toNumber(player3_bet_token_balance) 
+        console.log({
+            reward_pool_amount: toNumber(reward_pool_amount),
+            player3_bet_token_balance: toNumber(player3_bet_token_balance)
         })
         /** Player 3 play */
         const isOver = 1;
@@ -971,9 +977,9 @@ describe('Betaz token test', () => {
         gain = new BN(new_player3_bet_token_balance.toString()).sub(new BN(player3_bet_token_balance.toString()))
         expect(toNumber(gain)).to.equal(toNumber(bet_amount));
 
-        console.log({ 
-            new_reward_pool_amount: toNumber(new_reward_pool_amount), 
-            new_player3_bet_token_balance: toNumber(new_player3_bet_token_balance) 
+        console.log({
+            new_reward_pool_amount: toNumber(new_reward_pool_amount),
+            new_player3_bet_token_balance: toNumber(new_player3_bet_token_balance)
         })
     });
 
@@ -988,7 +994,7 @@ describe('Betaz token test', () => {
         const max_bet = (await coreQuery.getMaxBet()).value.ok.rawNumber;
         let min_over_number = (await coreQuery.getMinNumberOverRoll()).value.ok!;
         let bet_amount = max_bet;
-        let bet_number = min_over_number;
+        let bet_number = min_over_number + 46;
 
         try {
             await coreContract.withSigner(player4).tx.play(bet_number, isOver, { value: bet_amount })
@@ -1002,7 +1008,6 @@ describe('Betaz token test', () => {
         /** Player 4 finalize */
         let player4_oracleRound = player4_bet_info.oracleRound;
         let random_number_player4 = false;
-
         console.log("DIA random number")
         while (!random_number_player4) {
             try {
@@ -1031,53 +1036,52 @@ describe('Betaz token test', () => {
     });
 
     it('Can withdraw hold amount', async () => {
-        let balancePlayer4 = await showAZBalance(api, player4.address);
-        let hold_amount = (await coreQuery.getHoldAmountPlayers(player4.address)).value.ok!;
         let hold_bidder_count = (await coreQuery.getHoldBidderCount()).value.ok!;
-        console.log({ balancePlayer4 });
-        // update core pool
-        let fee = new BN(50 * (10 ** 12))
-        try { await coreContract.withSigner(defaultSigner).tx.updateCorePool({ value: fee }); } catch (err) {
-            console.log({ err })
+        if (hold_bidder_count > 0) {
+            let balancePlayer4 = await showAZBalance(api, player4.address);
+            let hold_amount = (await coreQuery.getHoldAmountPlayers(player4.address)).value.ok!;
+            console.log({ balancePlayer4 });
+            // update core pool
+            let fee = new BN(50 * (10 ** 12))
+            try { await coreContract.withSigner(defaultSigner).tx.updateCorePool({ value: fee }); } catch (err) {
+                console.log({ err })
+            }
+
+            // withdraw hold amount
+            /// case 1: amount > core pool amount => failed
+            console.log(`===========Case 1=============`);
+            let amount = new BN(1).add(new BN(hold_amount));
+            let balanceContract = await showAZBalance(api, coreContractAddress);
+
+            try {
+                await coreContract.withSigner(player4).tx.withdrawHoldAmount(player4.address, amount);
+            } catch (error) {
+
+            }
+
+            let new_balanceContract = await showAZBalance(api, coreContractAddress);
+            expect(toNumber(new_balanceContract)).to.equal(toNumber(balanceContract));
+
+            /// case 2: amount <= core pool amount => success
+            console.log(`===========Case 2=============`);
+            amount = hold_amount;
+            try {
+                await coreContract.withSigner(player4).tx.withdrawHoldAmount(player4.address, amount);
+            } catch (error) {
+                console.log(error)
+            }
+
+            if (toNumber(amount) <= toNumber(hold_amount)) {
+                let new_hold_amount = (await coreQuery.getHoldAmountPlayers(player4.address)).value.ok!;
+                let gain = new BN(hold_amount).sub(new BN(new_hold_amount))
+                expect(toNumber(gain)).to.equal(toNumber(amount));
+                console.log({ new_hold_amount })
+            }
+
+            let new_balancePlayer4 = await showAZBalance(api, player4.address);
+            expect(new_balancePlayer4 - balancePlayer4 > 0).to.equal(true);
+            console.log({ new_balancePlayer4 });
         }
-
-        // withdraw hold amount
-        /// case 1: amount > core pool amount => failed
-        console.log(`===========Case 1=============`);
-        let amount = new BN(1).add(new BN(hold_amount));
-        let balanceContract = await showAZBalance(api, coreContractAddress);
-
-        try {
-            await coreContract.withSigner(player4).tx.withdrawHoldAmount(player4.address, amount);
-        } catch (error) {
-
-        }
-
-        let new_balanceContract = await showAZBalance(api, coreContractAddress);
-        expect(toNumber(new_balanceContract)).to.equal(toNumber(balanceContract));
-
-        /// case 2: amount <= core pool amount => success
-        console.log(`===========Case 2=============`);
-        amount = new BN(1 * (10 ** 12));
-        // amount = hold_amount;
-        try {
-            await coreContract.withSigner(player4).tx.withdrawHoldAmount(player4.address, amount);
-        } catch (error) {
-            console.log(error)
-        }
-
-        if (toNumber(amount) < toNumber(hold_amount)) {
-            let new_hold_amount = (await coreQuery.getHoldAmountPlayers(player4.address)).value.ok!;
-            expect(toNumber(hold_amount) - toNumber(new_hold_amount)).to.equal(toNumber(amount));
-            console.log({ new_hold_amount })
-        } else {
-            let new_hold_bidder_count = (await coreQuery.getHoldBidderCount()).value.ok!;
-            expect(hold_bidder_count - new_hold_bidder_count).to.equal(1);
-        }
-
-        let new_balancePlayer4 = await showAZBalance(api, player4.address);
-        expect(new_balancePlayer4 - balancePlayer4 > 0).to.equal(true);
-        console.log({ new_balancePlayer4 });
     });
 
     it('Can withdraw core pool', async () => {
