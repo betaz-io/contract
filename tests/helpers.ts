@@ -14,7 +14,7 @@ export const bnArg = (value: number | string | number[] | Uint8Array | Buffer | 
 
 export const oneDay = () => (24 * 60 * 60 * 1000);
 
-let mnemonicSigner = "crack oak aerobic uncle bachelor risk hockey various course segment abuse letter";
+let mnemonicSigner = "recycle ceiling broom essence huge curtain region sauce skin talk mask ranch";
 
 export const getSigners = (): KeyringPair[] => {
   const keyring = new Keyring({ type: 'sr25519' });

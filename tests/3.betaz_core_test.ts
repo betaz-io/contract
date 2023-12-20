@@ -460,7 +460,6 @@ describe('Betaz token test', () => {
         const new_stakingPoolRatio = 3;
         const new_treasuryPoolRatio = 3;
         const new_pandoraPoolRatio = 3;
-        const new_coreAdminAddress = signerAddress;
         const new_coreBetazAddress = signerAddress;
         const new_coreTokenContractAddress = signerAddress;
         const new_coreStakingAddress = signerAddress;
@@ -469,6 +468,7 @@ describe('Betaz token test', () => {
         const new_coreOracleRandomnessAddress = signerAddress;
         const new_coreDaoAddress = signerAddress;
         const new_coreRoundDistance = 2;
+        const new_percentageRates = 101;
 
         // Check max bet ratio
         await coreTx.setMaxBetRatio(new_coreMaxBetRatio)
@@ -551,6 +551,11 @@ describe('Betaz token test', () => {
         let round_distance = (await coreQuery.getRoundDistance()).value.ok!;
         expect(round_distance).to.equal(new_coreRoundDistance);
 
+        // check percentageRates
+        await coreTx.setPercentageRates(new_percentageRates)
+        let percentage_rates = (await coreQuery.getPercentageRates()).value.ok!;
+        expect(percentage_rates).to.equal(new_percentageRates);
+
         // back to origin
         await coreTx.setMaxBetRatio(coreMaxBetRatio)
         await coreTx.setTokenRatio(coreTokenRatio)
@@ -567,6 +572,7 @@ describe('Betaz token test', () => {
         await coreTx.setOracleRandomnessAddress(coreOracleRandomnessAddress)
         await coreTx.setDaoAddress(coreDaoAddress)
         await coreTx.setRoundDistance(1)
+        await coreTx.setPercentageRates(100)
     });
 
     it('Can update rate', async () => {
@@ -1067,7 +1073,8 @@ describe('Betaz token test', () => {
 
             if (toNumber(amount) <= toNumber(hold_amount)) {
                 let new_hold_amount = (await coreQuery.getHoldAmountPlayers(player4.address)).value.ok!;
-                expect(toNumber(hold_amount) - toNumber(new_hold_amount)).to.equal(toNumber(amount));
+                let gain = new BN(hold_amount).sub(new BN(new_hold_amount))
+                expect(toNumber(gain)).to.equal(toNumber(amount));
                 console.log({ new_hold_amount })
             }
 

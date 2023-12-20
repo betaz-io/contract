@@ -22,6 +22,8 @@ import ContractDao from "./typed_contracts/contracts/dao_contract";
 import { BN } from '@polkadot/util';
 import { txSignAndSend } from '@727-ventures/typechain-types';
 
+import * as PSP34Args from './typed_contracts/types-arguments/pandora';
+
 describe('Betaz token test', () => {
     let api: any;
     let signers: any;
@@ -438,6 +440,267 @@ describe('Betaz token test', () => {
         gain = new_balance - balance;
         expect(gain).to.equal(amount);
     });
+
+    it('Can mint with attributes', async () => {
+        let name = 'token mint with attributes';
+        let symbol = 'token 2';
+        const metadata: [string, string][] = [[name, symbol]];
+        let balanceBefore = (await pandoraQuery.balanceOf(signerAddress)).value.ok!.toString();
+        let attributeCount = (await pandoraQuery.getAttributeCount()).value.ok!;
+
+        // Mint with atributes
+        await pandoraContract.withSigner(defaultSigner).tx.mintWithAttributes(metadata);
+
+        let balanceAfter = (await pandoraQuery.balanceOf(signerAddress)).value.ok!.toString();
+        let last_token_id = (await pandoraQuery.getLastTokenId()).value.ok!;
+        const tokenId = PSP34Args.IdBuilder.U64(last_token_id);
+
+        // Check banlance
+        const gain = new BN(balanceAfter).sub(new BN(balanceBefore));
+        expect(Number(gain.toString())).to.equal(1);
+
+        // Check atribute
+        let attribute = (await pandoraQuery.getAttribute(tokenId, name)).value.ok!.toString();
+        expect(attribute).to.equal(symbol);
+
+        // check atributes
+        const vec: [string][] = [[name]];
+        let attributes = (await pandoraQuery.getAttributes(tokenId, vec)).value.ok!;
+        expect(attributes[0]).to.equal(symbol);
+
+        // Check atribute count
+        let new_attributeCount = (await pandoraQuery.getAttributeCount()).value.ok!;
+        expect(new_attributeCount - attributeCount).to.equal(1);
+
+        // Check attribute name by index
+        let attributeName = (await pandoraQuery.getAttributeName(new_attributeCount)).value.ok!.toString();
+        expect(attributeName).to.equal(name);
+    })
+
+    it('Can lock token', async () => {
+        let last_token_id = (await pandoraQuery.getLastTokenId()).value.ok!;
+        const tokenId = PSP34Args.IdBuilder.U64(last_token_id);
+        let lockedTokenCount = (await pandoraQuery.getLockedTokenCount()).value.ok!;
+
+        // lock token
+        await pandoraContract.withSigner(defaultSigner).tx.lock(tokenId);
+
+        // Check is locked token
+        let islocked = (await pandoraQuery.isLockedNft(tokenId)).value.ok!;
+        expect(islocked).to.equal(true);
+
+        // Check last locked count
+        let new_lockedTokenCount = (await pandoraQuery.getLockedTokenCount()).value.ok!;
+        expect(new_lockedTokenCount - lockedTokenCount).to.equal(1);
+    })
+
+    it('Can set token uri', async () => {
+        const tokenId = (await pandoraQuery.getLastTokenId()).value.ok!;
+        const baseUri = 'token';
+
+        // Set token uri
+        await pandoraContract.withSigner(defaultSigner).tx.setBaseUri(baseUri);
+
+        // Check token uri
+        let tokenUri = (await pandoraQuery.tokenUri(tokenId)).value.ok!.toString();
+        expect(tokenUri).to.equal(baseUri + tokenId + '.json');
+    })
+
+    it('Can set atribute', async () => {
+        // min token
+        await pandoraContract.withSigner(defaultSigner).tx.mint();
+        let last_token_id = (await pandoraQuery.getLastTokenId()).value.ok!;
+
+        // initialize
+        let name = 'token set attributes';
+        let symbol = 'token after';
+        let metadata: [string, string][] = [[name, symbol]];
+        let tokenId = PSP34Args.IdBuilder.U64(last_token_id);
+
+        // Case 1: token not locked => success
+        console.log(`===========Case 1=============`);
+
+        // Set multiple attributes
+        await pandoraContract.withSigner(defaultSigner).tx.setMultipleAttributes(tokenId, metadata);
+
+        // Check atribute
+        let attribute = (await pandoraQuery.getAttribute(tokenId, name)).value.ok!.toString();
+        expect(attribute).to.equal(symbol);
+
+        // Check atributes
+        const vec: [string][] = [[name]];
+        let attributes = (await pandoraQuery.getAttributes(tokenId, vec)).value.ok!;
+        expect(attributes[0]).to.equal(symbol);
+
+        // Check attribute name by index
+        let attributesCount = (await pandoraQuery.getAttributeCount()).value.ok;
+        let attributeName = (await pandoraQuery.getAttributeName(attributesCount)).value.ok!.toString();
+        expect(attributeName).to.equal(name);
+
+        // Case 2: token is locked => failed
+        console.log(`===========Case 2=============`);
+
+        // lock token
+        await pandoraContract.withSigner(defaultSigner).tx.lock(tokenId);
+
+        // Check is locked token
+        let islocked = (await pandoraQuery.isLockedNft(tokenId)).value.ok!;
+        expect(islocked).to.equal(true);
+
+        // set multiple attribute
+        let nameNew = 'token set attributes 123';
+        let symbolNew = 'token after 123 ';
+        let metadataNew: [string, string][] = [[nameNew, symbolNew]];
+
+        // Set multiple attributes
+        try { await pandoraContract.withSigner(defaultSigner).tx.setMultipleAttributes(tokenId, metadataNew); } catch (error) { }
+
+        // Check attribute name by index
+        attributeName = (await pandoraQuery.getAttributeName(attributesCount)).value.ok!.toString();
+        expect(attributeName).to.equal(name);
+    })
+
+    it('Can burn', async () => {
+        const tokenId = PSP34Args.IdBuilder.U64(1);
+        const totalSupplyBefore = (await pandoraQuery.totalSupply()).value.ok!.toString();
+
+        // Check token owner
+        let owner = (await pandoraQuery.ownerOf(tokenId)).value.ok!.toString();
+        expect(owner).to.equal(signerAddress);
+
+        // Signer burn token
+        await pandoraContract.withSigner(defaultSigner).tx.burn(owner, tokenId);
+        const totalSupplyAfter = (await pandoraQuery.totalSupply()).value.ok!.toString();
+
+        // Check total supply
+        const value = new BN(totalSupplyBefore).sub(new BN(1)).toString();
+        expect(value).to.equal(totalSupplyAfter);
+
+        // Check owner after burn token
+        owner = (await pandoraQuery.ownerOf(tokenId)).value.ok!;
+        expect(owner).to.equal(null);
+    })
+
+    it('Can update locked', async () => {
+        let is_locked = (await pandoraQuery.getIsLocked()).value.ok!;
+        expect(is_locked).to.equal(false);
+
+        // case 1: not admin => failed
+        console.log(`===========Case 1=============`);
+        let is_adminer = (await pandoraQuery.hasRole(RoleType, aliceAddress)).value.ok!;
+        expect(is_adminer).to.equal(false);
+
+        try {
+            await pandoraContract.withSigner(alice).tx.updateIsLocked(true);
+        } catch (error) {
+
+        }
+
+        let new_is_locked = (await pandoraQuery.getIsLocked()).value.ok!;
+        expect(new_is_locked).to.equal(is_locked);
+
+        // case 2: is admin => success
+        console.log(`===========Case 2=============`);
+        is_adminer = (await pandoraQuery.hasRole(RoleType, signerAddress)).value.ok!;
+        expect(is_adminer).to.equal(true);
+
+        try {
+            await pandoraContract.withSigner(defaultSigner).tx.updateIsLocked(true);
+        } catch (error) {
+            console.log(error)
+        }
+
+        new_is_locked = (await pandoraQuery.getIsLocked()).value.ok!;
+        expect(new_is_locked).to.equal(true);
+    })
+
+    it('Can add new bet session', async () => {
+        let last_session_id = (await pandoraQuery.getLastSessionId()).value.ok!;
+
+        // case 1: not admin => failed
+        console.log(`===========Case 1=============`);
+        let is_adminer = (await pandoraQuery.hasRole(RoleType, aliceAddress)).value.ok!;
+        expect(is_adminer).to.equal(false);
+
+        try {
+            await pandoraContract.withSigner(alice).tx.addNewBetSession();
+        } catch (error) {
+
+        }
+
+        let new_last_session_id = (await pandoraQuery.getLastSessionId()).value.ok!;
+        let gain = new_last_session_id - last_session_id;
+        expect(gain).to.equal(0);
+
+        // case 2: is admin => success
+        console.log(`===========Case 2=============`);
+        is_adminer = (await pandoraQuery.hasRole(RoleType, signerAddress)).value.ok!;
+        expect(is_adminer).to.equal(true);
+
+        try {
+            await pandoraContract.withSigner(defaultSigner).tx.addNewBetSession();
+        } catch (error) {
+            console.log(error)
+        }
+
+        new_last_session_id = (await pandoraQuery.getLastSessionId()).value.ok!;
+        gain = new_last_session_id - last_session_id;
+        expect(gain).to.equal(1);
+    })
+
+    it('Can add chainlink request id', async () => {
+        const requestId = "123456";
+        let last_session_id = (await pandoraQuery.getLastSessionId()).value.ok!;
+        let request_id = (await pandoraQuery.getChainlinkRequestIdBySessionId(last_session_id)).value.ok!;
+        expect(request_id).to.equal(null);
+
+        // case 1: not admin => failed
+        console.log(`===========Case 1=============`);
+        let is_adminer = (await pandoraQuery.hasRole(RoleType, aliceAddress)).value.ok!;
+        expect(is_adminer).to.equal(false);
+
+        try {
+            await pandoraContract.withSigner(alice).tx.addChainlinkRequestId(last_session_id, requestId);
+        } catch (error) {
+
+        }
+
+        let new_request_id = (await pandoraQuery.getChainlinkRequestIdBySessionId(last_session_id)).value.ok!;
+        expect(new_request_id).to.equal(null);
+
+        // case 2: is admin && request id in session not exist => success
+        console.log(`===========Case 2=============`);
+        is_adminer = (await pandoraQuery.hasRole(RoleType, signerAddress)).value.ok!;
+        expect(is_adminer).to.equal(true);
+
+        try {
+            await pandoraContract.withSigner(defaultSigner).tx.addChainlinkRequestId(last_session_id, requestId);
+        } catch (error) {
+            console.log(error)
+        }
+
+        new_request_id = (await pandoraQuery.getChainlinkRequestIdBySessionId(last_session_id)).value.ok!;
+        expect(new_request_id).to.equal(requestId);
+
+        // case 3: is admin && request id in session is exist => failed
+        console.log(`===========Case 3=============`);
+        let new_requestId = "654321";
+        is_adminer = (await pandoraQuery.hasRole(RoleType, signerAddress)).value.ok!;
+        expect(is_adminer).to.equal(true);
+
+        try {
+            await pandoraContract.withSigner(defaultSigner).tx.addChainlinkRequestId(last_session_id, new_requestId);
+        } catch (error) {
+
+        }
+
+        new_request_id = (await pandoraQuery.getChainlinkRequestIdBySessionId(last_session_id)).value.ok!;
+        expect(new_request_id).to.equal(requestId);
+    })
+
+    it('Can public buy', async () => {
+    
+    })
 
     after(async () => {
         // api.disconnect();
