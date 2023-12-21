@@ -699,7 +699,123 @@ describe('Betaz token test', () => {
     })
 
     it('Can public buy', async () => {
-    
+        let public_mint_price = (await pandoraQuery.getPublicMintPrice()).value.ok!;
+
+        // min betaz
+        let amount = new BN(10 * toNumber(public_mint_price) * 10 ** tokenDecimal);
+        await tokenContract.withSigner(minter).tx["betAzTrait::mint"](aliceAddress, amount);
+
+        // approve
+        await tokenContract.withSigner(alice).tx.increaseAllowance(pandoraContractAddress, amount);
+
+        let balanceBuyer = (await tokenQuery.balanceOf(aliceAddress)).value.ok!;
+        let balanceContract = (await tokenQuery.balanceOf(pandoraContractAddress)).value.ok!;
+        let nftBalanceBuyer = (await pandoraQuery.balanceOf(aliceAddress)).value.ok!;
+        console.log({
+            publicMintPrice: toNumber(public_mint_price),
+            balanceBuyer: toNumber(balanceBuyer.toString()),
+            balanceContract: toNumber(balanceContract.toString())
+        })
+
+        // case 1: amount > balanceBuyer => failed
+        console.log(`===========Case 1=============`);
+
+        let nft_amount = 11;
+        let difference = new BN(nft_amount * toNumber(public_mint_price) * 10 ** tokenDecimal).sub(new BN(balanceBuyer.toString()));
+        expect(toNumber(difference) > 0).to.equal(true);
+
+        try {
+            await pandoraContract.withSigner(alice).tx.publicBuy(nft_amount)
+        } catch (error) {
+
+        }
+
+        let new_nftBalanceBuyer = (await pandoraQuery.balanceOf(aliceAddress)).value.ok!;
+        let gain = new_nftBalanceBuyer - nftBalanceBuyer
+        expect(gain).to.equal(0);
+
+        // case 2: amount < balanceBuyer => success
+        console.log(`===========Case 2=============`);
+
+        nft_amount = 7;
+        difference = new BN(nft_amount * toNumber(public_mint_price) * 10 ** tokenDecimal).sub(new BN(balanceBuyer.toString()));
+        expect(toNumber(difference) < 0).to.equal(true);
+
+        try {
+            await pandoraContract.withSigner(alice).tx.publicBuy(nft_amount)
+        } catch (error) {
+            console.log(error)
+        }
+
+        new_nftBalanceBuyer = (await pandoraQuery.balanceOf(aliceAddress)).value.ok!;
+        gain = new_nftBalanceBuyer - nftBalanceBuyer
+        expect(gain).to.equal(nft_amount);
+        let new_balanceBuyer = (await tokenQuery.balanceOf(aliceAddress)).value.ok!;
+        let new_balanceContract = (await tokenQuery.balanceOf(pandoraContractAddress)).value.ok!;
+        console.log({
+            new_balanceBuyer: toNumber(new_balanceBuyer.toString()),
+            new_balanceContract: toNumber(new_balanceContract.toString())
+        })
+    })
+
+    it('Can play', async () => {
+        let public_mint_price = (await pandoraQuery.getPublicMintPrice()).value.ok!;
+
+        // min betaz
+        let amount = new BN(10 * toNumber(public_mint_price) * 10 ** tokenDecimal);
+        await tokenContract.withSigner(minter).tx["betAzTrait::mint"](aliceAddress, amount);
+
+        // approve
+        await tokenContract.withSigner(alice).tx.increaseAllowance(pandoraContractAddress, amount);
+
+        let balanceBuyer = (await tokenQuery.balanceOf(aliceAddress)).value.ok!;
+        let balanceContract = (await tokenQuery.balanceOf(pandoraContractAddress)).value.ok!;
+        let nftBalanceBuyer = (await pandoraQuery.balanceOf(aliceAddress)).value.ok!;
+        console.log({
+            publicMintPrice: toNumber(public_mint_price),
+            balanceBuyer: toNumber(balanceBuyer.toString()),
+            balanceContract: toNumber(balanceContract.toString())
+        })
+
+        // case 1: amount > balanceBuyer => failed
+        console.log(`===========Case 1=============`);
+
+        let nft_amount = 11;
+        let difference = new BN(nft_amount * toNumber(public_mint_price) * 10 ** tokenDecimal).sub(new BN(balanceBuyer.toString()));
+        expect(toNumber(difference) > 0).to.equal(true);
+
+        try {
+            await pandoraContract.withSigner(alice).tx.publicBuy(nft_amount)
+        } catch (error) {
+
+        }
+
+        let new_nftBalanceBuyer = (await pandoraQuery.balanceOf(aliceAddress)).value.ok!;
+        let gain = new_nftBalanceBuyer - nftBalanceBuyer
+        expect(gain).to.equal(0);
+
+        // case 2: amount < balanceBuyer => success
+        console.log(`===========Case 2=============`);
+
+        nft_amount = 7;
+        difference = new BN(nft_amount * toNumber(public_mint_price) * 10 ** tokenDecimal).sub(new BN(balanceBuyer.toString()));
+        expect(toNumber(difference) < 0).to.equal(true);
+
+        try {
+            await pandoraContract.withSigner(alice).tx.publicBuy(nft_amount)
+        } catch (error) {
+            console.log(error)
+        }
+
+        new_nftBalanceBuyer = (await pandoraQuery.balanceOf(aliceAddress)).value.ok!;
+        gain = new_nftBalanceBuyer - nftBalanceBuyer
+        expect(gain).to.equal(nft_amount);
+        let new_balanceBuyer = (await tokenQuery.balanceOf(aliceAddress)).value.ok!;
+        let new_balanceContract = (await tokenQuery.balanceOf(pandoraContractAddress)).value.ok!;
+        console.log({
+            new_balanceBuyer: toNumber(new_balanceBuyer.toString()),
+            new_balanceContract: toNumber(new_balanceContract.toString())
+        })
     })
 
     after(async () => {

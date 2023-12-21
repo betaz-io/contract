@@ -226,13 +226,10 @@ pub trait PandoraPoolTraitsImpl:
         if let Some(sessions_info) = self.data::<Manager>().sessions.get(&session_id) {
             if sessions_info.status == Processing {
                 // Check token lock
-                if self
-                    .data::<Manager>()
-                    .nft_infor
-                    .get(&token_id.clone())
-                    .is_some()
-                {
-                    return Err(Error::NftIsUsed);
+                if let Some(ticket_info) = self.data::<Manager>().nft_infor.get(&token_id.clone()) {
+                    if ticket_info.used {
+                        return Err(Error::NftIsUsed);
+                    }
                 }
 
                 // Transfer NFT from Caller to pandora pool Contract
@@ -606,29 +603,6 @@ pub trait PandoraPoolTraitsImpl:
     #[modifiers(only_role(ADMINER))]
     fn set_betaz_token_address(&mut self, account: AccountId) -> Result<(), Error> {
         self.data::<Manager>().betaz_token_address = account;
-        Ok(())
-    }
-
-    // update nft info
-    #[modifiers(only_role(ADMINER))]
-    fn update_nft_info(
-        &mut self,
-        token_id: Id,
-        session_id: u32,
-        bet_number: u32,
-        status: bool,
-    ) -> Result<(), Error> {
-        if let Some(mut nft_info) = self.data::<Manager>().nft_infor.get(&token_id) {
-            nft_info.session_id = session_id;
-            nft_info.bet_number = bet_number;
-            nft_info.used = status;
-            self.data::<Manager>()
-                .nft_infor
-                .insert(&token_id, &nft_info)
-        } else {
-            return Err(Error::NftIsNotUsed);
-        }
-
         Ok(())
     }
 

@@ -255,18 +255,6 @@ pub mod pandora {
             PandoraPoolTraitsImpl::set_betaz_token_address(self, account)
         }
 
-        // update nft info
-        #[ink(message)]
-        fn update_nft_info(
-            &mut self,
-            token_id: Id,
-            session_id: u32,
-            bet_number: u32,
-            status: bool,
-        ) -> Result<(), Error> {
-            PandoraPoolTraitsImpl::update_nft_info(self, token_id, session_id, bet_number, status)
-        }
-
         /// set ticket_amount_ratio
         #[ink(message)]
         fn set_session_total_ticket_amount(

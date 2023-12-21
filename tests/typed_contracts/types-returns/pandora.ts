@@ -665,6 +665,13 @@ export class IdBuilder {
 	}
 }
 
+export type NFTInfomation = {
+	sessionId: number,
+	betNumber: number,
+	time: number,
+	used: boolean
+}
+
 export type SessionInfo = {
 	randomNumber: number,
 	status: SessionsStatusType
@@ -674,13 +681,6 @@ export enum SessionsStatusType {
 	processing = 'Processing',
 	finalized = 'Finalized',
 	completed = 'Completed'
-}
-
-export type NFTInfomation = {
-	sessionId: number,
-	betNumber: number,
-	time: number,
-	used: boolean
 }
 
 export type Hash = string | number[]
