@@ -696,7 +696,7 @@ describe('Betaz token test', () => {
         let reward_pool_amount = (await stakingQuery.getRewardPool()).value.ok!;
         console.log({ reward_pool_amount: toNumber(reward_pool_amount) })
 
-        let amount = new BN(100 * (10 ** 12));
+        let amount = new BN(101 * (10 ** 12));
 
         // case 1: locked false => failed
         console.log(`===========Case 1=============`);
@@ -770,6 +770,24 @@ describe('Betaz token test', () => {
         let stakingBalance = await showAZBalance(api, stakingContractAddress);
         console.log({ stakingBalance })
     });
+
+    // it('Can withdraw', async () => {
+    //     let amount = new BN(1 * (10 ** 12));
+    //     let balanceContract = await showAZBalance(api, stakingContractAddress);
+    //     let balanceAlice = await showAZBalance(api, aliceAddress);
+    //     let reward = (await stakingQuery.getRewardPool()).value.ok!;
+    //     console.log({ balanceContract, balanceAlice, reward: toNumber(reward) });
+
+    //     await stakingTx.withdrawFee(aliceAddress, amount);
+
+    //     let new_balanceContract = await showAZBalance(api, stakingContractAddress);
+    //     let new_balanceAlice = await showAZBalance(api, aliceAddress);
+    //     expect(balanceContract - new_balanceContract).to.equal(toNumber(amount));
+    //     expect(new_balanceAlice - balanceAlice).to.equal(toNumber(amount));
+    //     let new_reward = (await stakingQuery.getRewardPool()).value.ok!;
+    //     expect(toNumber(reward) - toNumber(new_reward)).to.equal(toNumber(amount));
+    //     console.log({ new_balanceContract, new_balanceAlice, new_reward: toNumber(new_reward) });
+    // })
 
     it('Can set claimed status ', async () => {
         let alice_is_claimed = (await stakingQuery.isClaimed(aliceAddress)).value.ok!;
