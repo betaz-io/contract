@@ -689,6 +689,8 @@ pub mod beta0_core {
                         .contains(&bet_number),
                     "Invalid bet number"
                 );
+            } else {
+                return Err(Error::InvalidInput);
             }
 
             if let Some(_bet_info) = self.manager.bets.get(&player) {
