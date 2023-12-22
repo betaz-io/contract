@@ -445,54 +445,7 @@ pub trait SalePoolTraitImpl:
             if total_purchased_amount > pool_sale_info.total_amount {
                 return Err(Error::NotEnoughBalance);
             }
-            // if total_purchased_amount > pool_sale_info.total_purchased_amount {
-            //     let difference = total_purchased_amount
-            //         .checked_sub(pool_sale_info.total_purchased_amount)
-            //         .unwrap();
-            //     if difference
-            //         > pool_sale_info
-            //             .total_amount
-            //             .checked_sub(pool_sale_info.total_purchased_amount)
-            //             .unwrap()
-            //     {
-            //         return Err(Error::NotEnoughBalance);
-            //     } else {
-            //         if Psp22Ref::burn(
-            //             &self.data::<Data>().betaz_token_address,
-            //             Self::env().account_id(),
-            //             difference,
-            //         )
-            //         .is_ok()
-            //         {
-            //             self._emit_burn_token_event(Self::env().account_id(), difference);
-            //         } else {
-            //             return Err(Error::CannotBurn);
-            //         }
-            //         pool_sale_info.total_purchased_amount = total_purchased_amount;
-            //         self.data::<Data>()
-            //             .pool_sale_info
-            //             .insert(&pool_type, &pool_sale_info)
-            //     }
-            // } else {
-            //     let difference = pool_sale_info.total_purchased_amount
-            //         .checked_sub(total_purchased_amount)
-            //         .unwrap();
-            //     if Psp22Ref::mint(
-            //         &self.data::<Data>().betaz_token_address,
-            //         Self::env().account_id(),
-            //         difference,
-            //     )
-            //     .is_ok()
-            //     {
-            //         self._emit_mint_token_event(Self::env().account_id(), difference);
-            //     } else {
-            //         return Err(Error::CannotMint);
-            //     }                    
-            //     pool_sale_info.total_purchased_amount = total_purchased_amount;
-            //     self.data::<Data>()
-            //         .pool_sale_info
-            //         .insert(&pool_type, &pool_sale_info)
-            // }
+
             pool_sale_info.total_purchased_amount = total_purchased_amount;
             self.data::<Data>()
                 .pool_sale_info
