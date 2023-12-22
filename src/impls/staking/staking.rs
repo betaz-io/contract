@@ -70,6 +70,11 @@ pub trait StakingPoolTraitImpl:
     #[modifiers(when_not_paused)]
     #[modifiers(only_role(ADMINER))]
     fn withdraw_fee(&mut self, account: AccountId, value: Balance) -> Result<(), Error> {
+        if self.data::<data::Data>().reward_started {
+            // only when reward distribution is not started
+            return Err(Error::RewardStarted);
+        }
+
         if value > self.data::<data::Data>().reward_pool {
             return Err(Error::NotEnoughBalance);
         }

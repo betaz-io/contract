@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0xd03dc36125b5f2831b5fe9d0673183dd713abc58807f50a5997f65290f480e8c",
+    "hash": "0x711c3e9b18b8356bdd8f0c929da7acdfeb41cd9fbd11b37b60e0238711e881cc",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.75.0-nightly",
     "build_info": {
@@ -342,6 +342,34 @@
         ],
         "docs": [],
         "label": "MintTokenEvent"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "contract_address",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "docs": [],
+            "indexed": false,
+            "label": "amount",
+            "type": {
+              "displayName": [
+                "Balance"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "docs": [],
+        "label": "BurnTokenEvent"
       }
     ],
     "lang_error": {
@@ -392,50 +420,38 @@
       {
         "args": [
           {
-            "label": "pool_type",
+            "label": "betaz_token_address",
             "type": {
               "displayName": [
                 "salepooltrait_external",
-                "GetTotalAccountByPoolTypeInput1"
+                "SetBetazTokenAddressInput1"
               ],
-              "type": 20
+              "type": 0
             }
           }
         ],
         "default": false,
-        "docs": [
-          " Get total account in pool type"
-        ],
-        "label": "SalePoolTrait::get_total_account_by_pool_type",
-        "mutates": false,
+        "docs": [],
+        "label": "SalePoolTrait::set_betaz_token_address",
+        "mutates": true,
         "payable": false,
         "returnType": {
           "displayName": [
             "ink",
             "MessageResult"
           ],
-          "type": 21
+          "type": 10
         },
-        "selector": "0x2a278862"
+        "selector": "0xd4d39707"
       },
       {
         "args": [
-          {
-            "label": "pool_type",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
-                "WhitelistBuyInput1"
-              ],
-              "type": 20
-            }
-          },
           {
             "label": "amount",
             "type": {
               "displayName": [
                 "salepooltrait_external",
-                "WhitelistBuyInput2"
+                "BuyWithSalePoolInput1"
               ],
               "type": 7
             }
@@ -443,7 +459,7 @@
         ],
         "default": false,
         "docs": [],
-        "label": "SalePoolTrait::whitelist_buy",
+        "label": "SalePoolTrait::buy_with_sale_pool",
         "mutates": true,
         "payable": true,
         "returnType": {
@@ -453,7 +469,132 @@
           ],
           "type": 10
         },
-        "selector": "0x86301e41"
+        "selector": "0x28aede93"
+      },
+      {
+        "args": [
+          {
+            "label": "pool_type",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "GetPoolSaleInfoInput1"
+              ],
+              "type": 20
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " Get pool sale info"
+        ],
+        "label": "SalePoolTrait::get_pool_sale_info",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 21
+        },
+        "selector": "0xc3564970"
+      },
+      {
+        "args": [
+          {
+            "label": "pool_type",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "GetWhitelistInfoInput1"
+              ],
+              "type": 20
+            }
+          },
+          {
+            "label": "account",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "GetWhitelistInfoInput2"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " Get whitelist Info"
+        ],
+        "label": "SalePoolTrait::get_whitelist_info",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 24
+        },
+        "selector": "0xa8e356b8"
+      },
+      {
+        "args": [
+          {
+            "label": "pool_type",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "AddWhitelistInput1"
+              ],
+              "type": 20
+            }
+          },
+          {
+            "label": "account",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "AddWhitelistInput2"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "amount",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "AddWhitelistInput3"
+              ],
+              "type": 7
+            }
+          },
+          {
+            "label": "price",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "AddWhitelistInput4"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "SalePoolTrait::add_whitelist",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 10
+        },
+        "selector": "0xec2a4567"
       },
       {
         "args": [
@@ -539,215 +680,6 @@
             "type": {
               "displayName": [
                 "salepooltrait_external",
-                "GetPoolSaleInfoInput1"
-              ],
-              "type": 20
-            }
-          }
-        ],
-        "default": false,
-        "docs": [
-          " Get pool sale info"
-        ],
-        "label": "SalePoolTrait::get_pool_sale_info",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 22
-        },
-        "selector": "0xc3564970"
-      },
-      {
-        "args": [
-          {
-            "label": "pool_type",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
-                "GetWhitelistInfoInput1"
-              ],
-              "type": 20
-            }
-          },
-          {
-            "label": "account",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
-                "GetWhitelistInfoInput2"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [
-          " Get whitelist Info"
-        ],
-        "label": "SalePoolTrait::get_whitelist_info",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 25
-        },
-        "selector": "0xa8e356b8"
-      },
-      {
-        "args": [
-          {
-            "label": "pool_type",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
-                "AddMultiWhitelistsInput1"
-              ],
-              "type": 20
-            }
-          },
-          {
-            "label": "accounts",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
-                "AddMultiWhitelistsInput2"
-              ],
-              "type": 28
-            }
-          },
-          {
-            "label": "amounts",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
-                "AddMultiWhitelistsInput3"
-              ],
-              "type": 29
-            }
-          },
-          {
-            "label": "prices",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
-                "AddMultiWhitelistsInput4"
-              ],
-              "type": 29
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "SalePoolTrait::add_multi_whitelists",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0xa78d8747"
-      },
-      {
-        "args": [
-          {
-            "label": "pool_type",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
-                "AddWhitelistInput1"
-              ],
-              "type": 20
-            }
-          },
-          {
-            "label": "account",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
-                "AddWhitelistInput2"
-              ],
-              "type": 0
-            }
-          },
-          {
-            "label": "amount",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
-                "AddWhitelistInput3"
-              ],
-              "type": 7
-            }
-          },
-          {
-            "label": "price",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
-                "AddWhitelistInput4"
-              ],
-              "type": 7
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "SalePoolTrait::add_whitelist",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0xec2a4567"
-      },
-      {
-        "args": [
-          {
-            "label": "betaz_token_address",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
-                "SetBetazTokenAddressInput1"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "SalePoolTrait::set_betaz_token_address",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0xd4d39707"
-      },
-      {
-        "args": [
-          {
-            "label": "pool_type",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
                 "UpdateMultiWhitelistsInput1"
               ],
               "type": 20
@@ -760,7 +692,7 @@
                 "salepooltrait_external",
                 "UpdateMultiWhitelistsInput2"
               ],
-              "type": 28
+              "type": 27
             }
           },
           {
@@ -770,7 +702,7 @@
                 "salepooltrait_external",
                 "UpdateMultiWhitelistsInput3"
               ],
-              "type": 29
+              "type": 28
             }
           },
           {
@@ -780,7 +712,7 @@
                 "salepooltrait_external",
                 "UpdateMultiWhitelistsInput4"
               ],
-              "type": 29
+              "type": 28
             }
           }
         ],
@@ -812,28 +744,97 @@
             "ink",
             "MessageResult"
           ],
-          "type": 30
+          "type": 29
         },
         "selector": "0xd7a42be6"
       },
       {
         "args": [
           {
-            "label": "amount",
+            "label": "pool_type",
             "type": {
               "displayName": [
                 "salepooltrait_external",
-                "BuyWithSalePoolInput1"
+                "GetAccountByPoolTypeInput1"
+              ],
+              "type": 20
+            }
+          },
+          {
+            "label": "index",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "GetAccountByPoolTypeInput2"
               ],
               "type": 7
             }
           }
         ],
         "default": false,
+        "docs": [
+          " Get account in pool type"
+        ],
+        "label": "SalePoolTrait::get_account_by_pool_type",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 30
+        },
+        "selector": "0x924067e7"
+      },
+      {
+        "args": [
+          {
+            "label": "pool_type",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "AddMultiWhitelistsInput1"
+              ],
+              "type": 20
+            }
+          },
+          {
+            "label": "accounts",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "AddMultiWhitelistsInput2"
+              ],
+              "type": 27
+            }
+          },
+          {
+            "label": "amounts",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "AddMultiWhitelistsInput3"
+              ],
+              "type": 28
+            }
+          },
+          {
+            "label": "prices",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "AddMultiWhitelistsInput4"
+              ],
+              "type": 28
+            }
+          }
+        ],
+        "default": false,
         "docs": [],
-        "label": "SalePoolTrait::buy_with_sale_pool",
+        "label": "SalePoolTrait::add_multi_whitelists",
         "mutates": true,
-        "payable": true,
+        "payable": false,
         "returnType": {
           "displayName": [
             "ink",
@@ -841,7 +842,7 @@
           ],
           "type": 10
         },
-        "selector": "0x28aede93"
+        "selector": "0xa78d8747"
       },
       {
         "args": [
@@ -868,9 +869,93 @@
             "ink",
             "MessageResult"
           ],
-          "type": 31
+          "type": 32
         },
         "selector": "0x84bb77f5"
+      },
+      {
+        "args": [
+          {
+            "label": "pool_type",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "GetTotalAccountByPoolTypeInput1"
+              ],
+              "type": 20
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " Get total account in pool type"
+        ],
+        "label": "SalePoolTrait::get_total_account_by_pool_type",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 34
+        },
+        "selector": "0x2a278862"
+      },
+      {
+        "args": [
+          {
+            "label": "pool_type",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "WhitelistBuyInput1"
+              ],
+              "type": 20
+            }
+          },
+          {
+            "label": "amount",
+            "type": {
+              "displayName": [
+                "salepooltrait_external",
+                "WhitelistBuyInput2"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "SalePoolTrait::whitelist_buy",
+        "mutates": true,
+        "payable": true,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 10
+        },
+        "selector": "0x86301e41"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          " Function changes state"
+        ],
+        "label": "SalePoolTrait::change_state",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 10
+        },
+        "selector": "0xf778b5ed"
       },
       {
         "args": [
@@ -952,30 +1037,21 @@
         "selector": "0xca5443a1"
       },
       {
-        "args": [],
-        "default": false,
-        "docs": [
-          " get balance contract"
+        "args": [
+          {
+            "label": "new_owner",
+            "type": {
+              "displayName": [
+                "ownable_external",
+                "TransferOwnershipInput1"
+              ],
+              "type": 31
+            }
+          }
         ],
-        "label": "SalePoolTrait::balance_of",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 21
-        },
-        "selector": "0xc40524a2"
-      },
-      {
-        "args": [],
         "default": false,
-        "docs": [
-          " Function changes state"
-        ],
-        "label": "SalePoolTrait::change_state",
+        "docs": [],
+        "label": "Ownable::transfer_ownership",
         "mutates": true,
         "payable": false,
         "returnType": {
@@ -983,64 +1059,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 10
+          "type": 35
         },
-        "selector": "0xf778b5ed"
-      },
-      {
-        "args": [
-          {
-            "label": "pool_type",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
-                "GetAccountByPoolTypeInput1"
-              ],
-              "type": 20
-            }
-          },
-          {
-            "label": "index",
-            "type": {
-              "displayName": [
-                "salepooltrait_external",
-                "GetAccountByPoolTypeInput2"
-              ],
-              "type": 7
-            }
-          }
-        ],
-        "default": false,
-        "docs": [
-          " Get account in pool type"
-        ],
-        "label": "SalePoolTrait::get_account_by_pool_type",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 33
-        },
-        "selector": "0x924067e7"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "Ownable::owner",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 33
-        },
-        "selector": "0x4fa43c8c"
+        "selector": "0x11f43efd"
       },
       {
         "args": [],
@@ -1059,31 +1080,20 @@
         "selector": "0x5e228753"
       },
       {
-        "args": [
-          {
-            "label": "new_owner",
-            "type": {
-              "displayName": [
-                "ownable_external",
-                "TransferOwnershipInput1"
-              ],
-              "type": 34
-            }
-          }
-        ],
+        "args": [],
         "default": false,
         "docs": [],
-        "label": "Ownable::transfer_ownership",
-        "mutates": true,
+        "label": "Ownable::owner",
+        "mutates": false,
         "payable": false,
         "returnType": {
           "displayName": [
             "ink",
             "MessageResult"
           ],
-          "type": 35
+          "type": 30
         },
-        "selector": "0x11f43efd"
+        "selector": "0x4fa43c8c"
       },
       {
         "args": [],
@@ -1147,7 +1157,7 @@
                 "accesscontrol_external",
                 "HasRoleInput2"
               ],
-              "type": 34
+              "type": 31
             }
           }
         ],
@@ -1172,43 +1182,6 @@
             "type": {
               "displayName": [
                 "accesscontrol_external",
-                "RevokeRoleInput1"
-              ],
-              "type": 4
-            }
-          },
-          {
-            "label": "account",
-            "type": {
-              "displayName": [
-                "accesscontrol_external",
-                "RevokeRoleInput2"
-              ],
-              "type": 34
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "AccessControl::revoke_role",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 42
-        },
-        "selector": "0x6e4f0991"
-      },
-      {
-        "args": [
-          {
-            "label": "role",
-            "type": {
-              "displayName": [
-                "accesscontrol_external",
                 "GetRoleAdminInput1"
               ],
               "type": 4
@@ -1225,7 +1198,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 44
+          "type": 42
         },
         "selector": "0x83da3bb2"
       },
@@ -1248,7 +1221,7 @@
                 "accesscontrol_external",
                 "GrantRoleInput2"
               ],
-              "type": 34
+              "type": 31
             }
           }
         ],
@@ -1262,7 +1235,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 42
+          "type": 43
         },
         "selector": "0x4ac062fd"
       },
@@ -1285,7 +1258,7 @@
                 "accesscontrol_external",
                 "RenounceRoleInput2"
               ],
-              "type": 34
+              "type": 31
             }
           }
         ],
@@ -1299,9 +1272,46 @@
             "ink",
             "MessageResult"
           ],
-          "type": 42
+          "type": 43
         },
         "selector": "0xeaf1248a"
+      },
+      {
+        "args": [
+          {
+            "label": "role",
+            "type": {
+              "displayName": [
+                "accesscontrol_external",
+                "RevokeRoleInput1"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "account",
+            "type": {
+              "displayName": [
+                "accesscontrol_external",
+                "RevokeRoleInput2"
+              ],
+              "type": 31
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "AccessControl::revoke_role",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 43
+        },
+        "selector": "0x6e4f0991"
       },
       {
         "args": [
@@ -1326,7 +1336,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 44
+          "type": 42
         },
         "selector": "0xf1b1a9d7"
       },
@@ -1363,7 +1373,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 33
+          "type": 30
         },
         "selector": "0x163469e0"
       }
@@ -2259,13 +2269,41 @@
                 "name": "InvalidTotalPurchasedAmount"
               },
               {
+                "index": 66,
+                "name": "TicketAmountLimitReached"
+              },
+              {
+                "index": 67,
+                "name": "NotTimeToFinalized"
+              },
+              {
+                "index": 68,
+                "name": "CallerDoNotHaveVoting"
+              },
+              {
+                "index": 69,
+                "name": "SetPoolRationFailed"
+              },
+              {
+                "index": 70,
+                "name": "FailToDecreaseClaimableReward"
+              },
+              {
+                "index": 71,
+                "name": "RewardNotAdded"
+              },
+              {
+                "index": 72,
+                "name": "ChainlinkRequestIdIsExists"
+              },
+              {
                 "fields": [
                   {
                     "type": 14,
                     "typeName": "OwnableError"
                   }
                 ],
-                "index": 66,
+                "index": 73,
                 "name": "OwnableError"
               },
               {
@@ -2275,7 +2313,7 @@
                     "typeName": "AccessControlError"
                   }
                 ],
-                "index": 67,
+                "index": 74,
                 "name": "AccessControlError"
               },
               {
@@ -2285,7 +2323,7 @@
                     "typeName": "PSP22Error"
                   }
                 ],
-                "index": 68,
+                "index": 75,
                 "name": "PSP22Error"
               },
               {
@@ -2295,7 +2333,7 @@
                     "typeName": "PSP34Error"
                   }
                 ],
-                "index": 69,
+                "index": 76,
                 "name": "PSP34Error"
               },
               {
@@ -2305,11 +2343,11 @@
                     "typeName": "PausableError"
                   }
                 ],
-                "index": 70,
+                "index": 77,
                 "name": "PausableError"
               },
               {
-                "index": 71,
+                "index": 78,
                 "name": "CheckedOperations"
               }
             ]
@@ -2622,7 +2660,7 @@
               {
                 "fields": [
                   {
-                    "type": 7
+                    "type": 22
                   }
                 ],
                 "index": 0,
@@ -2643,7 +2681,7 @@
         "params": [
           {
             "name": "T",
-            "type": 7
+            "type": 22
           },
           {
             "name": "E",
@@ -2662,55 +2700,13 @@
           "variant": {
             "variants": [
               {
-                "fields": [
-                  {
-                    "type": 23
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 9
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 23
-          },
-          {
-            "name": "E",
-            "type": 9
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 23,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
                 "index": 0,
                 "name": "None"
               },
               {
                 "fields": [
                   {
-                    "type": 24
+                    "type": 23
                   }
                 ],
                 "index": 1,
@@ -2722,7 +2718,7 @@
         "params": [
           {
             "name": "T",
-            "type": 24
+            "type": 23
           }
         ],
         "path": [
@@ -2731,7 +2727,7 @@
       }
     },
     {
-      "id": 24,
+      "id": 23,
       "type": {
         "def": {
           "composite": {
@@ -2774,7 +2770,7 @@
       }
     },
     {
-      "id": 25,
+      "id": 24,
       "type": {
         "def": {
           "variant": {
@@ -2782,7 +2778,7 @@
               {
                 "fields": [
                   {
-                    "type": 26
+                    "type": 25
                   }
                 ],
                 "index": 0,
@@ -2803,7 +2799,7 @@
         "params": [
           {
             "name": "T",
-            "type": 26
+            "type": 25
           },
           {
             "name": "E",
@@ -2816,7 +2812,7 @@
       }
     },
     {
-      "id": 26,
+      "id": 25,
       "type": {
         "def": {
           "variant": {
@@ -2828,7 +2824,7 @@
               {
                 "fields": [
                   {
-                    "type": 27
+                    "type": 26
                   }
                 ],
                 "index": 1,
@@ -2840,7 +2836,7 @@
         "params": [
           {
             "name": "T",
-            "type": 27
+            "type": 26
           }
         ],
         "path": [
@@ -2849,7 +2845,7 @@
       }
     },
     {
-      "id": 27,
+      "id": 26,
       "type": {
         "def": {
           "composite": {
@@ -2882,7 +2878,7 @@
       }
     },
     {
-      "id": 28,
+      "id": 27,
       "type": {
         "def": {
           "sequence": {
@@ -2892,7 +2888,7 @@
       }
     },
     {
-      "id": 29,
+      "id": 28,
       "type": {
         "def": {
           "sequence": {
@@ -2902,7 +2898,7 @@
       }
     },
     {
-      "id": 30,
+      "id": 29,
       "type": {
         "def": {
           "variant": {
@@ -2944,7 +2940,7 @@
       }
     },
     {
-      "id": 31,
+      "id": 30,
       "type": {
         "def": {
           "variant": {
@@ -2952,7 +2948,7 @@
               {
                 "fields": [
                   {
-                    "type": 32
+                    "type": 31
                   }
                 ],
                 "index": 0,
@@ -2973,7 +2969,7 @@
         "params": [
           {
             "name": "T",
-            "type": 32
+            "type": 31
           },
           {
             "name": "E",
@@ -2986,7 +2982,82 @@
       }
     },
     {
+      "id": 31,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 0
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 0
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
       "id": 32,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 33
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 33
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 33,
       "type": {
         "def": {
           "variant": {
@@ -3019,7 +3090,7 @@
       }
     },
     {
-      "id": 33,
+      "id": 34,
       "type": {
         "def": {
           "variant": {
@@ -3027,7 +3098,7 @@
               {
                 "fields": [
                   {
-                    "type": 34
+                    "type": 7
                   }
                 ],
                 "index": 0,
@@ -3048,7 +3119,7 @@
         "params": [
           {
             "name": "T",
-            "type": 34
+            "type": 7
           },
           {
             "name": "E",
@@ -3057,39 +3128,6 @@
         ],
         "path": [
           "Result"
-        ]
-      }
-    },
-    {
-      "id": 34,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "index": 0,
-                "name": "None"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 0
-                  }
-                ],
-                "index": 1,
-                "name": "Some"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 0
-          }
-        ],
-        "path": [
-          "Option"
         ]
       }
     },
@@ -3384,7 +3422,7 @@
               {
                 "fields": [
                   {
-                    "type": 43
+                    "type": 4
                   }
                 ],
                 "index": 0,
@@ -3405,7 +3443,7 @@
         "params": [
           {
             "name": "T",
-            "type": 43
+            "type": 4
           },
           {
             "name": "E",
@@ -3419,6 +3457,48 @@
     },
     {
       "id": 43,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 44
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 44
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 44,
       "type": {
         "def": {
           "variant": {
@@ -3452,48 +3532,6 @@
           {
             "name": "E",
             "type": 15
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 44,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 4
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 9
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 4
-          },
-          {
-            "name": "E",
-            "type": 9
           }
         ],
         "path": [

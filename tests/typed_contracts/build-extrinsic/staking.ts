@@ -109,25 +109,37 @@ export default class Methods {
 	}
 
 	/**
-	 * updateIsLocked
+	 * getRewardPool
 	 *
-	 * @param { boolean } isLocked,
 	*/
-	"updateIsLocked" (
-		isLocked: boolean,
+	"getRewardPool" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::updateIsLocked", [isLocked], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getRewardPool", [], __options);
 	}
 
 	/**
-	 * getIsLocked
+	 * updateStatusRewardDistribution
 	 *
+	 * @param { boolean } start,
 	*/
-	"getIsLocked" (
+	"updateStatusRewardDistribution" (
+		start: boolean,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getIsLocked", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::updateStatusRewardDistribution", [start], __options);
+	}
+
+	/**
+	 * getTotalPendingUnstakedByAccount
+	 *
+	 * @param { ArgumentTypes.AccountId } account,
+	*/
+	"getTotalPendingUnstakedByAccount" (
+		account: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getTotalPendingUnstakedByAccount", [account], __options);
 	}
 
 	/**
@@ -147,33 +159,35 @@ export default class Methods {
 	}
 
 	/**
-	 * getRewardPool
+	 * isClaimed
 	 *
+	 * @param { ArgumentTypes.AccountId } account,
 	*/
-	"getRewardPool" (
+	"isClaimed" (
+		account: ArgumentTypes.AccountId,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getRewardPool", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::isClaimed", [account], __options);
 	}
 
 	/**
-	 * getClaimableReward
+	 * getIsLocked
 	 *
 	*/
-	"getClaimableReward" (
+	"getIsLocked" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getClaimableReward", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getIsLocked", [], __options);
 	}
 
 	/**
-	 * getRequestUnstakeAccountsLastIndex
+	 * getStakedAccountsLastIndex
 	 *
 	*/
-	"getRequestUnstakeAccountsLastIndex" (
+	"getStakedAccountsLastIndex" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getRequestUnstakeAccountsLastIndex", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getStakedAccountsLastIndex", [], __options);
 	}
 
 	/**
@@ -191,119 +205,15 @@ export default class Methods {
 	}
 
 	/**
-	 * isClaimed
+	 * getRequestUnstakeAccountsIndexByAccount
 	 *
 	 * @param { ArgumentTypes.AccountId } account,
 	*/
-	"isClaimed" (
+	"getRequestUnstakeAccountsIndexByAccount" (
 		account: ArgumentTypes.AccountId,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::isClaimed", [account], __options);
-	}
-
-	/**
-	 * changeState
-	 *
-	*/
-	"changeState" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::changeState", [], __options);
-	}
-
-	/**
-	 * setLimitUnstakeTime
-	 *
-	 * @param { (number | string | BN) } limitUnstakeTime,
-	*/
-	"setLimitUnstakeTime" (
-		limitUnstakeTime: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::setLimitUnstakeTime", [limitUnstakeTime], __options);
-	}
-
-	/**
-	 * getLimitUnstakeTime
-	 *
-	*/
-	"getLimitUnstakeTime" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getLimitUnstakeTime", [], __options);
-	}
-
-	/**
-	 * getStakedAccountsIndexByAccount
-	 *
-	 * @param { ArgumentTypes.AccountId } account,
-	*/
-	"getStakedAccountsIndexByAccount" (
-		account: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getStakedAccountsIndexByAccount", [account], __options);
-	}
-
-	/**
-	 * updateStatusRewardDistribution
-	 *
-	 * @param { boolean } start,
-	*/
-	"updateStatusRewardDistribution" (
-		start: boolean,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::updateStatusRewardDistribution", [start], __options);
-	}
-
-	/**
-	 * getStakedAccountsByIndex
-	 *
-	 * @param { (number | string | BN) } index,
-	*/
-	"getStakedAccountsByIndex" (
-		index: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getStakedAccountsByIndex", [index], __options);
-	}
-
-	/**
-	 * getStakedAccountsLastIndex
-	 *
-	*/
-	"getStakedAccountsLastIndex" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getStakedAccountsLastIndex", [], __options);
-	}
-
-	/**
-	 * withdrawFee
-	 *
-	 * @param { ArgumentTypes.AccountId } account,
-	 * @param { (string | number | BN) } value,
-	*/
-	"withdrawFee" (
-		account: ArgumentTypes.AccountId,
-		value: (string | number | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::withdrawFee", [account, value], __options);
-	}
-
-	/**
-	 * setBetazTokenAddress
-	 *
-	 * @param { ArgumentTypes.AccountId } betazTokenAddress,
-	*/
-	"setBetazTokenAddress" (
-		betazTokenAddress: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::setBetazTokenAddress", [betazTokenAddress], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getRequestUnstakeAccountsIndexByAccount", [account], __options);
 	}
 
 	/**
@@ -321,13 +231,13 @@ export default class Methods {
 	}
 
 	/**
-	 * getBetazTokenAddress
+	 * getClaimableReward
 	 *
 	*/
-	"getBetazTokenAddress" (
+	"getClaimableReward" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getBetazTokenAddress", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getClaimableReward", [], __options);
 	}
 
 	/**
@@ -341,15 +251,103 @@ export default class Methods {
 	}
 
 	/**
-	 * getRequestUnstakeAccountsByIndex
+	 * getBetazTokenAddress
+	 *
+	*/
+	"getBetazTokenAddress" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getBetazTokenAddress", [], __options);
+	}
+
+	/**
+	 * getLimitUnstakeTime
+	 *
+	*/
+	"getLimitUnstakeTime" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getLimitUnstakeTime", [], __options);
+	}
+
+	/**
+	 * setBetazTokenAddress
+	 *
+	 * @param { ArgumentTypes.AccountId } betazTokenAddress,
+	*/
+	"setBetazTokenAddress" (
+		betazTokenAddress: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::setBetazTokenAddress", [betazTokenAddress], __options);
+	}
+
+	/**
+	 * setLimitUnstakeTime
+	 *
+	 * @param { (number | string | BN) } limitUnstakeTime,
+	*/
+	"setLimitUnstakeTime" (
+		limitUnstakeTime: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::setLimitUnstakeTime", [limitUnstakeTime], __options);
+	}
+
+	/**
+	 * getTotalStaked
+	 *
+	*/
+	"getTotalStaked" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getTotalStaked", [], __options);
+	}
+
+	/**
+	 * getStakedAccountsByIndex
 	 *
 	 * @param { (number | string | BN) } index,
 	*/
-	"getRequestUnstakeAccountsByIndex" (
+	"getStakedAccountsByIndex" (
 		index: (number | string | BN),
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getRequestUnstakeAccountsByIndex", [index], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getStakedAccountsByIndex", [index], __options);
+	}
+
+	/**
+	 * getRequestUnstakeAccountsLastIndex
+	 *
+	*/
+	"getRequestUnstakeAccountsLastIndex" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getRequestUnstakeAccountsLastIndex", [], __options);
+	}
+
+	/**
+	 * changeState
+	 *
+	*/
+	"changeState" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::changeState", [], __options);
+	}
+
+	/**
+	 * withdrawFee
+	 *
+	 * @param { ArgumentTypes.AccountId } account,
+	 * @param { (string | number | BN) } value,
+	*/
+	"withdrawFee" (
+		account: ArgumentTypes.AccountId,
+		value: (string | number | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::withdrawFee", [account, value], __options);
 	}
 
 	/**
@@ -365,15 +363,39 @@ export default class Methods {
 	}
 
 	/**
-	 * getTotalPendingUnstakedByAccount
+	 * getRequestUnstakeAccountsByIndex
+	 *
+	 * @param { (number | string | BN) } index,
+	*/
+	"getRequestUnstakeAccountsByIndex" (
+		index: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getRequestUnstakeAccountsByIndex", [index], __options);
+	}
+
+	/**
+	 * getStakedAccountsIndexByAccount
 	 *
 	 * @param { ArgumentTypes.AccountId } account,
 	*/
-	"getTotalPendingUnstakedByAccount" (
+	"getStakedAccountsIndexByAccount" (
 		account: ArgumentTypes.AccountId,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getTotalPendingUnstakedByAccount", [account], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getStakedAccountsIndexByAccount", [account], __options);
+	}
+
+	/**
+	 * updateIsLocked
+	 *
+	 * @param { boolean } isLocked,
+	*/
+	"updateIsLocked" (
+		isLocked: boolean,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::updateIsLocked", [isLocked], __options);
 	}
 
 	/**
@@ -391,28 +413,6 @@ export default class Methods {
 	}
 
 	/**
-	 * getTotalStaked
-	 *
-	*/
-	"getTotalStaked" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getTotalStaked", [], __options);
-	}
-
-	/**
-	 * getRequestUnstakeAccountsIndexByAccount
-	 *
-	 * @param { ArgumentTypes.AccountId } account,
-	*/
-	"getRequestUnstakeAccountsIndexByAccount" (
-		account: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "stakingPoolTrait::getRequestUnstakeAccountsIndexByAccount", [account], __options);
-	}
-
-	/**
 	 * owner
 	 *
 	*/
@@ -420,6 +420,16 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::owner", [], __options);
+	}
+
+	/**
+	 * renounceOwnership
+	 *
+	*/
+	"renounceOwnership" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::renounceOwnership", [], __options);
 	}
 
 	/**
@@ -432,16 +442,6 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::transferOwnership", [newOwner], __options);
-	}
-
-	/**
-	 * renounceOwnership
-	 *
-	*/
-	"renounceOwnership" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::renounceOwnership", [], __options);
 	}
 
 	/**
@@ -467,17 +467,29 @@ export default class Methods {
 	}
 
 	/**
-	 * renounceRole
+	 * grantRole
 	 *
 	 * @param { (number | string | BN) } role,
 	 * @param { ArgumentTypes.AccountId | null } account,
 	*/
-	"renounceRole" (
+	"grantRole" (
 		role: (number | string | BN),
 		account: ArgumentTypes.AccountId | null,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::renounceRole", [role, account], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::grantRole", [role, account], __options);
+	}
+
+	/**
+	 * getRoleAdmin
+	 *
+	 * @param { (number | string | BN) } role,
+	*/
+	"getRoleAdmin" (
+		role: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::getRoleAdmin", [role], __options);
 	}
 
 	/**
@@ -495,15 +507,17 @@ export default class Methods {
 	}
 
 	/**
-	 * getRoleAdmin
+	 * renounceRole
 	 *
 	 * @param { (number | string | BN) } role,
+	 * @param { ArgumentTypes.AccountId | null } account,
 	*/
-	"getRoleAdmin" (
+	"renounceRole" (
 		role: (number | string | BN),
+		account: ArgumentTypes.AccountId | null,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::getRoleAdmin", [role], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::renounceRole", [role, account], __options);
 	}
 
 	/**
@@ -521,17 +535,17 @@ export default class Methods {
 	}
 
 	/**
-	 * grantRole
+	 * getRoleMember
 	 *
 	 * @param { (number | string | BN) } role,
-	 * @param { ArgumentTypes.AccountId | null } account,
+	 * @param { (number | string | BN) } index,
 	*/
-	"grantRole" (
+	"getRoleMember" (
 		role: (number | string | BN),
-		account: ArgumentTypes.AccountId | null,
+		index: (number | string | BN),
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::grantRole", [role, account], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControlEnumerable::getRoleMember", [role, index], __options);
 	}
 
 	/**
@@ -544,20 +558,6 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControlEnumerable::getRoleMemberCount", [role], __options);
-	}
-
-	/**
-	 * getRoleMember
-	 *
-	 * @param { (number | string | BN) } role,
-	 * @param { (number | string | BN) } index,
-	*/
-	"getRoleMember" (
-		role: (number | string | BN),
-		index: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControlEnumerable::getRoleMember", [role, index], __options);
 	}
 
 }
