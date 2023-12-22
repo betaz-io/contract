@@ -1088,7 +1088,8 @@ describe('Betaz token test', () => {
         let amount = new BN(1 * (10 ** 12));
         let balanceContract = await showAZBalance(api, coreContractAddress);
         let balanceAlice = await showAZBalance(api, aliceAddress);
-        console.log({ balanceContract, balanceAlice });
+        let core_pool_amount = (await coreQuery.getCorePoolAmout()).value.ok!;
+        console.log({ balanceContract, balanceAlice, core_pool_amount: toNumber(core_pool_amount) });
 
         await coreTx.withdrawFee(aliceAddress, amount);
 
@@ -1096,7 +1097,9 @@ describe('Betaz token test', () => {
         let new_balanceAlice = await showAZBalance(api, aliceAddress);
         expect(balanceContract - new_balanceContract).to.equal(toNumber(amount));
         expect(new_balanceAlice - balanceAlice).to.equal(toNumber(amount));
-        console.log({ new_balanceContract, new_balanceAlice });
+        let new_core_pool_amount = (await coreQuery.getCorePoolAmout()).value.ok!;
+        expect(toNumber(core_pool_amount) - toNumber(new_core_pool_amount) > 0).to.equal(true);
+        console.log({ new_balanceContract, new_balanceAlice, new_core_pool_amount: toNumber(new_core_pool_amount) });
     });
 
     it('Can transfer And Update Session Pandora Pool', async () => {

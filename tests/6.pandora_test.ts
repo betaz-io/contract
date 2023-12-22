@@ -105,6 +105,8 @@ describe('Betaz token test', () => {
     let aliceAddress: string;
     let bobAddress: string;
 
+    const u64Id = (id: number) => PSP34Args.IdBuilder.U64(id);
+
     async function setup() {
         api = await ApiPromise.create({ provider });
 
@@ -561,7 +563,7 @@ describe('Betaz token test', () => {
     })
 
     it('Can burn', async () => {
-        const tokenId = PSP34Args.IdBuilder.U64(1);
+        const tokenId = PSP34Args.IdBuilder.U64(6);
         const totalSupplyBefore = (await pandoraQuery.totalSupply()).value.ok!.toString();
 
         // Check token owner
@@ -648,6 +650,44 @@ describe('Betaz token test', () => {
         expect(gain).to.equal(1);
     })
 
+    it('Can update bet session', async () => {
+        let last_session_id = (await pandoraQuery.getLastSessionId()).value.ok!;
+
+        // case 1: not admin => failed
+        console.log(`===========Case 1=============`);
+        let is_adminer = (await pandoraQuery.hasRole(RoleType, aliceAddress)).value.ok!;
+        expect(is_adminer).to.equal(false);
+
+        let randomNumber = 10;
+        let statusType = "Completed";
+        let bet_session = (await pandoraQuery.getBetSession(last_session_id)).value.ok!;
+        try {
+            await pandoraContract.withSigner(alice).tx.updateBetSession(last_session_id, randomNumber, statusType);
+        } catch (error) {
+
+        }
+
+        let new_bet_session = (await pandoraQuery.getBetSession(last_session_id)).value.ok!;
+        expect(new_bet_session.randomNumber).to.equal(bet_session.randomNumber);
+        expect(new_bet_session.status).to.equal(bet_session.status);
+
+        // case 2: is admin => success
+        console.log(`===========Case 2=============`);
+        is_adminer = (await pandoraQuery.hasRole(RoleType, signerAddress)).value.ok!;
+        expect(is_adminer).to.equal(true);
+
+        try {
+            await pandoraContract.withSigner(defaultSigner).tx.updateBetSession(last_session_id, randomNumber, statusType);
+        } catch (error) {
+            console.log(error)
+        }
+
+        new_bet_session = (await pandoraQuery.getBetSession(last_session_id)).value.ok!;
+        console.log({ new_bet_session })
+        expect(new_bet_session.randomNumber).to.equal(randomNumber);
+        expect(new_bet_session.status).to.equal(statusType);
+    })
+
     it('Can add chainlink request id', async () => {
         const requestId = "123456";
         let last_session_id = (await pandoraQuery.getLastSessionId()).value.ok!;
@@ -699,7 +739,427 @@ describe('Betaz token test', () => {
     })
 
     it('Can public buy', async () => {
-    
+        let public_mint_price = (await pandoraQuery.getPublicMintPrice()).value.ok!;
+
+        // min betaz
+        let amount = new BN(10 * toNumber(public_mint_price) * 10 ** tokenDecimal);
+        await tokenContract.withSigner(minter).tx["betAzTrait::mint"](aliceAddress, amount);
+
+        // approve
+        await tokenContract.withSigner(alice).tx.increaseAllowance(pandoraContractAddress, amount);
+
+        let balanceBuyer = (await tokenQuery.balanceOf(aliceAddress)).value.ok!;
+        let balanceContract = (await tokenQuery.balanceOf(pandoraContractAddress)).value.ok!;
+        let nftBalanceBuyer = (await pandoraQuery.balanceOf(aliceAddress)).value.ok!;
+        console.log({
+            publicMintPrice: toNumber(public_mint_price),
+            balanceBuyer: toNumber(balanceBuyer.toString()),
+            balanceContract: toNumber(balanceContract.toString())
+        })
+
+        // case 1: amount > balanceBuyer => failed
+        console.log(`===========Case 1=============`);
+
+        let nft_amount = 11;
+        let difference = new BN(nft_amount * toNumber(public_mint_price) * 10 ** tokenDecimal).sub(new BN(balanceBuyer.toString()));
+        expect(toNumber(difference) > 0).to.equal(true);
+
+        try {
+            await pandoraContract.withSigner(alice).tx.publicBuy(nft_amount)
+        } catch (error) {
+
+        }
+
+        let new_nftBalanceBuyer = (await pandoraQuery.balanceOf(aliceAddress)).value.ok!;
+        let gain = new_nftBalanceBuyer - nftBalanceBuyer
+        expect(gain).to.equal(0);
+
+        // case 2: amount < balanceBuyer => success
+        console.log(`===========Case 2=============`);
+
+        nft_amount = 7;
+        difference = new BN(nft_amount * toNumber(public_mint_price) * 10 ** tokenDecimal).sub(new BN(balanceBuyer.toString()));
+        expect(toNumber(difference) < 0).to.equal(true);
+
+        try {
+            await pandoraContract.withSigner(alice).tx.publicBuy(nft_amount)
+        } catch (error) {
+            console.log(error)
+        }
+
+        new_nftBalanceBuyer = (await pandoraQuery.balanceOf(aliceAddress)).value.ok!;
+        gain = new_nftBalanceBuyer - nftBalanceBuyer
+        expect(gain).to.equal(nft_amount);
+        let new_balanceBuyer = (await tokenQuery.balanceOf(aliceAddress)).value.ok!;
+        let new_balanceContract = (await tokenQuery.balanceOf(pandoraContractAddress)).value.ok!;
+        console.log({
+            new_balanceBuyer: toNumber(new_balanceBuyer.toString()),
+            new_balanceContract: toNumber(new_balanceContract.toString())
+        })
+    })
+
+    it('Can play', async () => {
+        let last_session_id = (await pandoraQuery.getLastSessionId()).value.ok!;
+        // tranfer nft to player
+        try {
+            await pandoraTx.transfer(player1.address, u64Id(1), []);
+            await pandoraTx.transfer(player2.address, u64Id(2), []);
+            await pandoraTx.transfer(player3.address, u64Id(3), []);
+            await pandoraTx.transfer(player4.address, u64Id(4), []);
+            await pandoraTx.transfer(player4.address, u64Id(5), []);
+        } catch (error) {
+            console.log(error)
+        }
+
+        // check owner nft
+        let owner = (await pandoraQuery.ownerOf(u64Id(1))).value.ok!;
+        expect(owner).to.equal(player1.address);
+        owner = (await pandoraQuery.ownerOf(u64Id(2))).value.ok!;
+        expect(owner).to.equal(player2.address);
+        owner = (await pandoraQuery.ownerOf(u64Id(3))).value.ok!;
+        expect(owner).to.equal(player3.address);
+        owner = (await pandoraQuery.ownerOf(u64Id(4))).value.ok!;
+        expect(owner).to.equal(player4.address);
+        owner = (await pandoraQuery.ownerOf(u64Id(5))).value.ok!;
+        expect(owner).to.equal(player4.address);
+        expect(owner === aliceAddress).to.equal(false);
+
+        // case 1: player not owner nft => false
+        console.log(`===========Case 1=============`);
+
+        try {
+            await pandoraContract.withSigner(alice).tx.play(last_session_id, 10, u64Id(5))
+        } catch (error) {
+
+        }
+
+        owner = (await pandoraQuery.ownerOf(u64Id(5))).value.ok!;
+        expect(owner === pandoraContractAddress).to.equal(false);
+        // case 2: player is owner and locked true => failed
+        console.log(`===========Case 2=============`);
+        let is_locked = (await pandoraQuery.getIsLocked()).value.ok!;
+        expect(is_locked).to.equal(true);
+
+        try {
+            await pandoraContract.withSigner(player1).tx.play(last_session_id, 10, u64Id(1))
+        } catch (error) {
+
+        }
+
+        owner = (await pandoraQuery.ownerOf(u64Id(1))).value.ok!;
+        expect(owner === pandoraContractAddress).to.equal(false);
+
+        // case 3: player not owner nft and locked false and bet session not processing=> failed
+        console.log(`===========Case 3=============`);
+        await pandoraContract.withSigner(defaultSigner).tx.updateIsLocked(false);
+        is_locked = (await pandoraQuery.getIsLocked()).value.ok!;
+        expect(is_locked).to.equal(false);
+
+        let bet_session = (await pandoraQuery.getBetSession(last_session_id)).value.ok!;
+        expect(bet_session.status !== "Processing").to.equal(true);
+
+        try {
+            await pandoraContract.withSigner(player1).tx.play(last_session_id, 10, u64Id(1))
+        } catch (error) {
+
+        }
+
+        owner = (await pandoraQuery.ownerOf(u64Id(1))).value.ok!;
+        expect(owner === pandoraContractAddress).to.equal(false);
+        // case 4: player not owner nft and locked false session is processing=> success
+        console.log(`===========Case 4=============`);
+
+        await pandoraContract.withSigner(defaultSigner).tx.updateBetSession(last_session_id, 0, "Processing");
+        bet_session = (await pandoraQuery.getBetSession(last_session_id)).value.ok!;
+        expect(bet_session.status === "Processing").to.equal(true);
+
+        try {
+            await pandoraContract.withSigner(player1).tx.play(last_session_id, 9, u64Id(1))
+            await pandoraContract.withSigner(player2).tx.play(last_session_id, 10, u64Id(2))
+            await pandoraContract.withSigner(player3).tx.play(last_session_id, 11, u64Id(3))
+            await pandoraContract.withSigner(player4).tx.play(last_session_id, 11, u64Id(4))
+            await pandoraContract.withSigner(player4).tx.play(last_session_id, 11, u64Id(5))
+        } catch (error) {
+            console.log(error)
+        }
+
+        const [owner1, owner2, owner3, owner4, owner5] = await Promise.all([
+            pandoraQuery.ownerOf(u64Id(1)),
+            pandoraQuery.ownerOf(u64Id(2)),
+            pandoraQuery.ownerOf(u64Id(3)),
+            pandoraQuery.ownerOf(u64Id(4)),
+            pandoraQuery.ownerOf(u64Id(5)),
+        ])
+
+        expect(owner1.value.ok! === pandoraContractAddress).to.equal(true);
+        expect(owner2.value.ok! === pandoraContractAddress).to.equal(true);
+        expect(owner3.value.ok! === pandoraContractAddress).to.equal(true);
+        expect(owner4.value.ok! === pandoraContractAddress).to.equal(true);
+        expect(owner5.value.ok! === pandoraContractAddress).to.equal(true);
+
+        const [nft_info_1, nft_info_2, nft_info_3, nft_info_4, nft_info_5] = await Promise.all([
+            pandoraQuery.getNftInfo(u64Id(1)),
+            pandoraQuery.getNftInfo(u64Id(2)),
+            pandoraQuery.getNftInfo(u64Id(3)),
+            pandoraQuery.getNftInfo(u64Id(4)),
+            pandoraQuery.getNftInfo(u64Id(5)),
+        ])
+
+        const nfts = {
+            nft_info_1: nft_info_1.value.ok!,
+            nft_info_2: nft_info_2.value.ok!,
+            nft_info_3: nft_info_3.value.ok!,
+            nft_info_4: nft_info_4.value.ok!,
+            nft_info_5: nft_info_5.value.ok!
+        };
+
+        console.table(nfts)
+    })
+
+    it("can update WinAmount And SessionStatus", async () => {
+        let last_session_id = (await pandoraQuery.getLastSessionId()).value.ok!;
+        let bet_session = (await pandoraQuery.getBetSession(last_session_id)).value.ok!;
+        expect(bet_session.status !== "Finished").to.equal(true);
+
+        let totalWinAmount = (await pandoraQuery.getTotalWinAmount()).value.ok!;
+        let winAmount = "100000000000000";
+        try {
+            await pandoraTx.updateWinAmountAndSessionStatus(last_session_id, winAmount)
+        } catch (error) {
+
+        }
+        let new_totalWinAmount = (await pandoraQuery.getTotalWinAmount()).value.ok!;
+        let gain = new BN(new_totalWinAmount.toString()).sub(new BN(totalWinAmount.toString()))
+        expect(toNumber(gain)).to.equal(toNumber(winAmount))
+        bet_session = (await pandoraQuery.getBetSession(last_session_id)).value.ok!;
+        expect(bet_session.status === "Finalized").to.equal(true);
+
+        // tranfer amount to contract
+        const transfer = api.tx.balances.transfer(pandoraContractAddress, winAmount);
+        await transfer.signAndSend(alice);
+
+        // back to origin status
+        await pandoraContract.withSigner(defaultSigner).tx.updateBetSession(last_session_id, 0, "Processing");
+    })
+
+    it('Can finalize', async () => {
+        let last_session_id = (await pandoraQuery.getLastSessionId()).value.ok!;
+        let bet_session = (await pandoraQuery.getBetSession(last_session_id)).value.ok!;
+        let randomNumber = 11;
+        // case 1: is not locked => failed
+        let is_locked = (await pandoraQuery.getIsLocked()).value.ok!;
+        expect(is_locked).to.equal(false);
+
+        try {
+            await pandoraTx.finalize(last_session_id, randomNumber)
+        } catch (error) {
+
+        }
+
+        let new_bet_session = (await pandoraQuery.getBetSession(last_session_id)).value.ok!;
+        expect(new_bet_session.randomNumber).to.equal(bet_session.randomNumber);
+
+        // case 2: is locked and sessison status not Finalized => failed
+        await pandoraContract.withSigner(defaultSigner).tx.updateIsLocked(true);
+        is_locked = (await pandoraQuery.getIsLocked()).value.ok!;
+        expect(is_locked).to.equal(true);
+        expect(bet_session.status !== "Finalized").to.equal(true);
+
+        try {
+            await pandoraTx.finalize(last_session_id, randomNumber)
+        } catch (error) {
+
+        }
+
+        new_bet_session = (await pandoraQuery.getBetSession(last_session_id)).value.ok!;
+        expect(new_bet_session.randomNumber).to.equal(bet_session.randomNumber);
+
+        // case 3: is locked and sessison status is Finalized => success
+        await pandoraContract.withSigner(defaultSigner).tx.updateBetSession(last_session_id, 0, "Finalized");
+        bet_session = (await pandoraQuery.getBetSession(last_session_id)).value.ok!;
+        expect(bet_session.status === "Finalized").to.equal(true);
+
+        try {
+            await pandoraTx.finalize(last_session_id, randomNumber)
+        } catch (error) {
+            console.log(error)
+        }
+
+        new_bet_session = (await pandoraQuery.getBetSession(last_session_id)).value.ok!;
+        expect(new_bet_session.randomNumber).to.equal(randomNumber);
+        expect(new_bet_session.status === "Completed").to.equal(true);
+    })
+
+    it('Can find winer', async () => {
+        let last_session_id = (await pandoraQuery.getLastSessionId()).value.ok!;
+        last_session_id = last_session_id - 1;
+        let bet_session = (await pandoraQuery.getBetSession(last_session_id)).value.ok!;
+        console.log({ bet_session })
+        let totalTicketsWin = (await pandoraQuery.totalTicketsWin(last_session_id, parseInt(bet_session.randomNumber))).value.ok.rawNumber;
+        console.log({ totalTicketsWin: parseInt(totalTicketsWin.toString()) })
+        const winners: string[] = [];
+
+        for (let i = 0; i < parseInt(totalTicketsWin.toString()); i++) {
+            try {
+                await pandoraTx.handleFindWinner(last_session_id, { u128: i });
+                await delay(3000);
+
+                let nftWin = (await pandoraQuery.getIdInSessionByRandomNumberAndIndex(last_session_id,
+                    parseInt(bet_session.randomNumber), { u128: i })).value.ok!;
+                console.log({ nftWin })
+                let winner = (await pandoraQuery.getPlayerByNftId(u64Id(nftWin))).value.ok!;
+                console.log({ winner })
+                winners.push(winner);
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        console.log({ winners })
+
+        // player 1 bet nft 1 - number 9 => lose
+        let player = (await pandoraQuery.getPlayerByNftId(u64Id(1))).value.ok!;
+        expect(player).to.equal(player1.address);
+        let nftInfo = (await pandoraQuery.getNftInfo(u64Id(1))).value.ok!;
+        expect(nftInfo.betNumber).to.equal(9);
+        let isWin = winners.includes(player1.address);
+        expect(isWin).to.equal(false);
+
+        // player 2 bet nft 2 - number 10 => lose
+        player = (await pandoraQuery.getPlayerByNftId(u64Id(2))).value.ok!;
+        expect(player).to.equal(player2.address);
+        nftInfo = (await pandoraQuery.getNftInfo(u64Id(2))).value.ok!;
+        expect(nftInfo.betNumber).to.equal(10);
+        isWin = winners.includes(player2.address);
+        expect(isWin).to.equal(false);
+
+        // player 3 bet nft 3 - number 11 => win
+        player = (await pandoraQuery.getPlayerByNftId(u64Id(3))).value.ok!;
+        expect(player).to.equal(player3.address);
+        nftInfo = (await pandoraQuery.getNftInfo(u64Id(3))).value.ok!;
+        expect(nftInfo.betNumber).to.equal(11);
+        isWin = winners.includes(player3.address);
+        expect(isWin).to.equal(true);
+
+        let winAmount = (await pandoraQuery.getPlayerWinAmount(last_session_id, player)).value.ok!;
+        console.log({ winAmount })
+        let holdAmount = (await pandoraQuery.getHoldAmountPlayers(player)).value.ok!;
+        console.log({ holdAmount })
+        expect(toNumber(winAmount)).to.equal(toNumber(holdAmount))
+        console.log({ player, winAmount: toNumber(winAmount), holdAmount: toNumber(holdAmount) })
+        // player 4 bet nft 4 - number 11 => win
+        player = (await pandoraQuery.getPlayerByNftId(u64Id(4))).value.ok!;
+        expect(player).to.equal(player4.address);
+        nftInfo = (await pandoraQuery.getNftInfo(u64Id(4))).value.ok!;
+        expect(nftInfo.betNumber).to.equal(11);
+        isWin = winners.includes(player4.address);
+        expect(isWin).to.equal(true);
+
+        // player 4 bet nft 5 - number 11 => win
+        player = (await pandoraQuery.getPlayerByNftId(u64Id(5))).value.ok!;
+        expect(player).to.equal(player4.address);
+        nftInfo = (await pandoraQuery.getNftInfo(u64Id(5))).value.ok!;
+        expect(nftInfo.betNumber).to.equal(11);
+        isWin = winners.includes(player4.address);
+        expect(isWin).to.equal(true);
+
+        winAmount = (await pandoraQuery.getPlayerWinAmount(last_session_id, player)).value.ok!;
+        holdAmount = (await pandoraQuery.getHoldAmountPlayers(player)).value.ok!;
+        expect(toNumber(winAmount)).to.equal(toNumber(holdAmount))
+        console.log({ player, winAmount: toNumber(winAmount), holdAmount: toNumber(holdAmount) })
+
+    })
+
+    it('Can withdraw hold amount', async () => {
+        let hold_bidder_count = (await pandoraQuery.getHoldBidderCount()).value.ok!;
+        if (hold_bidder_count > 0) {
+            let balancePlayer4 = await showAZBalance(api, player4.address);
+            let hold_amount = (await pandoraQuery.getHoldAmountPlayers(player4.address)).value.ok!;
+            console.log({ hold_amount, balancePlayer4 });
+
+            // withdraw hold amount
+            /// case 1: amount > core pool amount => failed
+            console.log(`===========Case 1=============`);
+            let amount = new BN(1).add(new BN(hold_amount));
+            let balanceContract = await showAZBalance(api, pandoraContractAddress);
+
+            try {
+                await pandoraContract.withSigner(player4).tx.withdrawHoldAmount(player4.address, amount);
+            } catch (error) {
+
+            }
+
+            let new_balanceContract = await showAZBalance(api, pandoraContractAddress);
+            expect(toNumber(new_balanceContract)).to.equal(toNumber(balanceContract));
+
+            /// case 2: amount <= core pool amount => success
+            console.log(`===========Case 2=============`);
+            amount = hold_amount;
+            try {
+                await pandoraContract.withSigner(player4).tx.withdrawHoldAmount(player4.address, amount);
+            } catch (error) {
+                console.log(error)
+            }
+
+            if (toNumber(amount) <= toNumber(hold_amount)) {
+                let new_hold_amount = (await pandoraQuery.getHoldAmountPlayers(player4.address)).value.ok!;
+                let gain = new BN(hold_amount).sub(new BN(new_hold_amount))
+                expect(toNumber(gain)).to.equal(toNumber(amount));
+
+                let new_balancePlayer4 = await showAZBalance(api, player4.address);
+                expect(new_balancePlayer4 - balancePlayer4 > 0).to.equal(true);
+                console.log({ new_hold_amount, new_balancePlayer4 });
+            }
+        }
+    })
+
+    it('Can burn betaz', async () => {
+        await tokenTx.setAdminAddress(pandoraContractAddress)
+        let betaz_amount_in_contract = (await tokenQuery.balanceOf(pandoraContractAddress)).value.ok!;
+        console.log({ betaz_amount_in_contract: toNumber(betaz_amount_in_contract) })
+
+        try {
+            await pandoraTx.burnBetazToken();
+        } catch (error) {
+            console.log(error)
+        }
+
+        await delay(2000);
+        let new_betaz_amount_in_contract = (await tokenQuery.balanceOf(pandoraContractAddress)).value.ok!;
+        let gain = new BN(betaz_amount_in_contract.toString()).sub(new BN(new_betaz_amount_in_contract.toString()));
+        expect(toNumber(gain)).to.equal(toNumber(betaz_amount_in_contract))
+        console.log({ new_betaz_amount_in_contract: toNumber(new_betaz_amount_in_contract) })
+    })
+
+    it('Can burn ticket used', async () => {
+        let tokens_id = [u64Id(1), u64Id(2), u64Id(3), u64Id(4), u64Id(5)];
+        let totalSupply = (await pandoraQuery.totalSupply()).value.ok!;
+
+        await pandoraTx.burnTicketUsed(tokens_id)
+
+        let new_totalSupply = (await pandoraQuery.totalSupply()).value.ok!;
+        let gain = totalSupply - new_totalSupply;
+        expect(gain).to.equal(tokens_id.length);
+    })
+
+    it('Can withdraw', async () => {
+        let amount = new BN(1 * (10 ** 12));
+        let reward_amount = amount;
+        await pandoraTx.updateTotalWinAmount(reward_amount);
+        let balanceContract = await showAZBalance(api, pandoraContractAddress);
+        let balanceAlice = await showAZBalance(api, aliceAddress);
+        let reward = (await pandoraQuery.getTotalWinAmount()).value.ok!;
+        console.log({ balanceContract, balanceAlice, reward: toNumber(reward) });
+
+        await pandoraTx.withdrawFee(aliceAddress, amount);
+
+        let new_balanceContract = await showAZBalance(api, pandoraContractAddress);
+        let new_balanceAlice = await showAZBalance(api, aliceAddress);
+        expect(balanceContract - new_balanceContract).to.equal(toNumber(amount));
+        expect(new_balanceAlice - balanceAlice).to.equal(toNumber(amount));
+        let new_reward = (await pandoraQuery.getTotalWinAmount()).value.ok!;
+        expect(toNumber(reward) - toNumber(new_reward)).to.equal(toNumber(amount));
+        console.log({ new_balanceContract, new_balanceAlice, new_reward: toNumber(new_reward) });
     })
 
     after(async () => {

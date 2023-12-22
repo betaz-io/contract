@@ -58,6 +58,7 @@ pub trait SalePoolTraitImpl:
     );
 
     fn _emit_mint_token_event(&self, _contract_address: AccountId, _amount: Balance);
+    fn _emit_burn_token_event(&self, _contract_address: AccountId, _amount: Balance);
 
     #[modifiers(when_not_paused)]
     #[modifiers(only_role(ADMINER))]
@@ -140,9 +141,12 @@ pub trait SalePoolTraitImpl:
                 .get(&(&PoolType::Sale, &caller))
             {
                 // price to buy amount of token
-                let price = whitelist_info.price
-                    .checked_mul(amount).ok_or(Error::CheckedOperations)?
-                    .checked_div(10_u128.pow(decimal as u32)).ok_or(Error::CheckedOperations)?;
+                let price = whitelist_info
+                    .price
+                    .checked_mul(amount)
+                    .ok_or(Error::CheckedOperations)?
+                    .checked_div(10_u128.pow(decimal as u32))
+                    .ok_or(Error::CheckedOperations)?;
 
                 if fee < price {
                     return Err(Error::InvalidFee);
@@ -192,9 +196,12 @@ pub trait SalePoolTraitImpl:
                     .unwrap();
 
                 // price to buy amount of token
-                let price = pool_sale_info.price
-                    .checked_mul(amount).ok_or(Error::CheckedOperations)?
-                    .checked_div(10_u128.pow(decimal as u32)).ok_or(Error::CheckedOperations)?;
+                let price = pool_sale_info
+                    .price
+                    .checked_mul(amount)
+                    .ok_or(Error::CheckedOperations)?
+                    .checked_div(10_u128.pow(decimal as u32))
+                    .ok_or(Error::CheckedOperations)?;
 
                 if fee < price {
                     return Err(Error::InvalidFee);
@@ -428,31 +435,22 @@ pub trait SalePoolTraitImpl:
                 self._emit_update_whitelist_event(pool_type, accounts[i], amounts[i], prices[i]);
             }
 
-            // Add pool_sale_info
-            let total_amount = pool_sale_info
+            // update pool_sale_info
+            let total_purchased_amount = pool_sale_info
                 .total_purchased_amount
                 .checked_add(total_in)
                 .unwrap()
                 .checked_sub(total_out)
                 .unwrap();
-            if total_amount
-                > pool_sale_info
-                    .total_amount
-                    .checked_sub(pool_sale_info.total_purchased_amount)
-                    .unwrap()
-            {
+            if total_purchased_amount > pool_sale_info.total_amount {
                 return Err(Error::NotEnoughBalance);
-            } else {
-                pool_sale_info.total_purchased_amount = pool_sale_info
-                    .total_purchased_amount
-                    .checked_add(total_in)
-                    .unwrap()
-                    .checked_sub(total_out)
-                    .unwrap();
-                self.data::<Data>()
-                    .pool_sale_info
-                    .insert(&pool_type, &pool_sale_info)
             }
+
+            pool_sale_info.total_purchased_amount = total_purchased_amount;
+            self.data::<Data>()
+                .pool_sale_info
+                .insert(&pool_type, &pool_sale_info)
+           
         } else {
             return Err(Error::PoolNotExists);
         }
@@ -478,12 +476,16 @@ pub trait SalePoolTraitImpl:
                 .whitelist
                 .get(&(&pool_type, &caller))
             {
-                let decimal = Psp22Ref::token_decimals(&self.data::<data::Data>().betaz_token_address);
-                    
+                let decimal =
+                    Psp22Ref::token_decimals(&self.data::<data::Data>().betaz_token_address);
+
                 // price to buy amount of token
-                let price = whitelist_info.price
-                    .checked_mul(amount).ok_or(Error::CheckedOperations)?
-                    .checked_div(10_u128.pow(decimal as u32)).ok_or(Error::CheckedOperations)?;
+                let price = whitelist_info
+                    .price
+                    .checked_mul(amount)
+                    .ok_or(Error::CheckedOperations)?
+                    .checked_div(10_u128.pow(decimal as u32))
+                    .ok_or(Error::CheckedOperations)?;
 
                 if fee < price {
                     return Err(Error::InvalidFee);
@@ -556,6 +558,11 @@ pub trait SalePoolTraitImpl:
         price: Balance,
     ) -> Result<(), Error> {
         if let Some(mut pool_sale_info) = self.data::<data::Data>().pool_sale_info.get(&pool_type) {
+            let difference = pool_sale_info
+                .total_amount
+                .checked_sub(pool_sale_info.total_purchased_amount)
+                .unwrap();
+
             // update buy_status
             if buy_status == pool_sale_info.buy_status {
                 return Err(Error::InvalidBuyTokensStatus);
@@ -570,23 +577,6 @@ pub trait SalePoolTraitImpl:
             pool_sale_info.end_time_buy = end_time_buy;
 
             // update total_amount
-            if total_amount >= pool_sale_info.total_amount {
-                let mint_amount: u128 = total_amount
-                    .checked_sub(pool_sale_info.total_amount)
-                    .unwrap();
-                if Psp22Ref::mint(
-                    &self.data::<Data>().betaz_token_address,
-                    Self::env().account_id(),
-                    mint_amount,
-                )
-                .is_ok()
-                {
-                    self._emit_mint_token_event(Self::env().account_id(), mint_amount);
-                } else {
-                    return Err(Error::CannotMint);
-                }
-            }
-
             pool_sale_info.total_amount = total_amount;
 
             // update total_purchase_amount
@@ -600,6 +590,36 @@ pub trait SalePoolTraitImpl:
 
             // update price
             pool_sale_info.price = price;
+
+            // mint || burn
+            let new_difference = total_amount.checked_sub(total_purchased_amount).unwrap();
+            if new_difference >= difference {
+                let mint_amount: u128 = new_difference.checked_sub(difference).unwrap();
+                if Psp22Ref::mint(
+                    &self.data::<Data>().betaz_token_address,
+                    Self::env().account_id(),
+                    mint_amount,
+                )
+                .is_ok()
+                {
+                    self._emit_mint_token_event(Self::env().account_id(), mint_amount);
+                } else {
+                    return Err(Error::CannotMint);
+                }
+            } else {
+                let burn_amount: u128 = difference.checked_sub(new_difference).unwrap();
+                if Psp22Ref::burn(
+                    &self.data::<Data>().betaz_token_address,
+                    Self::env().account_id(),
+                    burn_amount,
+                )
+                .is_ok()
+                {
+                    self._emit_burn_token_event(Self::env().account_id(), burn_amount);
+                } else {
+                    return Err(Error::CannotBurn);
+                }
+            }
 
             // update pool info
             self.data::<Data>()

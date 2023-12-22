@@ -85,6 +85,12 @@ pub mod sale {
         amount: Balance,
     }
 
+    #[ink(event)]
+    pub struct BurnTokenEvent {
+        contract_address: AccountId,
+        amount: Balance,
+    }
+
     pub type Event = <SalePoolContract as ContractEventBase>::Type;
 
     impl AdminTraitImpl for SalePoolContract {}
@@ -156,6 +162,16 @@ pub mod sale {
             SalePoolContract::emit_event(
                 self.env(),
                 Event::MintTokenEvent(MintTokenEvent {
+                    contract_address: _contract_address,
+                    amount: _amount,
+                }),
+            )
+        }
+
+        fn _emit_burn_token_event(&self, _contract_address: AccountId, _amount: Balance) {
+            SalePoolContract::emit_event(
+                self.env(),
+                Event::BurnTokenEvent(BurnTokenEvent {
                     contract_address: _contract_address,
                     amount: _amount,
                 }),

@@ -38,3 +38,8 @@ export interface MintTokenEvent {
 	amount: ReturnNumber;
 }
 
+export interface BurnTokenEvent {
+	contractAddress: ReturnTypes.AccountId;
+	amount: ReturnNumber;
+}
+

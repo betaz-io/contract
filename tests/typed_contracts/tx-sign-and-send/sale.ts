@@ -45,57 +45,31 @@ export default class Methods {
 	}
 
 	/**
-	* getTotalAccountByPoolType
+	* setBetazTokenAddress
 	*
-	* @param { ArgumentTypes.PoolType } poolType,
+	* @param { ArgumentTypes.AccountId } betazTokenAddress,
 	*/
-	"getTotalAccountByPoolType" (
-		poolType: ArgumentTypes.PoolType,
+	"setBetazTokenAddress" (
+		betazTokenAddress: ArgumentTypes.AccountId,
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::getTotalAccountByPoolType", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::setBetazTokenAddress", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [poolType], __options);
+		}, [betazTokenAddress], __options);
 	}
 
 	/**
-	* whitelistBuy
+	* buyWithSalePool
 	*
-	* @param { ArgumentTypes.PoolType } poolType,
 	* @param { (string | number | BN) } amount,
 	*/
-	"whitelistBuy" (
-		poolType: ArgumentTypes.PoolType,
+	"buyWithSalePool" (
 		amount: (string | number | BN),
 		__options ? : GasLimitAndRequiredValue,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::whitelistBuy", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::buyWithSalePool", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [poolType, amount], __options);
-	}
-
-	/**
-	* addPoolByPoolType
-	*
-	* @param { ArgumentTypes.PoolType } poolType,
-	* @param { boolean } buyStatus,
-	* @param { (number | string | BN) } endTimeBuy,
-	* @param { (string | number | BN) } totalAmount,
-	* @param { (string | number | BN) } totalPurchasedAmount,
-	* @param { (string | number | BN) } price,
-	*/
-	"addPoolByPoolType" (
-		poolType: ArgumentTypes.PoolType,
-		buyStatus: boolean,
-		endTimeBuy: (number | string | BN),
-		totalAmount: (string | number | BN),
-		totalPurchasedAmount: (string | number | BN),
-		price: (string | number | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::addPoolByPoolType", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [poolType, buyStatus, endTimeBuy, totalAmount, totalPurchasedAmount, price], __options);
+		}, [amount], __options);
 	}
 
 	/**
@@ -129,26 +103,6 @@ export default class Methods {
 	}
 
 	/**
-	* addMultiWhitelists
-	*
-	* @param { ArgumentTypes.PoolType } poolType,
-	* @param { Array<ArgumentTypes.AccountId> } accounts,
-	* @param { Array<(string | number | BN)> } amounts,
-	* @param { Array<(string | number | BN)> } prices,
-	*/
-	"addMultiWhitelists" (
-		poolType: ArgumentTypes.PoolType,
-		accounts: Array<ArgumentTypes.AccountId>,
-		amounts: Array<(string | number | BN)>,
-		prices: Array<(string | number | BN)>,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::addMultiWhitelists", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [poolType, accounts, amounts, prices], __options);
-	}
-
-	/**
 	* addWhitelist
 	*
 	* @param { ArgumentTypes.PoolType } poolType,
@@ -169,17 +123,27 @@ export default class Methods {
 	}
 
 	/**
-	* setBetazTokenAddress
+	* addPoolByPoolType
 	*
-	* @param { ArgumentTypes.AccountId } betazTokenAddress,
+	* @param { ArgumentTypes.PoolType } poolType,
+	* @param { boolean } buyStatus,
+	* @param { (number | string | BN) } endTimeBuy,
+	* @param { (string | number | BN) } totalAmount,
+	* @param { (string | number | BN) } totalPurchasedAmount,
+	* @param { (string | number | BN) } price,
 	*/
-	"setBetazTokenAddress" (
-		betazTokenAddress: ArgumentTypes.AccountId,
+	"addPoolByPoolType" (
+		poolType: ArgumentTypes.PoolType,
+		buyStatus: boolean,
+		endTimeBuy: (number | string | BN),
+		totalAmount: (string | number | BN),
+		totalPurchasedAmount: (string | number | BN),
+		price: (string | number | BN),
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::setBetazTokenAddress", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::addPoolByPoolType", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [betazTokenAddress], __options);
+		}, [poolType, buyStatus, endTimeBuy, totalAmount, totalPurchasedAmount, price], __options);
 	}
 
 	/**
@@ -215,17 +179,39 @@ export default class Methods {
 	}
 
 	/**
-	* buyWithSalePool
+	* getAccountByPoolType
 	*
-	* @param { (string | number | BN) } amount,
+	* @param { ArgumentTypes.PoolType } poolType,
+	* @param { (string | number | BN) } index,
 	*/
-	"buyWithSalePool" (
-		amount: (string | number | BN),
-		__options ? : GasLimitAndRequiredValue,
+	"getAccountByPoolType" (
+		poolType: ArgumentTypes.PoolType,
+		index: (string | number | BN),
+		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::buyWithSalePool", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::getAccountByPoolType", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [amount], __options);
+		}, [poolType, index], __options);
+	}
+
+	/**
+	* addMultiWhitelists
+	*
+	* @param { ArgumentTypes.PoolType } poolType,
+	* @param { Array<ArgumentTypes.AccountId> } accounts,
+	* @param { Array<(string | number | BN)> } amounts,
+	* @param { Array<(string | number | BN)> } prices,
+	*/
+	"addMultiWhitelists" (
+		poolType: ArgumentTypes.PoolType,
+		accounts: Array<ArgumentTypes.AccountId>,
+		amounts: Array<(string | number | BN)>,
+		prices: Array<(string | number | BN)>,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::addMultiWhitelists", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [poolType, accounts, amounts, prices], __options);
 	}
 
 	/**
@@ -240,6 +226,48 @@ export default class Methods {
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::getPoolSaleTotalRemainingAmount", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [poolType], __options);
+	}
+
+	/**
+	* getTotalAccountByPoolType
+	*
+	* @param { ArgumentTypes.PoolType } poolType,
+	*/
+	"getTotalAccountByPoolType" (
+		poolType: ArgumentTypes.PoolType,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::getTotalAccountByPoolType", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [poolType], __options);
+	}
+
+	/**
+	* whitelistBuy
+	*
+	* @param { ArgumentTypes.PoolType } poolType,
+	* @param { (string | number | BN) } amount,
+	*/
+	"whitelistBuy" (
+		poolType: ArgumentTypes.PoolType,
+		amount: (string | number | BN),
+		__options ? : GasLimitAndRequiredValue,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::whitelistBuy", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [poolType, amount], __options);
+	}
+
+	/**
+	* changeState
+	*
+	*/
+	"changeState" (
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::changeState", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
 	}
 
 	/**
@@ -267,55 +295,17 @@ export default class Methods {
 	}
 
 	/**
-	* balanceOf
+	* transferOwnership
 	*
+	* @param { ArgumentTypes.AccountId | null } newOwner,
 	*/
-	"balanceOf" (
+	"transferOwnership" (
+		newOwner: ArgumentTypes.AccountId | null,
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::balanceOf", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "ownable::transferOwnership", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
-	}
-
-	/**
-	* changeState
-	*
-	*/
-	"changeState" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::changeState", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
-	}
-
-	/**
-	* getAccountByPoolType
-	*
-	* @param { ArgumentTypes.PoolType } poolType,
-	* @param { (string | number | BN) } index,
-	*/
-	"getAccountByPoolType" (
-		poolType: ArgumentTypes.PoolType,
-		index: (string | number | BN),
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::getAccountByPoolType", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [poolType, index], __options);
-	}
-
-	/**
-	* owner
-	*
-	*/
-	"owner" (
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "ownable::owner", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
+		}, [newOwner], __options);
 	}
 
 	/**
@@ -331,17 +321,15 @@ export default class Methods {
 	}
 
 	/**
-	* transferOwnership
+	* owner
 	*
-	* @param { ArgumentTypes.AccountId | null } newOwner,
 	*/
-	"transferOwnership" (
-		newOwner: ArgumentTypes.AccountId | null,
+	"owner" (
 		__options ? : GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "ownable::transferOwnership", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "ownable::owner", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [newOwner], __options);
+		}, [], __options);
 	}
 
 	/**
@@ -387,22 +375,6 @@ export default class Methods {
 	}
 
 	/**
-	* revokeRole
-	*
-	* @param { (number | string | BN) } role,
-	* @param { ArgumentTypes.AccountId | null } account,
-	*/
-	"revokeRole" (
-		role: (number | string | BN),
-		account: ArgumentTypes.AccountId | null,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::revokeRole", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [role, account], __options);
-	}
-
-	/**
 	* getRoleAdmin
 	*
 	* @param { (number | string | BN) } role,
@@ -444,6 +416,22 @@ export default class Methods {
 		__options ? : GasLimit,
 	){
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::renounceRole", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [role, account], __options);
+	}
+
+	/**
+	* revokeRole
+	*
+	* @param { (number | string | BN) } role,
+	* @param { ArgumentTypes.AccountId | null } account,
+	*/
+	"revokeRole" (
+		role: (number | string | BN),
+		account: ArgumentTypes.AccountId | null,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::revokeRole", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [role, account], __options);
 	}

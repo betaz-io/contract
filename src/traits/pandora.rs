@@ -82,16 +82,6 @@ pub trait PandoraPoolTraits: PSP34 + PSP34Metadata + Ownable {
     #[ink(message)]
     fn set_betaz_token_address(&mut self, account: AccountId) -> Result<(), Error>;
 
-    // update nft info
-    #[ink(message)]
-    fn update_nft_info(
-        &mut self,
-        token_id: Id,
-        session_id: u32,
-        bet_number: u32,
-        status: bool,
-    ) -> Result<(), Error>;
-
     /// set ticket_amount_ratio
     #[ink(message)]
     fn set_session_total_ticket_amount(&mut self, ticket_amount_ratio: u128) -> Result<(), Error>;

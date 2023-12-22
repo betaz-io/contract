@@ -696,7 +696,7 @@ describe('Betaz token test', () => {
         let reward_pool_amount = (await stakingQuery.getRewardPool()).value.ok!;
         console.log({ reward_pool_amount: toNumber(reward_pool_amount) })
 
-        let amount = new BN(100 * (10 ** 12));
+        let amount = new BN(101 * (10 ** 12));
 
         // case 1: locked false => failed
         console.log(`===========Case 1=============`);
@@ -763,10 +763,9 @@ describe('Betaz token test', () => {
 
         // tranfer amount to contract
         const transfer = api.tx.balances.transfer(stakingContractAddress, amount);
-
         await transfer.signAndSend(alice);
-
         await delay(2000);
+
         let stakingBalance = await showAZBalance(api, stakingContractAddress);
         console.log({ stakingBalance })
     });
@@ -956,8 +955,37 @@ describe('Betaz token test', () => {
         expect(gain).to.equal(toNumber(reward_amount));
         aliceBalance = await showAZBalance(api, aliceAddress);
 
-        console.log({ aliceBalance, new_contractBalance })
+        console.log({ aliceBalance, new_contractBalance });
+        
+        // set reward started false
+        await stakingTx.updateStatusRewardDistribution(false);
     });
+
+    it('Can withdraw', async () => {
+        // add reward
+        let amount = new BN(1 * (10 ** 12));
+        await stakingTx.addReward(amount);
+
+        // tranfer amount to contract
+        const transfer = api.tx.balances.transfer(stakingContractAddress, amount);
+        await transfer.signAndSend(alice);
+        await delay(2000);
+
+        let balanceContract = await showAZBalance(api, stakingContractAddress);
+        let balanceAlice = await showAZBalance(api, aliceAddress);
+        let reward = (await stakingQuery.getRewardPool()).value.ok!;
+        console.log({ balanceContract, balanceAlice, reward: toNumber(reward) });
+
+        await stakingTx.withdrawFee(aliceAddress, amount);
+
+        let new_balanceContract = await showAZBalance(api, stakingContractAddress);
+        let new_balanceAlice = await showAZBalance(api, aliceAddress);
+        expect(balanceContract - new_balanceContract).to.equal(toNumber(amount));
+        expect(new_balanceAlice - balanceAlice).to.equal(toNumber(amount));
+        let new_reward = (await stakingQuery.getRewardPool()).value.ok!;
+        expect(toNumber(reward) - toNumber(new_reward)).to.equal(toNumber(amount));
+        console.log({ new_balanceContract, new_balanceAlice, new_reward: toNumber(new_reward) });
+    })
 
     after(async () => {
         // api.disconnect();

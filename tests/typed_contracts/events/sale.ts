@@ -101,6 +101,20 @@ export default class EventsClass {
 		return this.__subscribeOnEvent(callbackWrapper, (eventName : string) => eventName == 'MintTokenEvent');
 	}
 
+	public subscribeOnBurnTokenEventEvent(callback : (event : EventTypes.BurnTokenEvent) => void) {
+		const callbackWrapper = (args: any[], event: any) => {
+			const _event: Record < string, any > = {};
+
+			for (let i = 0; i < args.length; i++) {
+				_event[event.args[i]!.name] = args[i]!.toJSON();
+			}
+
+			callback(handleEventReturn(_event, getEventTypeDescription('BurnTokenEvent', EVENT_DATA_TYPE_DESCRIPTIONS)) as EventTypes.BurnTokenEvent);
+		};
+
+		return this.__subscribeOnEvent(callbackWrapper, (eventName : string) => eventName == 'BurnTokenEvent');
+	}
+
 
 	private __subscribeOnEvent(
 		callback : (args: any[], event: any) => void,

@@ -37,4 +37,4 @@ import Constructors from "./typed_contracts/constructors/betaz_random";
 4. File "4.staking_test.ts": Test staking pool contract
 5. File "5.sale_test.ts": Test sale pool contract
 6. File "6.pandora_test.ts": Test pandora pool contract
-7. File "6.dao_test.ts": Test dao contract
+7. File "7.dao_test.ts": Test dao contract

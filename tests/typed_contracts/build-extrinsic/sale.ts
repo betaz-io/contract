@@ -35,51 +35,27 @@ export default class Methods {
 	}
 
 	/**
-	 * getTotalAccountByPoolType
+	 * setBetazTokenAddress
 	 *
-	 * @param { ArgumentTypes.PoolType } poolType,
+	 * @param { ArgumentTypes.AccountId } betazTokenAddress,
 	*/
-	"getTotalAccountByPoolType" (
-		poolType: ArgumentTypes.PoolType,
+	"setBetazTokenAddress" (
+		betazTokenAddress: ArgumentTypes.AccountId,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::getTotalAccountByPoolType", [poolType], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::setBetazTokenAddress", [betazTokenAddress], __options);
 	}
 
 	/**
-	 * whitelistBuy
+	 * buyWithSalePool
 	 *
-	 * @param { ArgumentTypes.PoolType } poolType,
 	 * @param { (string | number | BN) } amount,
 	*/
-	"whitelistBuy" (
-		poolType: ArgumentTypes.PoolType,
+	"buyWithSalePool" (
 		amount: (string | number | BN),
 		__options: GasLimitAndRequiredValue,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::whitelistBuy", [poolType, amount], __options);
-	}
-
-	/**
-	 * addPoolByPoolType
-	 *
-	 * @param { ArgumentTypes.PoolType } poolType,
-	 * @param { boolean } buyStatus,
-	 * @param { (number | string | BN) } endTimeBuy,
-	 * @param { (string | number | BN) } totalAmount,
-	 * @param { (string | number | BN) } totalPurchasedAmount,
-	 * @param { (string | number | BN) } price,
-	*/
-	"addPoolByPoolType" (
-		poolType: ArgumentTypes.PoolType,
-		buyStatus: boolean,
-		endTimeBuy: (number | string | BN),
-		totalAmount: (string | number | BN),
-		totalPurchasedAmount: (string | number | BN),
-		price: (string | number | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::addPoolByPoolType", [poolType, buyStatus, endTimeBuy, totalAmount, totalPurchasedAmount, price], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::buyWithSalePool", [amount], __options);
 	}
 
 	/**
@@ -109,24 +85,6 @@ export default class Methods {
 	}
 
 	/**
-	 * addMultiWhitelists
-	 *
-	 * @param { ArgumentTypes.PoolType } poolType,
-	 * @param { Array<ArgumentTypes.AccountId> } accounts,
-	 * @param { Array<(string | number | BN)> } amounts,
-	 * @param { Array<(string | number | BN)> } prices,
-	*/
-	"addMultiWhitelists" (
-		poolType: ArgumentTypes.PoolType,
-		accounts: Array<ArgumentTypes.AccountId>,
-		amounts: Array<(string | number | BN)>,
-		prices: Array<(string | number | BN)>,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::addMultiWhitelists", [poolType, accounts, amounts, prices], __options);
-	}
-
-	/**
 	 * addWhitelist
 	 *
 	 * @param { ArgumentTypes.PoolType } poolType,
@@ -145,15 +103,25 @@ export default class Methods {
 	}
 
 	/**
-	 * setBetazTokenAddress
+	 * addPoolByPoolType
 	 *
-	 * @param { ArgumentTypes.AccountId } betazTokenAddress,
+	 * @param { ArgumentTypes.PoolType } poolType,
+	 * @param { boolean } buyStatus,
+	 * @param { (number | string | BN) } endTimeBuy,
+	 * @param { (string | number | BN) } totalAmount,
+	 * @param { (string | number | BN) } totalPurchasedAmount,
+	 * @param { (string | number | BN) } price,
 	*/
-	"setBetazTokenAddress" (
-		betazTokenAddress: ArgumentTypes.AccountId,
+	"addPoolByPoolType" (
+		poolType: ArgumentTypes.PoolType,
+		buyStatus: boolean,
+		endTimeBuy: (number | string | BN),
+		totalAmount: (string | number | BN),
+		totalPurchasedAmount: (string | number | BN),
+		price: (string | number | BN),
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::setBetazTokenAddress", [betazTokenAddress], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::addPoolByPoolType", [poolType, buyStatus, endTimeBuy, totalAmount, totalPurchasedAmount, price], __options);
 	}
 
 	/**
@@ -185,15 +153,35 @@ export default class Methods {
 	}
 
 	/**
-	 * buyWithSalePool
+	 * getAccountByPoolType
 	 *
-	 * @param { (string | number | BN) } amount,
+	 * @param { ArgumentTypes.PoolType } poolType,
+	 * @param { (string | number | BN) } index,
 	*/
-	"buyWithSalePool" (
-		amount: (string | number | BN),
-		__options: GasLimitAndRequiredValue,
+	"getAccountByPoolType" (
+		poolType: ArgumentTypes.PoolType,
+		index: (string | number | BN),
+		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::buyWithSalePool", [amount], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::getAccountByPoolType", [poolType, index], __options);
+	}
+
+	/**
+	 * addMultiWhitelists
+	 *
+	 * @param { ArgumentTypes.PoolType } poolType,
+	 * @param { Array<ArgumentTypes.AccountId> } accounts,
+	 * @param { Array<(string | number | BN)> } amounts,
+	 * @param { Array<(string | number | BN)> } prices,
+	*/
+	"addMultiWhitelists" (
+		poolType: ArgumentTypes.PoolType,
+		accounts: Array<ArgumentTypes.AccountId>,
+		amounts: Array<(string | number | BN)>,
+		prices: Array<(string | number | BN)>,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::addMultiWhitelists", [poolType, accounts, amounts, prices], __options);
 	}
 
 	/**
@@ -206,6 +194,42 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::getPoolSaleTotalRemainingAmount", [poolType], __options);
+	}
+
+	/**
+	 * getTotalAccountByPoolType
+	 *
+	 * @param { ArgumentTypes.PoolType } poolType,
+	*/
+	"getTotalAccountByPoolType" (
+		poolType: ArgumentTypes.PoolType,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::getTotalAccountByPoolType", [poolType], __options);
+	}
+
+	/**
+	 * whitelistBuy
+	 *
+	 * @param { ArgumentTypes.PoolType } poolType,
+	 * @param { (string | number | BN) } amount,
+	*/
+	"whitelistBuy" (
+		poolType: ArgumentTypes.PoolType,
+		amount: (string | number | BN),
+		__options: GasLimitAndRequiredValue,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::whitelistBuy", [poolType, amount], __options);
+	}
+
+	/**
+	 * changeState
+	 *
+	*/
+	"changeState" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::changeState", [], __options);
 	}
 
 	/**
@@ -231,47 +255,15 @@ export default class Methods {
 	}
 
 	/**
-	 * balanceOf
+	 * transferOwnership
 	 *
+	 * @param { ArgumentTypes.AccountId | null } newOwner,
 	*/
-	"balanceOf" (
+	"transferOwnership" (
+		newOwner: ArgumentTypes.AccountId | null,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::balanceOf", [], __options);
-	}
-
-	/**
-	 * changeState
-	 *
-	*/
-	"changeState" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::changeState", [], __options);
-	}
-
-	/**
-	 * getAccountByPoolType
-	 *
-	 * @param { ArgumentTypes.PoolType } poolType,
-	 * @param { (string | number | BN) } index,
-	*/
-	"getAccountByPoolType" (
-		poolType: ArgumentTypes.PoolType,
-		index: (string | number | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "salePoolTrait::getAccountByPoolType", [poolType, index], __options);
-	}
-
-	/**
-	 * owner
-	 *
-	*/
-	"owner" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::owner", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::transferOwnership", [newOwner], __options);
 	}
 
 	/**
@@ -285,15 +277,13 @@ export default class Methods {
 	}
 
 	/**
-	 * transferOwnership
+	 * owner
 	 *
-	 * @param { ArgumentTypes.AccountId | null } newOwner,
 	*/
-	"transferOwnership" (
-		newOwner: ArgumentTypes.AccountId | null,
+	"owner" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::transferOwnership", [newOwner], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::owner", [], __options);
 	}
 
 	/**
@@ -330,20 +320,6 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::hasRole", [role, address], __options);
-	}
-
-	/**
-	 * revokeRole
-	 *
-	 * @param { (number | string | BN) } role,
-	 * @param { ArgumentTypes.AccountId | null } account,
-	*/
-	"revokeRole" (
-		role: (number | string | BN),
-		account: ArgumentTypes.AccountId | null,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::revokeRole", [role, account], __options);
 	}
 
 	/**
@@ -384,6 +360,20 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::renounceRole", [role, account], __options);
+	}
+
+	/**
+	 * revokeRole
+	 *
+	 * @param { (number | string | BN) } role,
+	 * @param { ArgumentTypes.AccountId | null } account,
+	*/
+	"revokeRole" (
+		role: (number | string | BN),
+		account: ArgumentTypes.AccountId | null,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::revokeRole", [role, account], __options);
 	}
 
 	/**
