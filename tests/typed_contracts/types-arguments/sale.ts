@@ -630,18 +630,18 @@ export enum PoolType {
 	development = 'Development'
 }
 
+export type WhitelistInfo = {
+	amount: (string | number | BN),
+	price: (string | number | BN),
+	purchasedAmount: (string | number | BN)
+}
+
 export type PoolSaleInfo = {
 	buyStatus: boolean,
 	endTimeBuy: (number | string | BN),
 	totalAmount: (string | number | BN),
 	totalPurchasedAmount: (string | number | BN),
 	price: (string | number | BN)
-}
-
-export type WhitelistInfo = {
-	amount: (string | number | BN),
-	price: (string | number | BN),
-	purchasedAmount: (string | number | BN)
 }
 
 export type Hash = string | number[]

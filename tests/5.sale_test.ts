@@ -859,21 +859,25 @@ describe('Betaz token test', () => {
         console.log(`===========case 5=============`);
         accounts = [player1.address, player2.address];
         amounts = [new BN(20 * (10 ** 12)), new BN(20 * (10 ** 12))];
-
+        let whitelistInfo1 = (await saleQuery.getWhitelistInfo(poolType, accounts[0])).value.ok!;
+        let whitelistInfo2 = (await saleQuery.getWhitelistInfo(poolType, accounts[1])).value.ok!;
         try {
             await saleContract.withSigner(defaultSigner).tx.updateMultiWhitelists(poolType, accounts, amounts, prices)
         } catch (error) {
             console.log(error)
         }
 
+        let new_whitelistInfo1 = (await saleQuery.getWhitelistInfo(poolType, accounts[0])).value.ok!;
+        let new_whitelistInfo2 = (await saleQuery.getWhitelistInfo(poolType, accounts[1])).value.ok!;
+        expect(amounts[0].toString()).to.equal(new_whitelistInfo1.amount.toString());
+        expect(amounts[1].toString()).to.equal(new_whitelistInfo2.amount.toString());
         new_poolSaleInfo = (await saleQuery.getPoolSaleInfo(poolType)).value.ok!;
-        gain = new BN((new_poolSaleInfo.totalPurchasedAmount).toString()).sub(new BN((poolSaleInfo.totalPurchasedAmount)));
-        new_totalRemainingAmount = (await saleQuery.getPoolSaleTotalRemainingAmount()).value.ok!;
-        gain = new BN((totalRemainingAmount).toString()).sub(new BN((new_totalRemainingAmount)));
+        let total_purchased_amount = new BN(whitelistInfo1.amount.toString()).add(new BN(whitelistInfo2.amount.toString()));
+        let new_total_purchased_amount = new BN(new_whitelistInfo1.amount.toString()).add(new BN(new_whitelistInfo2.amount.toString()));
+        gain = new BN((poolSaleInfo.totalPurchasedAmount).toString()).add(new BN((new_total_purchased_amount))).sub(new BN((total_purchased_amount)));
+        expect(gain.toString()).to.equal(new_poolSaleInfo.totalPurchasedAmount.toString())
 
-        let whitelistInfo1 = (await saleQuery.getWhitelistInfo(poolType, accounts[0])).value.ok!;
-        let whitelistInfo2 = (await saleQuery.getWhitelistInfo(poolType, accounts[1])).value.ok!;
-        console.log({ new_poolSaleInfo, new_totalRemainingAmount: toNumber(new_totalRemainingAmount), whitelistInfo1, whitelistInfo2 });
+        console.log({ new_poolSaleInfo, new_totalRemainingAmount: toNumber(new_totalRemainingAmount), new_whitelistInfo1, new_whitelistInfo2 });
     });
 
     after(async () => {
