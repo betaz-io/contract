@@ -73,6 +73,13 @@ export interface Error {
 	invalidFee ? : null,
 	poolIsExists ? : null,
 	invalidTotalPurchasedAmount ? : null,
+	ticketAmountLimitReached ? : null,
+	notTimeToFinalized ? : null,
+	callerDoNotHaveVoting ? : null,
+	setPoolRationFailed ? : null,
+	failToDecreaseClaimableReward ? : null,
+	rewardNotAdded ? : null,
+	chainlinkRequestIdIsExists ? : null,
 	ownableError ? : OwnableError,
 	accessControlError ? : AccessControlError,
 	psp22Error ? : PSP22Error,
@@ -410,6 +417,41 @@ export class ErrorBuilder {
 	static InvalidTotalPurchasedAmount(): Error {
 		return {
 			invalidTotalPurchasedAmount: null,
+		};
+	}
+	static TicketAmountLimitReached(): Error {
+		return {
+			ticketAmountLimitReached: null,
+		};
+	}
+	static NotTimeToFinalized(): Error {
+		return {
+			notTimeToFinalized: null,
+		};
+	}
+	static CallerDoNotHaveVoting(): Error {
+		return {
+			callerDoNotHaveVoting: null,
+		};
+	}
+	static SetPoolRationFailed(): Error {
+		return {
+			setPoolRationFailed: null,
+		};
+	}
+	static FailToDecreaseClaimableReward(): Error {
+		return {
+			failToDecreaseClaimableReward: null,
+		};
+	}
+	static RewardNotAdded(): Error {
+		return {
+			rewardNotAdded: null,
+		};
+	}
+	static ChainlinkRequestIdIsExists(): Error {
+		return {
+			chainlinkRequestIdIsExists: null,
 		};
 	}
 	static OwnableError(value: OwnableError): Error {
