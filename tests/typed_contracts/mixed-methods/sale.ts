@@ -55,46 +55,16 @@ export default class Methods {
 	}
 
 	/**
-	* setBetazTokenAddress
+	* changeState
 	*
-	* @param { ArgumentTypes.AccountId } betazTokenAddress,
 	* @returns { void }
 	*/
-	"setBetazTokenAddress" (
-		betazTokenAddress: ArgumentTypes.AccountId,
+	"changeState" (
 		__options: GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::setBetazTokenAddress", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::changeState", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [betazTokenAddress], __options);
-	}
-
-	/**
-	* buyWithSalePool
-	*
-	* @param { (string | number | BN) } amount,
-	* @returns { void }
-	*/
-	"buyWithSalePool" (
-		amount: (string | number | BN),
-		__options: GasLimitAndRequiredValue,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::buyWithSalePool", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [amount], __options);
-	}
-
-	/**
-	* getPoolSaleInfo
-	*
-	* @param { ArgumentTypes.PoolType } poolType,
-	* @returns { Result<ReturnTypes.PoolSaleInfo | null, ReturnTypes.LangError> }
-	*/
-	"getPoolSaleInfo" (
-		poolType: ArgumentTypes.PoolType,
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnTypes.PoolSaleInfo | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "salePoolTrait::getPoolSaleInfo", [poolType], __options, (result) => { return handleReturnType(result, getTypeDescription(21, DATA_TYPE_DESCRIPTIONS)); });
+		}, [], __options);
 	}
 
 	/**
@@ -109,7 +79,7 @@ export default class Methods {
 		account: ArgumentTypes.AccountId,
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<ReturnTypes.WhitelistInfo | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "salePoolTrait::getWhitelistInfo", [poolType, account], __options, (result) => { return handleReturnType(result, getTypeDescription(24, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "salePoolTrait::getWhitelistInfo", [poolType, account], __options, (result) => { return handleReturnType(result, getTypeDescription(21, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -134,60 +104,31 @@ export default class Methods {
 	}
 
 	/**
-	* addPoolByPoolType
+	* setBetazTokenAddress
 	*
-	* @param { ArgumentTypes.PoolType } poolType,
-	* @param { boolean } buyStatus,
-	* @param { (number | string | BN) } endTimeBuy,
-	* @param { (string | number | BN) } totalAmount,
-	* @param { (string | number | BN) } totalPurchasedAmount,
-	* @param { (string | number | BN) } price,
+	* @param { ArgumentTypes.AccountId } betazTokenAddress,
 	* @returns { void }
 	*/
-	"addPoolByPoolType" (
-		poolType: ArgumentTypes.PoolType,
-		buyStatus: boolean,
-		endTimeBuy: (number | string | BN),
-		totalAmount: (string | number | BN),
-		totalPurchasedAmount: (string | number | BN),
-		price: (string | number | BN),
+	"setBetazTokenAddress" (
+		betazTokenAddress: ArgumentTypes.AccountId,
 		__options: GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::addPoolByPoolType", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::setBetazTokenAddress", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [poolType, buyStatus, endTimeBuy, totalAmount, totalPurchasedAmount, price], __options);
+		}, [betazTokenAddress], __options);
 	}
 
 	/**
-	* updateMultiWhitelists
+	* getPoolSaleTotalRemainingAmount
 	*
 	* @param { ArgumentTypes.PoolType } poolType,
-	* @param { Array<ArgumentTypes.AccountId> } accounts,
-	* @param { Array<(string | number | BN)> } amounts,
-	* @param { Array<(string | number | BN)> } prices,
-	* @returns { void }
+	* @returns { Result<ReturnNumber | null, ReturnTypes.LangError> }
 	*/
-	"updateMultiWhitelists" (
+	"getPoolSaleTotalRemainingAmount" (
 		poolType: ArgumentTypes.PoolType,
-		accounts: Array<ArgumentTypes.AccountId>,
-		amounts: Array<(string | number | BN)>,
-		prices: Array<(string | number | BN)>,
 		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::updateMultiWhitelists", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [poolType, accounts, amounts, prices], __options);
-	}
-
-	/**
-	* getBetazTokenAddress
-	*
-	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
-	*/
-	"getBetazTokenAddress" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "salePoolTrait::getBetazTokenAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(29, DATA_TYPE_DESCRIPTIONS)); });
+	): Promise< QueryReturnType< Result<ReturnNumber | null, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "salePoolTrait::getPoolSaleTotalRemainingAmount", [poolType], __options, (result) => { return handleReturnType(result, getTypeDescription(24, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -202,84 +143,7 @@ export default class Methods {
 		index: (string | number | BN),
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "salePoolTrait::getAccountByPoolType", [poolType, index], __options, (result) => { return handleReturnType(result, getTypeDescription(30, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* addMultiWhitelists
-	*
-	* @param { ArgumentTypes.PoolType } poolType,
-	* @param { Array<ArgumentTypes.AccountId> } accounts,
-	* @param { Array<(string | number | BN)> } amounts,
-	* @param { Array<(string | number | BN)> } prices,
-	* @returns { void }
-	*/
-	"addMultiWhitelists" (
-		poolType: ArgumentTypes.PoolType,
-		accounts: Array<ArgumentTypes.AccountId>,
-		amounts: Array<(string | number | BN)>,
-		prices: Array<(string | number | BN)>,
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::addMultiWhitelists", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [poolType, accounts, amounts, prices], __options);
-	}
-
-	/**
-	* getPoolSaleTotalRemainingAmount
-	*
-	* @param { ArgumentTypes.PoolType } poolType,
-	* @returns { Result<ReturnNumber | null, ReturnTypes.LangError> }
-	*/
-	"getPoolSaleTotalRemainingAmount" (
-		poolType: ArgumentTypes.PoolType,
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "salePoolTrait::getPoolSaleTotalRemainingAmount", [poolType], __options, (result) => { return handleReturnType(result, getTypeDescription(32, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getTotalAccountByPoolType
-	*
-	* @param { ArgumentTypes.PoolType } poolType,
-	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
-	*/
-	"getTotalAccountByPoolType" (
-		poolType: ArgumentTypes.PoolType,
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "salePoolTrait::getTotalAccountByPoolType", [poolType], __options, (result) => { return handleReturnType(result, getTypeDescription(34, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* whitelistBuy
-	*
-	* @param { ArgumentTypes.PoolType } poolType,
-	* @param { (string | number | BN) } amount,
-	* @returns { void }
-	*/
-	"whitelistBuy" (
-		poolType: ArgumentTypes.PoolType,
-		amount: (string | number | BN),
-		__options: GasLimitAndRequiredValue,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::whitelistBuy", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [poolType, amount], __options);
-	}
-
-	/**
-	* changeState
-	*
-	* @returns { void }
-	*/
-	"changeState" (
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::changeState", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "salePoolTrait::getAccountByPoolType", [poolType, index], __options, (result) => { return handleReturnType(result, getTypeDescription(26, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -308,18 +172,139 @@ export default class Methods {
 	}
 
 	/**
-	* transferOwnership
+	* addPoolByPoolType
 	*
-	* @param { ArgumentTypes.AccountId | null } newOwner,
+	* @param { ArgumentTypes.PoolType } poolType,
+	* @param { boolean } buyStatus,
+	* @param { (number | string | BN) } endTimeBuy,
+	* @param { (string | number | BN) } totalAmount,
+	* @param { (string | number | BN) } totalPurchasedAmount,
+	* @param { (string | number | BN) } price,
 	* @returns { void }
 	*/
-	"transferOwnership" (
-		newOwner: ArgumentTypes.AccountId | null,
+	"addPoolByPoolType" (
+		poolType: ArgumentTypes.PoolType,
+		buyStatus: boolean,
+		endTimeBuy: (number | string | BN),
+		totalAmount: (string | number | BN),
+		totalPurchasedAmount: (string | number | BN),
+		price: (string | number | BN),
 		__options: GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "ownable::transferOwnership", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::addPoolByPoolType", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [newOwner], __options);
+		}, [poolType, buyStatus, endTimeBuy, totalAmount, totalPurchasedAmount, price], __options);
+	}
+
+	/**
+	* addMultiWhitelists
+	*
+	* @param { ArgumentTypes.PoolType } poolType,
+	* @param { Array<ArgumentTypes.AccountId> } accounts,
+	* @param { Array<(string | number | BN)> } amounts,
+	* @param { Array<(string | number | BN)> } prices,
+	* @returns { void }
+	*/
+	"addMultiWhitelists" (
+		poolType: ArgumentTypes.PoolType,
+		accounts: Array<ArgumentTypes.AccountId>,
+		amounts: Array<(string | number | BN)>,
+		prices: Array<(string | number | BN)>,
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::addMultiWhitelists", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [poolType, accounts, amounts, prices], __options);
+	}
+
+	/**
+	* getBetazTokenAddress
+	*
+	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
+	*/
+	"getBetazTokenAddress" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "salePoolTrait::getBetazTokenAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(30, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* updateMultiWhitelists
+	*
+	* @param { ArgumentTypes.PoolType } poolType,
+	* @param { Array<ArgumentTypes.AccountId> } accounts,
+	* @param { Array<(string | number | BN)> } amounts,
+	* @param { Array<(string | number | BN)> } prices,
+	* @returns { void }
+	*/
+	"updateMultiWhitelists" (
+		poolType: ArgumentTypes.PoolType,
+		accounts: Array<ArgumentTypes.AccountId>,
+		amounts: Array<(string | number | BN)>,
+		prices: Array<(string | number | BN)>,
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::updateMultiWhitelists", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [poolType, accounts, amounts, prices], __options);
+	}
+
+	/**
+	* buyWithSalePool
+	*
+	* @param { (string | number | BN) } amount,
+	* @returns { void }
+	*/
+	"buyWithSalePool" (
+		amount: (string | number | BN),
+		__options: GasLimitAndRequiredValue,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::buyWithSalePool", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [amount], __options);
+	}
+
+	/**
+	* getTotalAccountByPoolType
+	*
+	* @param { ArgumentTypes.PoolType } poolType,
+	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
+	*/
+	"getTotalAccountByPoolType" (
+		poolType: ArgumentTypes.PoolType,
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "salePoolTrait::getTotalAccountByPoolType", [poolType], __options, (result) => { return handleReturnType(result, getTypeDescription(31, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* whitelistBuy
+	*
+	* @param { ArgumentTypes.PoolType } poolType,
+	* @param { (string | number | BN) } amount,
+	* @returns { void }
+	*/
+	"whitelistBuy" (
+		poolType: ArgumentTypes.PoolType,
+		amount: (string | number | BN),
+		__options: GasLimitAndRequiredValue,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "salePoolTrait::whitelistBuy", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [poolType, amount], __options);
+	}
+
+	/**
+	* getPoolSaleInfo
+	*
+	* @param { ArgumentTypes.PoolType } poolType,
+	* @returns { Result<ReturnTypes.PoolSaleInfo | null, ReturnTypes.LangError> }
+	*/
+	"getPoolSaleInfo" (
+		poolType: ArgumentTypes.PoolType,
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnTypes.PoolSaleInfo | null, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "salePoolTrait::getPoolSaleInfo", [poolType], __options, (result) => { return handleReturnType(result, getTypeDescription(32, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -336,6 +321,21 @@ export default class Methods {
 	}
 
 	/**
+	* transferOwnership
+	*
+	* @param { ArgumentTypes.AccountId | null } newOwner,
+	* @returns { void }
+	*/
+	"transferOwnership" (
+		newOwner: ArgumentTypes.AccountId | null,
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "ownable::transferOwnership", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [newOwner], __options);
+	}
+
+	/**
 	* owner
 	*
 	* @returns { Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> }
@@ -343,7 +343,7 @@ export default class Methods {
 	"owner" (
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "ownable::owner", [], __options, (result) => { return handleReturnType(result, getTypeDescription(30, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "ownable::owner", [], __options, (result) => { return handleReturnType(result, getTypeDescription(26, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -373,34 +373,6 @@ export default class Methods {
 	}
 
 	/**
-	* hasRole
-	*
-	* @param { (number | string | BN) } role,
-	* @param { ArgumentTypes.AccountId | null } address,
-	* @returns { Result<boolean, ReturnTypes.LangError> }
-	*/
-	"hasRole" (
-		role: (number | string | BN),
-		address: ArgumentTypes.AccountId | null,
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<boolean, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControl::hasRole", [role, address], __options, (result) => { return handleReturnType(result, getTypeDescription(37, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getRoleAdmin
-	*
-	* @param { (number | string | BN) } role,
-	* @returns { Result<number, ReturnTypes.LangError> }
-	*/
-	"getRoleAdmin" (
-		role: (number | string | BN),
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControl::getRoleAdmin", [role], __options, (result) => { return handleReturnType(result, getTypeDescription(42, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
 	* grantRole
 	*
 	* @param { (number | string | BN) } role,
@@ -413,23 +385,6 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::grantRole", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [role, account], __options);
-	}
-
-	/**
-	* renounceRole
-	*
-	* @param { (number | string | BN) } role,
-	* @param { ArgumentTypes.AccountId | null } account,
-	* @returns { void }
-	*/
-	"renounceRole" (
-		role: (number | string | BN),
-		account: ArgumentTypes.AccountId | null,
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::renounceRole", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [role, account], __options);
 	}
@@ -452,16 +407,48 @@ export default class Methods {
 	}
 
 	/**
-	* getRoleMemberCount
+	* renounceRole
+	*
+	* @param { (number | string | BN) } role,
+	* @param { ArgumentTypes.AccountId | null } account,
+	* @returns { void }
+	*/
+	"renounceRole" (
+		role: (number | string | BN),
+		account: ArgumentTypes.AccountId | null,
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::renounceRole", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [role, account], __options);
+	}
+
+	/**
+	* getRoleAdmin
 	*
 	* @param { (number | string | BN) } role,
 	* @returns { Result<number, ReturnTypes.LangError> }
 	*/
-	"getRoleMemberCount" (
+	"getRoleAdmin" (
 		role: (number | string | BN),
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControlEnumerable::getRoleMemberCount", [role], __options, (result) => { return handleReturnType(result, getTypeDescription(42, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControl::getRoleAdmin", [role], __options, (result) => { return handleReturnType(result, getTypeDescription(44, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* hasRole
+	*
+	* @param { (number | string | BN) } role,
+	* @param { ArgumentTypes.AccountId | null } address,
+	* @returns { Result<boolean, ReturnTypes.LangError> }
+	*/
+	"hasRole" (
+		role: (number | string | BN),
+		address: ArgumentTypes.AccountId | null,
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<boolean, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControl::hasRole", [role, address], __options, (result) => { return handleReturnType(result, getTypeDescription(37, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -476,7 +463,20 @@ export default class Methods {
 		index: (number | string | BN),
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControlEnumerable::getRoleMember", [role, index], __options, (result) => { return handleReturnType(result, getTypeDescription(30, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControlEnumerable::getRoleMember", [role, index], __options, (result) => { return handleReturnType(result, getTypeDescription(26, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getRoleMemberCount
+	*
+	* @param { (number | string | BN) } role,
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getRoleMemberCount" (
+		role: (number | string | BN),
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControlEnumerable::getRoleMemberCount", [role], __options, (result) => { return handleReturnType(result, getTypeDescription(44, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 }
