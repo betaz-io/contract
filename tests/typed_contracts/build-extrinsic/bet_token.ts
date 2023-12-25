@@ -21,6 +21,30 @@ export default class Methods {
 		this.__apiPromise = apiPromise;
 	}
 	/**
+	 * withdraw
+	 *
+	 * @param { (string | number | BN) } value,
+	*/
+	"withdraw" (
+		value: (string | number | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betAZTrait::withdraw", [value], __options);
+	}
+
+	/**
+	 * setMinterAddress
+	 *
+	 * @param { ArgumentTypes.AccountId } address,
+	*/
+	"setMinterAddress" (
+		address: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betAZTrait::setMinterAddress", [address], __options);
+	}
+
+	/**
 	 * changeState
 	 *
 	*/
@@ -28,6 +52,20 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betAZTrait::changeState", [], __options);
+	}
+
+	/**
+	 * betAzTrait::mint
+	 *
+	 * @param { ArgumentTypes.AccountId } account,
+	 * @param { (string | number | BN) } amount,
+	*/
+	"betAzTrait::mint" (
+		account: ArgumentTypes.AccountId,
+		amount: (string | number | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betAZTrait::mint", [account, amount], __options);
 	}
 
 	/**
@@ -45,30 +83,6 @@ export default class Methods {
 	}
 
 	/**
-	 * setMinterAddress
-	 *
-	 * @param { ArgumentTypes.AccountId } address,
-	*/
-	"setMinterAddress" (
-		address: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betAZTrait::setMinterAddress", [address], __options);
-	}
-
-	/**
-	 * isMinterAddress
-	 *
-	 * @param { ArgumentTypes.AccountId } address,
-	*/
-	"isMinterAddress" (
-		address: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betAZTrait::isMinterAddress", [address], __options);
-	}
-
-	/**
 	 * isAdminAddress
 	 *
 	 * @param { ArgumentTypes.AccountId } address,
@@ -81,29 +95,15 @@ export default class Methods {
 	}
 
 	/**
-	 * withdraw
+	 * isMinterAddress
 	 *
-	 * @param { (string | number | BN) } value,
+	 * @param { ArgumentTypes.AccountId } address,
 	*/
-	"withdraw" (
-		value: (string | number | BN),
+	"isMinterAddress" (
+		address: ArgumentTypes.AccountId,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betAZTrait::withdraw", [value], __options);
-	}
-
-	/**
-	 * betAzTrait::mint
-	 *
-	 * @param { ArgumentTypes.AccountId } account,
-	 * @param { (string | number | BN) } amount,
-	*/
-	"betAzTrait::mint" (
-		account: ArgumentTypes.AccountId,
-		amount: (string | number | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betAZTrait::mint", [account, amount], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betAZTrait::isMinterAddress", [address], __options);
 	}
 
 	/**
@@ -128,6 +128,48 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp22::balanceOf", [owner], __options);
+	}
+
+	/**
+	 * transferFrom
+	 *
+	 * @param { ArgumentTypes.AccountId } from,
+	 * @param { ArgumentTypes.AccountId } to,
+	 * @param { (string | number | BN) } value,
+	 * @param { Array<(number | string | BN)> } data,
+	*/
+	"transferFrom" (
+		from: ArgumentTypes.AccountId,
+		to: ArgumentTypes.AccountId,
+		value: (string | number | BN),
+		data: Array<(number | string | BN)>,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp22::transferFrom", [from, to, value, data], __options);
+	}
+
+	/**
+	 * allowance
+	 *
+	 * @param { ArgumentTypes.AccountId } owner,
+	 * @param { ArgumentTypes.AccountId } spender,
+	*/
+	"allowance" (
+		owner: ArgumentTypes.AccountId,
+		spender: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp22::allowance", [owner, spender], __options);
+	}
+
+	/**
+	 * totalSupply
+	 *
+	*/
+	"totalSupply" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp22::totalSupply", [], __options);
 	}
 
 	/**
@@ -175,55 +217,13 @@ export default class Methods {
 	}
 
 	/**
-	 * transferFrom
-	 *
-	 * @param { ArgumentTypes.AccountId } from,
-	 * @param { ArgumentTypes.AccountId } to,
-	 * @param { (string | number | BN) } value,
-	 * @param { Array<(number | string | BN)> } data,
-	*/
-	"transferFrom" (
-		from: ArgumentTypes.AccountId,
-		to: ArgumentTypes.AccountId,
-		value: (string | number | BN),
-		data: Array<(number | string | BN)>,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp22::transferFrom", [from, to, value, data], __options);
-	}
-
-	/**
-	 * totalSupply
+	 * tokenDecimals
 	 *
 	*/
-	"totalSupply" (
+	"tokenDecimals" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp22::totalSupply", [], __options);
-	}
-
-	/**
-	 * allowance
-	 *
-	 * @param { ArgumentTypes.AccountId } owner,
-	 * @param { ArgumentTypes.AccountId } spender,
-	*/
-	"allowance" (
-		owner: ArgumentTypes.AccountId,
-		spender: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp22::allowance", [owner, spender], __options);
-	}
-
-	/**
-	 * tokenName
-	 *
-	*/
-	"tokenName" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp22Metadata::tokenName", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp22Metadata::tokenDecimals", [], __options);
 	}
 
 	/**
@@ -237,13 +237,13 @@ export default class Methods {
 	}
 
 	/**
-	 * tokenDecimals
+	 * tokenName
 	 *
 	*/
-	"tokenDecimals" (
+	"tokenName" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp22Metadata::tokenDecimals", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "psp22Metadata::tokenName", [], __options);
 	}
 
 	/**
@@ -275,6 +275,16 @@ export default class Methods {
 	}
 
 	/**
+	 * owner
+	 *
+	*/
+	"owner" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::owner", [], __options);
+	}
+
+	/**
 	 * transferOwnership
 	 *
 	 * @param { ArgumentTypes.AccountId | null } newOwner,
@@ -284,16 +294,6 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::transferOwnership", [newOwner], __options);
-	}
-
-	/**
-	 * owner
-	 *
-	*/
-	"owner" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::owner", [], __options);
 	}
 
 	/**
@@ -326,18 +326,6 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "upgradeable::setCodeHash", [newCodeHash], __options);
-	}
-
-	/**
-	 * getRoleAdmin
-	 *
-	 * @param { (number | string | BN) } role,
-	*/
-	"getRoleAdmin" (
-		role: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::getRoleAdmin", [role], __options);
 	}
 
 	/**
@@ -394,6 +382,18 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::hasRole", [role, address], __options);
+	}
+
+	/**
+	 * getRoleAdmin
+	 *
+	 * @param { (number | string | BN) } role,
+	*/
+	"getRoleAdmin" (
+		role: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::getRoleAdmin", [role], __options);
 	}
 
 	/**

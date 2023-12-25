@@ -671,15 +671,15 @@ export type NFTInfomation = {
 	used: boolean
 }
 
-export type SessionInfo = {
-	randomNumber: (number | string | BN),
-	status: SessionsStatusType
-}
-
 export enum SessionsStatusType {
 	processing = 'Processing',
 	finalized = 'Finalized',
 	completed = 'Completed'
+}
+
+export type SessionInfo = {
+	randomNumber: (number | string | BN),
+	status: SessionsStatusType
 }
 
 export type Hash = string | number[]
