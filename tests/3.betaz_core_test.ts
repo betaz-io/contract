@@ -994,7 +994,7 @@ describe('Betaz token test', () => {
         const max_bet = (await coreQuery.getMaxBet()).value.ok.rawNumber;
         let min_over_number = (await coreQuery.getMinNumberOverRoll()).value.ok!;
         let bet_amount = max_bet;
-        let bet_number = min_over_number + 46;
+        let bet_number = min_over_number + 47;
 
         try {
             await coreContract.withSigner(player4).tx.play(bet_number, isOver, { value: bet_amount })
@@ -1075,7 +1075,6 @@ describe('Betaz token test', () => {
                 let new_hold_amount = (await coreQuery.getHoldAmountPlayers(player4.address)).value.ok!;
                 let gain = new BN(hold_amount).sub(new BN(new_hold_amount))
                 expect(toNumber(gain)).to.equal(toNumber(amount));
-                console.log({ new_hold_amount })
             }
 
             let new_balancePlayer4 = await showAZBalance(api, player4.address);
@@ -1085,6 +1084,11 @@ describe('Betaz token test', () => {
     });
 
     it('Can withdraw core pool', async () => {
+        // add core pool 
+        let fee = new BN(10 * (10 ** 12))
+        await coreContract.withSigner(defaultSigner).tx.updateCorePool({ value: fee });
+
+        // 
         let amount = new BN(1 * (10 ** 12));
         let balanceContract = await showAZBalance(api, coreContractAddress);
         let balanceAlice = await showAZBalance(api, aliceAddress);
