@@ -23,7 +23,7 @@ import Constructors from "./typed_contracts/constructors/betaz_random";
 7. run one test
 * Betaz random: **npm run test:random**
 * Betaz token: **npm run test:token**
-* Betaz core: **npm run test:core**
+* Betaz core: ****
 * Staking pool: **npm run test:staking**
 * Sale pool: **npm run test:sale**
 * Pandora pool: **npm run test:pandora**
