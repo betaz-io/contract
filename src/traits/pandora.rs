@@ -1,26 +1,22 @@
 use crate::impls::pandora::{NFTInfomation, SessionInfo, SessionsStatusType};
 use crate::traits::error::Error;
-use ink::prelude::{string::String, vec::Vec};
+use ink::prelude::string::String;
 use openbrush::{
     contracts::{
-        psp22::extensions::{burnable::*, mintable::*},
-        psp34::extensions::{enumerable::*, metadata::*},
+        psp34::extensions::{burnable::*, mintable::*},
         traits::ownable::*,
     },
     traits::{AccountId, Balance},
 };
 
 #[openbrush::wrapper]
-pub type Psp22Ref = dyn PSP22 + PSP22Burnable + PSP22Mintable;
+pub type Psp34Ref = dyn PSP34 + PSP34Burnable + PSP34Mintable;
 
 #[openbrush::wrapper]
-pub type Psp34Ref = dyn PSP34;
-
-#[openbrush::wrapper]
-pub type PandoraPoolRef = dyn PandoraPoolTraits + PSP34 + PSP34Metadata + Ownable;
+pub type PandoraPoolRef = dyn PandoraPoolTraits + Ownable;
 
 #[openbrush::trait_definition]
-pub trait PandoraPoolTraits: PSP34 + PSP34Metadata + Ownable {
+pub trait PandoraPoolTraits: Ownable {
     // EXECUTE FUNCTIONS
     // Change state contract
     #[ink(message)]
@@ -29,9 +25,6 @@ pub trait PandoraPoolTraits: PSP34 + PSP34Metadata + Ownable {
     /// Withdraw fee
     #[ink(message)]
     fn withdraw_fee(&mut self, account: AccountId, value: Balance) -> Result<(), Error>;
-
-    #[ink(message)]
-    fn lock(&mut self, token_id: Id) -> Result<(), Error>;
 
     #[ink(message)]
     fn add_new_bet_session(&mut self) -> Result<(), Error>;
@@ -59,36 +52,13 @@ pub trait PandoraPoolTraits: PSP34 + PSP34Metadata + Ownable {
     #[ink(message)]
     fn withdraw_hold_amount(&mut self, receiver: AccountId, amount: Balance) -> Result<(), Error>;
 
-    #[ink(message)]
-    fn burn_betaz_token(&mut self) -> Result<(), Error>;
-
-    #[ink(message)]
-    fn burn_ticket_used(&mut self, token_ids: Vec<Id>) -> Result<(), Error>;
-
-    #[ink(message)]
-    fn public_buy(&mut self, amounts: u64) -> Result<(), Error>;
-
     // SET FUNCTIONS
     #[ink(message)]
-    fn set_base_uri(&mut self, uri: String) -> Result<(), Error>;
-
-    #[ink(message)]
-    fn set_multiple_attributes(
-        &mut self,
-        token_id: Id,
-        metadata: Vec<(String, String)>,
-    ) -> Result<(), Error>;
-
-    #[ink(message)]
-    fn set_betaz_token_address(&mut self, account: AccountId) -> Result<(), Error>;
+    fn set_psp34_contract_address(&mut self, account: AccountId) -> Result<(), Error>;
 
     /// set ticket_amount_ratio
     #[ink(message)]
     fn set_session_total_ticket_amount(&mut self, ticket_amount_ratio: u128) -> Result<(), Error>;
-
-    /// set public_mint_price
-    #[ink(message)]
-    fn set_public_mint_price(&mut self, price: Balance) -> Result<(), Error>;
 
     /// set max_bet_number
     #[ink(message)]
@@ -129,7 +99,12 @@ pub trait PandoraPoolTraits: PSP34 + PSP34Metadata + Ownable {
 
     /// get Id in session by random number
     #[ink(message)]
-    fn get_id_in_session_by_random_number_and_index(&self, session_id: u32, random_number: u32, index: u128) -> Option<Id>;
+    fn get_id_in_session_by_random_number_and_index(
+        &self,
+        session_id: u32,
+        random_number: u32,
+        index: u128,
+    ) -> Option<Id>;
 
     /// get total hold amount
     #[ink(message)]
@@ -147,10 +122,6 @@ pub trait PandoraPoolTraits: PSP34 + PSP34Metadata + Ownable {
     #[ink(message)]
     fn get_max_bet_number(&self) -> u32;
 
-    /// get public_mint_price
-    #[ink(message)]
-    fn get_public_mint_price(&self) -> Balance;
-
     /// get ticket_amount_ratio
     #[ink(message)]
     fn get_session_total_ticket_amount(&self) -> u128;
@@ -163,9 +134,9 @@ pub trait PandoraPoolTraits: PSP34 + PSP34Metadata + Ownable {
     #[ink(message)]
     fn get_total_win_amount(&self) -> Balance;
 
-    /// get betaz address
+    /// get psp34 address
     #[ink(message)]
-    fn get_betaz_token_address(&self) -> AccountId;
+    fn get_psp34_contract_address(&self) -> AccountId;
 
     /// get last session id
     #[ink(message)]
@@ -200,26 +171,5 @@ pub trait PandoraPoolTraits: PSP34 + PSP34Metadata + Ownable {
     fn get_nft_info(&self, token_id: Id) -> Option<NFTInfomation>;
 
     #[ink(message)]
-    fn get_attributes(&self, token_id: Id, attributes: Vec<String>) -> Vec<String>;
-
-    #[ink(message)]
-    fn get_attribute_count(&self) -> u32;
-
-    #[ink(message)]
-    fn get_attribute_name(&self, index: u32) -> String;
-
-    #[ink(message)]
-    fn token_uri(&self, token_id: u64) -> String;
-
-    #[ink(message)]
     fn get_owner(&self) -> Option<AccountId>;
-
-    #[ink(message)]
-    fn get_last_token_id(&self) -> u64;
-
-    #[ink(message)]
-    fn is_locked_nft(&self, token_id: Id) -> bool;
-
-    #[ink(message)]
-    fn get_locked_token_count(&self) -> u64;
 }
