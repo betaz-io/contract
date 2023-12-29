@@ -15,7 +15,7 @@ pub mod pandora_psp34_standard {
     use bet_a0::{
         impls::{
             admin::AdminTraitImpl,
-            pandora_psp34_standard::{PandoraPsp34StandardTraitsImpl, ADMINER, *},
+            pandora_psp34_standard::{Psp34TraitsImpl, ADMINER, *},
         },
         traits::error::Error,
     };
@@ -59,7 +59,7 @@ pub mod pandora_psp34_standard {
     }
 
     impl AdminTraitImpl for PandoraPsp34StandardContract {}
-    impl PandoraPsp34StandardTraitsImpl for PandoraPsp34StandardContract {
+    impl Psp34TraitsImpl for PandoraPsp34StandardContract {
         fn _emit_public_buy_event(&self, _buyer: AccountId, _amounts: u64, _betaz_price: Balance) {
             PandoraPsp34StandardContract::emit_event(
                 self.env(),
@@ -110,34 +110,34 @@ pub mod pandora_psp34_standard {
         }
     }
 
-    impl PandoraPsp34StandardTraits for PandoraPsp34StandardContract {
+    impl Psp34Traits for PandoraPsp34StandardContract {
         // EXECUTE FUNCTIONS
         // Change state contract
         #[ink(message)]
         fn change_state(&mut self, state: bool) -> Result<(), Error> {
-            PandoraPsp34StandardTraitsImpl::change_state(self, state)
+            Psp34TraitsImpl::change_state(self, state)
         }
 
 
         #[ink(message)]
         fn lock(&mut self, token_id: Id) -> Result<(), Error> {
-            PandoraPsp34StandardTraitsImpl::lock(self, token_id)
+            Psp34TraitsImpl::lock(self, token_id)
         }
 
         #[ink(message)]
         fn burn_betaz_token(&mut self) -> Result<(), Error> {
-            PandoraPsp34StandardTraitsImpl::burn_betaz_token(self)
+            Psp34TraitsImpl::burn_betaz_token(self)
         }
 
         #[ink(message)]
         fn public_buy(&mut self, amounts: u64) -> Result<(), Error> {
-            PandoraPsp34StandardTraitsImpl::public_buy(self, amounts)
+            Psp34TraitsImpl::public_buy(self, amounts)
         }
 
         // SET FUNCTIONS
         #[ink(message)]
         fn set_base_uri(&mut self, uri: String) -> Result<(), Error> {
-            PandoraPsp34StandardTraitsImpl::set_base_uri(self, uri)
+            Psp34TraitsImpl::set_base_uri(self, uri)
         }
 
         #[ink(message)]
@@ -146,70 +146,70 @@ pub mod pandora_psp34_standard {
             token_id: Id,
             metadata: Vec<(String, String)>,
         ) -> Result<(), Error> {
-            PandoraPsp34StandardTraitsImpl::set_multiple_attributes(self, token_id, metadata)
+            Psp34TraitsImpl::set_multiple_attributes(self, token_id, metadata)
         }
 
         #[ink(message)]
         fn set_betaz_token_address(&mut self, account: AccountId) -> Result<(), Error> {
-            PandoraPsp34StandardTraitsImpl::set_betaz_token_address(self, account)
+            Psp34TraitsImpl::set_betaz_token_address(self, account)
         }
 
         /// set public_mint_price
         #[ink(message)]
         fn set_public_mint_price(&mut self, price: Balance) -> Result<(), Error> {
-            PandoraPsp34StandardTraitsImpl::set_public_mint_price(self, price)
+            Psp34TraitsImpl::set_public_mint_price(self, price)
         }
 
         /// get public_mint_price
         #[ink(message)]
         fn get_public_mint_price(&self) -> Balance {
-            PandoraPsp34StandardTraitsImpl::get_public_mint_price(self)
+            Psp34TraitsImpl::get_public_mint_price(self)
         }
 
         /// get betaz address
         #[ink(message)]
         fn get_betaz_token_address(&self) -> AccountId {
-            PandoraPsp34StandardTraitsImpl::get_betaz_token_address(self)
+            Psp34TraitsImpl::get_betaz_token_address(self)
         }
 
         #[ink(message)]
         fn get_attributes(&self, token_id: Id, attributes: Vec<String>) -> Vec<String> {
-            PandoraPsp34StandardTraitsImpl::get_attributes(self, token_id, attributes)
+            Psp34TraitsImpl::get_attributes(self, token_id, attributes)
         }
 
         #[ink(message)]
         fn get_attribute_count(&self) -> u32 {
-            PandoraPsp34StandardTraitsImpl::get_attribute_count(self)
+            Psp34TraitsImpl::get_attribute_count(self)
         }
 
         #[ink(message)]
         fn get_attribute_name(&self, index: u32) -> String {
-            PandoraPsp34StandardTraitsImpl::get_attribute_name(self, index)
+            Psp34TraitsImpl::get_attribute_name(self, index)
         }
 
         #[ink(message)]
         fn token_uri(&self, token_id: u64) -> String {
-            PandoraPsp34StandardTraitsImpl::token_uri(self, token_id)
+            Psp34TraitsImpl::token_uri(self, token_id)
         }
 
         #[ink(message)]
         fn get_owner(&self) -> Option<AccountId> {
-            PandoraPsp34StandardTraitsImpl::get_owner(self)
+            Psp34TraitsImpl::get_owner(self)
         }
 
         #[ink(message)]
         fn get_last_token_id(&self) -> u64 {
-            PandoraPsp34StandardTraitsImpl::get_last_token_id(self)
+            Psp34TraitsImpl::get_last_token_id(self)
         }
 
         #[ink(message)]
         fn is_locked_nft(&self, token_id: Id) -> bool {
-            PandoraPsp34StandardTraitsImpl::is_locked_nft(self, token_id)
+            Psp34TraitsImpl::is_locked_nft(self, token_id)
         }
 
         #[ink(message)]
         fn get_locked_token_count(&self) -> u64 {
-            PandoraPsp34StandardTraitsImpl::get_locked_token_count(self)
+            Psp34TraitsImpl::get_locked_token_count(self)
         }
     }
     impl PandoraPsp34StandardContract {
@@ -317,7 +317,7 @@ pub mod pandora_psp34_standard {
                 {
                     return Err(Error::CannotMint);
                 }
-                if PandoraPsp34StandardTraits::set_multiple_attributes(
+                if Psp34Traits::set_multiple_attributes(
                     self,
                     Id::U64(self.manager.last_token_id),
                     metadata,

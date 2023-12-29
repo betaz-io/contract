@@ -43,7 +43,7 @@ where
     body(instance)
 }
 
-pub trait PandoraPsp34StandardTraitsImpl:
+pub trait Psp34TraitsImpl:
     Storage<Manager>
     + PSP34
     + psp34::Internal
@@ -94,6 +94,7 @@ pub trait PandoraPsp34StandardTraitsImpl:
 
     #[modifiers(only_role(ADMINER))]
     fn burn_betaz_token(&mut self) -> Result<(), Error> {
+    
         let betaz_balance = PSP22Ref::balance_of(
             &self.data::<Manager>().betaz_token_address,
             Self::env().account_id(),

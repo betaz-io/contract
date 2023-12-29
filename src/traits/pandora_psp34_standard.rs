@@ -16,10 +16,10 @@ pub type Psp22Ref = dyn PSP22 + PSP22Burnable + PSP22Mintable;
 pub type Psp34Ref = dyn PSP34;
 
 #[openbrush::wrapper]
-pub type PandoraPsp34StandardRef = dyn PandoraPsp34StandardTraits + PSP34 + PSP34Metadata + Ownable;
+pub type PandoraPsp34StandardRef = dyn Psp34Traits + PSP34 + PSP34Metadata + Ownable;
 
 #[openbrush::trait_definition]
-pub trait PandoraPsp34StandardTraits: PSP34 + PSP34Metadata + Ownable {
+pub trait Psp34Traits: PSP34 + PSP34Metadata + Ownable {
     // EXECUTE FUNCTIONS
     // Change state contract
     #[ink(message)]
