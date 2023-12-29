@@ -6,3 +6,4 @@ pub mod sale;
 pub mod staking;
 pub mod pandora;
 pub mod dao_contract;
+pub mod pandora_psp34_standard;
