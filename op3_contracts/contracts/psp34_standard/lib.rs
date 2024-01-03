@@ -37,10 +37,11 @@ pub mod psp34_nft {
         },
         modifiers,
     };
-    use artzero_project::{
+    use bet_a0::{
         traits::{
             psp34_standard::*,
             admin::*,
+            upgradable::*,
             error::Error,
         },
     };
@@ -55,9 +56,11 @@ pub mod psp34_nft {
         #[storage_field]
         ownable: ownable::Data,
         #[storage_field]
-        manager: artzero_project::impls::psp34_standard::data::Manager,
+        manager: bet_a0::impls::psp34_standard::data::Manager,
         #[storage_field]
-        admin_data: artzero_project::impls::admin::data::Data,
+        admin_data: bet_a0::impls::admin::data::Data,
+        #[storage_field]
+        upgradable_data: bet_a0::impls::upgradable::data::Data,
     }
 
     /// - Specify transfer event.
@@ -101,6 +104,7 @@ pub mod psp34_nft {
     impl PSP34Enumerable for Psp34Nft {}
     impl Psp34Traits for Psp34Nft {}
     impl AdminTrait for Psp34Nft {}
+    impl UpgradableTrait for Psp34Nft {}
     impl Internal for Psp34Nft {
 
         /// - Impliment Transfer emit event because Openbrush doesn't.
