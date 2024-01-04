@@ -1,11 +1,6 @@
 use crate::traits::error::Error;
 pub use crate::{
-    impls::pandora_psp34_standard::{
-        data,
-        data::*,
-        pandora_psp34_standard,
-        *,
-    },
+    impls::pandora_psp34_standard::{data, data::*, pandora_psp34_standard, *},
     traits::pandora_psp34_standard::*,
 };
 use ink::prelude::{
@@ -94,7 +89,6 @@ pub trait Psp34TraitsImpl:
 
     #[modifiers(only_role(ADMINER))]
     fn burn_betaz_token(&mut self) -> Result<(), Error> {
-    
         let betaz_balance = PSP22Ref::balance_of(
             &self.data::<Manager>().betaz_token_address,
             Self::env().account_id(),
@@ -304,8 +298,13 @@ pub trait Psp34TraitsImpl:
     }
 
     /// Get owner address
-    fn get_owner(&self) -> Option<AccountId> {
-        ownable::Ownable::owner(self)
+    fn get_owner(&self) -> AccountId {
+        match ownable::Ownable::owner(self) {
+            Some(owner) => owner,
+            None => {
+                panic!("{}", "Not owner");
+            }
+        }
     }
 }
 
@@ -328,16 +327,18 @@ fn add_attribute_name<T: Storage<Manager>>(
                 data.attribute_names
                     .insert(&data.attribute_count, &attribute_input);
                 data.is_attribute.insert(&attr_input, &true);
-                return Ok(());
             } else {
                 return Err(Error::Custom(String::from(
                     "Fail to increase attribute count",
                 )));
             }
-        } else {
-            return Err(Error::Custom(String::from("Attribute input exists")));
-        }
+        } 
+        // else {
+        //     return Err(Error::Custom(String::from("Attribute input exists")));
+        // }
     } else {
         return Err(Error::Custom(String::from("Attribute input error")));
     }
+
+    Ok(())
 }
