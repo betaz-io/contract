@@ -4,7 +4,6 @@ use openbrush::{
     contracts::{
         psp22::extensions::{burnable::*, mintable::*},
         psp34::extensions::{enumerable::*, metadata::*},
-        traits::ownable::*,
     },
     traits::{AccountId, Balance},
 };
@@ -13,13 +12,10 @@ use openbrush::{
 pub type Psp22Ref = dyn PSP22 + PSP22Burnable + PSP22Mintable;
 
 #[openbrush::wrapper]
-pub type Psp34Ref = dyn PSP34;
-
-#[openbrush::wrapper]
-pub type PandoraPsp34StandardRef = dyn Psp34Traits + PSP34 + PSP34Metadata + Ownable;
+pub type Psp34Ref = dyn Psp34Traits + PSP34 + PSP34Metadata;
 
 #[openbrush::trait_definition]
-pub trait Psp34Traits: PSP34 + PSP34Metadata + Ownable {
+pub trait Psp34Traits {
     // EXECUTE FUNCTIONS
     // Change state contract
     #[ink(message)]
@@ -74,7 +70,7 @@ pub trait Psp34Traits: PSP34 + PSP34Metadata + Ownable {
     fn token_uri(&self, token_id: u64) -> String;
 
     #[ink(message)]
-    fn get_owner(&self) -> Option<AccountId>;
+    fn get_owner(&self) -> AccountId;
 
     #[ink(message)]
     fn get_last_token_id(&self) -> u64;

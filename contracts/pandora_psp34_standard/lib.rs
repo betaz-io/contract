@@ -193,7 +193,7 @@ pub mod pandora_psp34_standard {
         }
 
         #[ink(message)]
-        fn get_owner(&self) -> Option<AccountId> {
+        fn get_owner(&self) -> AccountId {
             Psp34TraitsImpl::get_owner(self)
         }
 
