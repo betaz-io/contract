@@ -1,49 +1,26 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #![feature(min_specialization)]
-pub use self::psp34_nft::{
-    Psp34Nft,
-    Psp34NftRef,
-};
+pub use self::psp34_nft::{Psp34Nft, Psp34NftRef};
 
 #[allow(clippy::let_unit_value)]
 #[allow(clippy::inline_fn_without_body)]
 #[allow(clippy::too_many_arguments)]
 #[openbrush::contract]
 pub mod psp34_nft {
+    use bet_a0::traits::{admin::*, error::Error, psp34_standard::*, upgradable::*};
+    use ink::prelude::{string::String, vec::Vec};
     use ink::{
-        codegen::{Env, EmitEvent},
-        reflect::ContractEventBase
-    };
-    use ink::prelude::{
-        string::{
-            String,
-        },
-        vec::Vec,
+        codegen::{EmitEvent, Env},
+        reflect::ContractEventBase,
     };
     use openbrush::{
         contracts::ownable::*,
         contracts::psp34::{
-            extensions::{
-                enumerable::*,
-                metadata::*,
-                burnable::*,
-            },
+            extensions::{burnable::*, enumerable::*, metadata::*},
             Internal,
         },
-        traits::{
-            Storage,
-            DefaultEnv,
-            ZERO_ADDRESS,
-        },
         modifiers,
-    };
-    use bet_a0::{
-        traits::{
-            psp34_standard::*,
-            admin::*,
-            upgradable::*,
-            error::Error,
-        },
+        traits::{DefaultEnv, Storage, ZERO_ADDRESS},
     };
 
     #[derive(Default, Storage)]
@@ -106,14 +83,8 @@ pub mod psp34_nft {
     impl AdminTrait for Psp34Nft {}
     impl UpgradableTrait for Psp34Nft {}
     impl Internal for Psp34Nft {
-
         /// - Impliment Transfer emit event because Openbrush doesn't.
-        fn _emit_transfer_event(
-            &self,
-            _from: Option<AccountId>,
-            _to: Option<AccountId>,
-            _id: Id,
-        ) {
+        fn _emit_transfer_event(&self, _from: Option<AccountId>, _to: Option<AccountId>, _id: Id) {
             Psp34Nft::emit_event(
                 self.env(),
                 Event::Transfer(Transfer {
@@ -141,7 +112,7 @@ pub mod psp34_nft {
                     approved: _approved,
                 }),
             );
-        } 
+        }
     }
 
     impl PSP34Burnable for Psp34Nft {
@@ -151,46 +122,71 @@ pub mod psp34_nft {
 
             if let Some(token_owner) = self.owner_of(id.clone()) {
                 if token_owner != account {
-                    return Err(PSP34Error::Custom(String::from("not token owner").into_bytes()));
+                    return Err(PSP34Error::Custom(
+                        String::from("not token owner").into_bytes(),
+                    ));
                 }
 
-                let allowance = self.allowance(account,caller,Some(id.clone()));
+                let allowance = self.allowance(account, caller, Some(id.clone()));
 
                 if caller == account || allowance {
                     self.manager.locked_tokens.remove(&id);
-                    if let Some(locked_token_count) = self.manager.locked_token_count.checked_sub(1) {
+                    if let Some(locked_token_count) = self.manager.locked_token_count.checked_sub(1)
+                    {
                         self.manager.locked_token_count = locked_token_count;
                         self._burn_from(account, id)
                     } else {
-                        return Err(PSP34Error::Custom(String::from("Locked token count error").into_bytes()));
+                        return Err(PSP34Error::Custom(
+                            String::from("Locked token count error").into_bytes(),
+                        ));
                     }
                 } else {
-                    return Err(PSP34Error::Custom(String::from("caller is not token owner or approved").into_bytes()));
+                    return Err(PSP34Error::Custom(
+                        String::from("caller is not token owner or approved").into_bytes(),
+                    ));
                 }
             } else {
-                return Err(PSP34Error::Custom(String::from("No token owner found").into_bytes()));
+                return Err(PSP34Error::Custom(
+                    String::from("No token owner found").into_bytes(),
+                ));
             }
         }
     }
 
     impl Psp34Nft {
         #[ink(constructor)]
-        pub fn new(contract_owner: AccountId, name: String, symbol: String, betaz_token_address: AccountId, 
-        betaz_token_price: Balance) -> Self {
+        pub fn new(
+            contract_owner: AccountId,
+            name: String,
+            symbol: String,
+            betaz_token_address: AccountId,
+            betaz_token_price: Balance,
+        ) -> Self {
             let mut instance = Self::default();
             instance._init_with_owner(contract_owner);
-            instance._set_attribute(Id::U8(0), String::from("name").into_bytes(), name.into_bytes());
-            instance._set_attribute(Id::U8(0), String::from("symbol").into_bytes(), symbol.into_bytes());
-            instance.initialize(
-                betaz_token_address,
-                betaz_token_price
-            ).ok().unwrap();
+            instance._set_attribute(
+                Id::U8(0),
+                String::from("name").into_bytes(),
+                name.into_bytes(),
+            );
+            instance._set_attribute(
+                Id::U8(0),
+                String::from("symbol").into_bytes(),
+                symbol.into_bytes(),
+            );
+            instance
+                .initialize(betaz_token_address, betaz_token_price)
+                .ok()
+                .unwrap();
             instance
         }
 
         #[ink(message)]
         #[modifiers(only_owner)]
-        pub fn initialize(&mut self, betaz_token_address: AccountId, betaz_token_price: Balance
+        pub fn initialize(
+            &mut self,
+            betaz_token_address: AccountId,
+            betaz_token_price: Balance,
         ) -> Result<(), Error> {
             if self.manager.betaz_token_address != ZERO_ADDRESS.into() {
                 return Err(Error::AlreadyInit);
@@ -211,7 +207,10 @@ pub mod psp34_nft {
             let caller = self.env().caller();
             if let Some(last_token_id) = self.manager.last_token_id.checked_add(1) {
                 self.manager.last_token_id = last_token_id;
-                if self._mint_to(caller, Id::U64(self.manager.last_token_id)).is_err(){
+                if self
+                    ._mint_to(caller, Id::U64(self.manager.last_token_id))
+                    .is_err()
+                {
                     return Err(Error::Custom(String::from("Cannot mint")));
                 }
                 return Ok(());
@@ -238,14 +237,23 @@ pub mod psp34_nft {
         /// This function let NFT Contract Owner to mint a new NFT with NFT Traits/Attributes
         #[ink(message)]
         #[modifiers(only_owner)]
-        pub fn mint_with_attributes(&mut self, metadata: Vec<(String, String)>) -> Result<(), Error> {
+        pub fn mint_with_attributes(
+            &mut self,
+            metadata: Vec<(String, String)>,
+        ) -> Result<(), Error> {
             let caller = self.env().caller();
             if let Some(last_token_id) = self.manager.last_token_id.checked_add(1) {
                 self.manager.last_token_id = last_token_id;
-                if self._mint_to(caller, Id::U64(self.manager.last_token_id)).is_err(){
+                if self
+                    ._mint_to(caller, Id::U64(self.manager.last_token_id))
+                    .is_err()
+                {
                     return Err(Error::Custom(String::from("Cannot mint")));
                 }
-                if self.set_multiple_attributes(Id::U64(self.manager.last_token_id), metadata).is_err(){
+                if self
+                    .set_multiple_attributes(Id::U64(self.manager.last_token_id), metadata)
+                    .is_err()
+                {
                     return Err(Error::Custom(String::from("Cannot set attributes")));
                 }
                 return Ok(());

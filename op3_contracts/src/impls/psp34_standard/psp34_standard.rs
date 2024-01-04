@@ -188,9 +188,8 @@ where
             return Err(Error::Custom(String::from("Token is locked")))
         }
         for (attribute, value) in &metadata {
-            if add_attribute_name(self, &attribute.clone().into_bytes()).is_ok() {
-                self._set_attribute(token_id.clone(), attribute.clone().into_bytes(), value.clone().into_bytes());
-            }
+            add_attribute_name(self, &attribute.clone().into_bytes());
+            self._set_attribute(token_id.clone(), attribute.clone().into_bytes(), value.clone().into_bytes());
         }
         Ok(())
     }
