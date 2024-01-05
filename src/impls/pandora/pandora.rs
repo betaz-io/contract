@@ -434,6 +434,40 @@ pub trait PandoraPoolTraitsImpl:
         Ok(())
     }
 
+    #[modifiers(only_role(ADMINER))]
+    fn burn_ticket_used(&mut self, token_ids: Vec<Id>) -> Result<(), Error> {
+        let total = token_ids.len();
+        for i in 0..total {
+            let nft_id = token_ids[i].clone();
+            if let Some(nft_info) = self.data::<Manager>().nft_infor.get(&nft_id) {
+                if let Some(session_info) =
+                    self.data::<Manager>().sessions.get(&nft_info.session_id)
+                {
+                    if session_info.status == Completed {
+                        if nft_info.used {
+                            let result = Psp34Ref::burn(
+                                &self.data::<Manager>().psp34_contract_address,
+                                Self::env().account_id(),
+                                nft_id.clone(),
+                            );
+                            if result.is_err() {
+                                return Err(Error::CannotBurn);
+                            }
+                        } else {
+                            return Err(Error::NftIsNotUsed);
+                        }
+                    } else {
+                        return Err(Error::SessionNotCompleted);
+                    }
+                }
+            } else {
+                return Err(Error::NftIsNotUsed);
+            }
+        }
+
+        Ok(())
+    }
+
     // SET FUNCTIONS
     #[modifiers(only_role(ADMINER))]
     fn set_psp34_contract_address(&mut self, account: AccountId) -> Result<(), Error> {

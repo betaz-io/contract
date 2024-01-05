@@ -665,17 +665,17 @@ export class IdBuilder {
 	}
 }
 
+export enum SessionsStatusType {
+	processing = 'Processing',
+	finalized = 'Finalized',
+	completed = 'Completed'
+}
+
 export type NFTInfomation = {
 	sessionId: number,
 	betNumber: number,
 	time: number,
 	used: boolean
-}
-
-export enum SessionsStatusType {
-	processing = 'Processing',
-	finalized = 'Finalized',
-	completed = 'Completed'
 }
 
 export type SessionInfo = {

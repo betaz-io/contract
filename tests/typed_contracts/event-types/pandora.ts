@@ -14,9 +14,3 @@ export interface WithdrawWinAmountEvent {
 	winAmount: ReturnNumber;
 }
 
-export interface PublicBuyEvent {
-	buyer: ReturnTypes.AccountId | null;
-	amounts: number;
-	betazPrice: ReturnNumber;
-}
-
