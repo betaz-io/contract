@@ -1,6 +1,6 @@
 use crate::impls::pandora::{NFTInfomation, SessionInfo, SessionsStatusType};
 use crate::traits::error::Error;
-use ink::prelude::string::String;
+use ink::prelude::{string::String, vec::Vec};
 use openbrush::{
     contracts::{
         psp34::extensions::{burnable::*, mintable::*},
@@ -51,6 +51,9 @@ pub trait PandoraPoolTraits: Ownable {
     // withdraw by winner
     #[ink(message)]
     fn withdraw_hold_amount(&mut self, receiver: AccountId, amount: Balance) -> Result<(), Error>;
+
+    #[ink(message)]
+    fn burn_ticket_used(&mut self, token_ids: Vec<Id>) -> Result<(), Error>;
 
     // SET FUNCTIONS
     #[ink(message)]

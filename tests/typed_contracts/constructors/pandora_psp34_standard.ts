@@ -4,8 +4,8 @@ import type {ApiPromise} from "@polkadot/api";
 import {_genValidGasLimitAndValue, _signAndSend, SignAndSendSuccessResponse} from "@727-ventures/typechain-types";
 import type {ConstructorOptions} from "@727-ventures/typechain-types";
 import type {WeightV2} from "@polkadot/types/interfaces";
-import type * as ArgumentTypes from '../types-arguments/pandora';
-import { ContractFile } from '../contract-info/pandora';
+import type * as ArgumentTypes from '../types-arguments/pandora_psp34_standard';
+import { ContractFile } from '../contract-info/pandora_psp34_standard';
 import type BN from 'bn.js';
 
 export default class Constructors {
@@ -23,16 +23,18 @@ export default class Constructors {
 	/**
 	* new
 	*
+	* @param { string } name,
+	* @param { string } symbol,
 	* @param { ArgumentTypes.AccountId } adminAddress,
-	* @param { ArgumentTypes.AccountId } psp34ContractAddress,
-	* @param { (string | number | BN) } sessionTotalTicketAmount,
-	* @param { (number | string | BN) } maxBetNumber,
+	* @param { ArgumentTypes.AccountId } betazTokenAddress,
+	* @param { (string | number | BN) } publicMintPrice,
 	*/
    	async "new" (
+		name: string,
+		symbol: string,
 		adminAddress: ArgumentTypes.AccountId,
-		psp34ContractAddress: ArgumentTypes.AccountId,
-		sessionTotalTicketAmount: (string | number | BN),
-		maxBetNumber: (number | string | BN),
+		betazTokenAddress: ArgumentTypes.AccountId,
+		publicMintPrice: (string | number | BN),
 		__options ? : ConstructorOptions,
    	) {
    		const __contract = JSON.parse(ContractFile);
@@ -40,7 +42,7 @@ export default class Constructors {
 		const gasLimit = (await _genValidGasLimitAndValue(this.nativeAPI, __options)).gasLimit as WeightV2;
 
 		const storageDepositLimit = __options?.storageDepositLimit;
-			const tx = code.tx["new"]!({ gasLimit, storageDepositLimit, value: __options?.value }, adminAddress, psp34ContractAddress, sessionTotalTicketAmount, maxBetNumber);
+			const tx = code.tx["new"]!({ gasLimit, storageDepositLimit, value: __options?.value }, name, symbol, adminAddress, betazTokenAddress, publicMintPrice);
 			let response;
 
 			try {

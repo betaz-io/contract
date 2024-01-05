@@ -75,11 +75,8 @@ describe('Betaz token test', () => {
     let pandoraQuery: any;
     let pandoraTx: any;
 
-    let pandoraName: string;
-    let pandoraSymbol: string;
     let pandoraAdminAddress: string;
-    let pandoraTokenContractAddress: string;
-    let publicMintPrice: any;
+    let pandoraPsp34ContractAddress: string;
     let sessionTotalTicketAmount: number;
     let maxBetNumber: number;
 
@@ -265,27 +262,21 @@ describe('Betaz token test', () => {
         console.log(`===========Create new pandora contract=============`);
 
         try {
-            pandoraName = "BETAZ TICKET TESTNET";
-            pandoraSymbol = "BETAZ";
             pandoraAdminAddress = adminer.address;
-            pandoraTokenContractAddress = tokenContractAddress;
-            publicMintPrice = new BN(10 * (10 ** tokenDecimal));
-            sessionTotalTicketAmount = 1000000;
-            maxBetNumber = 1000000
+            pandoraPsp34ContractAddress = aliceAddress;
+            sessionTotalTicketAmount = 123;
+            maxBetNumber = 123;
 
-            // "refTime: 2673200605"
-            // "proofSize: 21147"
-            let gasLimit = setGasLimit(api, 3_600_000_000, 36_000);
+            // "refTime: 3041832201"
+            // "proofSize: 21773"
+            let gasLimit = setGasLimit(api, 9_600_000_000, 36_000);
 
             const contractFactory = new ConstructorsPandora(api, defaultSigner);
 
             pandoraContractAddress = (
                 await contractFactory.new(
-                    pandoraName,
-                    pandoraSymbol,
                     pandoraAdminAddress,
-                    pandoraTokenContractAddress,
-                    publicMintPrice,
+                    pandoraPsp34ContractAddress,
                     sessionTotalTicketAmount,
                     maxBetNumber,
                     { gasLimit }

@@ -20,6 +20,7 @@ pub mod pandora {
     use ink::{
         codegen::{EmitEvent, Env},
         reflect::ContractEventBase,
+        prelude::vec::Vec,
     };
 
     use crate::pandora::access_control::only_role;
@@ -149,6 +150,11 @@ pub mod pandora {
             amount: Balance,
         ) -> Result<(), Error> {
             PandoraPoolTraitsImpl::withdraw_hold_amount(self, receiver, amount)
+        }
+
+        #[ink(message)]
+        fn burn_ticket_used(&mut self, token_ids: Vec<Id>) -> Result<(), Error> {
+            PandoraPoolTraitsImpl::burn_ticket_used(self, token_ids)
         }
 
         // SET FUNCTIONS

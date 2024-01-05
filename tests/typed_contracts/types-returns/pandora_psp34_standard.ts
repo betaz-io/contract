@@ -1,4 +1,5 @@
 import type BN from 'bn.js';
+import type {ReturnNumber} from '@727-ventures/typechain-types';
 
 export type AccountId = string | number[]
 
@@ -623,63 +624,45 @@ export enum PausableError {
 }
 
 export interface Id {
-	u8 ? : (number | string | BN),
-	u16 ? : (number | string | BN),
-	u32 ? : (number | string | BN),
-	u64 ? : (number | string | BN),
-	u128 ? : (string | number | BN),
-	bytes ? : Array<(number | string | BN)>
+	u8 ? : number,
+	u16 ? : number,
+	u32 ? : number,
+	u64 ? : number,
+	u128 ? : ReturnNumber,
+	bytes ? : Array<number>
 }
 
 export class IdBuilder {
-	static U8(value: (number | string | BN)): Id {
+	static U8(value: number): Id {
 		return {
 			u8: value,
 		};
 	}
-	static U16(value: (number | string | BN)): Id {
+	static U16(value: number): Id {
 		return {
 			u16: value,
 		};
 	}
-	static U32(value: (number | string | BN)): Id {
+	static U32(value: number): Id {
 		return {
 			u32: value,
 		};
 	}
-	static U64(value: (number | string | BN)): Id {
+	static U64(value: number): Id {
 		return {
 			u64: value,
 		};
 	}
-	static U128(value: (string | number | BN)): Id {
+	static U128(value: ReturnNumber): Id {
 		return {
 			u128: value,
 		};
 	}
-	static Bytes(value: Array<(number | string | BN)>): Id {
+	static Bytes(value: Array<number>): Id {
 		return {
 			bytes: value,
 		};
 	}
-}
-
-export enum SessionsStatusType {
-	processing = 'Processing',
-	finalized = 'Finalized',
-	completed = 'Completed'
-}
-
-export type NFTInfomation = {
-	sessionId: (number | string | BN),
-	betNumber: (number | string | BN),
-	time: (number | string | BN),
-	used: boolean
-}
-
-export type SessionInfo = {
-	randomNumber: (number | string | BN),
-	status: SessionsStatusType
 }
 
 export type Hash = string | number[]
