@@ -55,7 +55,6 @@ pub struct Manager {
     // vote
     pub is_locked: bool,
     pub max_bet_number: u32,
-    pub session_total_ticket_amount: u128,
     pub ticket_in_session: MultiMapping<u32, Id>, // session_id => nft_id
     pub total_win_amounts: Balance,
     pub nft_infor: Mapping<Id, NFTInfomation>,
@@ -79,7 +78,6 @@ impl Default for Manager {
             // vote
             is_locked: Default::default(),
             max_bet_number: Default::default(),
-            session_total_ticket_amount: Default::default(),
             ticket_in_session: Default::default(),
             total_win_amounts: Default::default(),
             nft_infor: Default::default(),

@@ -163,18 +163,6 @@ pub mod pandora {
             PandoraPoolTraitsImpl::set_psp34_contract_address(self, account)
         }
 
-        /// set ticket_amount_ratio
-        #[ink(message)]
-        fn set_session_total_ticket_amount(
-            &mut self,
-            session_total_ticket_amount: u128,
-        ) -> Result<(), Error> {
-            PandoraPoolTraitsImpl::set_session_total_ticket_amount(
-                self,
-                session_total_ticket_amount,
-            )
-        }
-
         /// set max_bet_number
         #[ink(message)]
         fn set_max_bet_number(&mut self, max_bet_number: u32) -> Result<(), Error> {
@@ -266,11 +254,6 @@ pub mod pandora {
             PandoraPoolTraitsImpl::get_max_bet_number(self)
         }
 
-        /// get ticket_amount_ratio
-        #[ink(message)]
-        fn get_session_total_ticket_amount(&self) -> u128 {
-            PandoraPoolTraitsImpl::get_session_total_ticket_amount(self)
-        }
         /// get total ticket in session
         #[ink(message)]
         fn session_total_ticket_amount(&self, session_id: u32) -> u128 {
@@ -351,7 +334,6 @@ pub mod pandora {
         pub fn new(
             admin_address: AccountId,
             psp34_contract_address: AccountId,
-            session_total_ticket_amount: u128,
             max_bet_number: u32,
         ) -> Self {
             let mut instance = Self::default();
@@ -360,7 +342,6 @@ pub mod pandora {
                 .initialize(
                     admin_address,
                     psp34_contract_address,
-                    session_total_ticket_amount,
                     max_bet_number,
                 )
                 .ok()
@@ -375,7 +356,6 @@ pub mod pandora {
             &mut self,
             admin_address: AccountId,
             psp34_contract_address: AccountId,
-            session_total_ticket_amount: u128,
             max_bet_number: u32,
         ) -> Result<(), Error> {
             let caller = self.env().caller();
@@ -384,7 +364,6 @@ pub mod pandora {
                 return Err(Error::AlreadyInit);
             }
             self.manager.psp34_contract_address = psp34_contract_address;
-            self.manager.session_total_ticket_amount = session_total_ticket_amount;
             self.manager.max_bet_number = max_bet_number;
             access_control::Internal::_init_with_admin(self, Some(caller));
             AccessControl::grant_role(self, ADMINER, Some(caller)).expect("Can not set admin role");

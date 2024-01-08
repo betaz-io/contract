@@ -59,10 +59,6 @@ pub trait PandoraPoolTraits: Ownable {
     #[ink(message)]
     fn set_psp34_contract_address(&mut self, account: AccountId) -> Result<(), Error>;
 
-    /// set ticket_amount_ratio
-    #[ink(message)]
-    fn set_session_total_ticket_amount(&mut self, ticket_amount_ratio: u128) -> Result<(), Error>;
-
     /// set max_bet_number
     #[ink(message)]
     fn set_max_bet_number(&mut self, max_bet_number: u32) -> Result<(), Error>;
@@ -124,10 +120,6 @@ pub trait PandoraPoolTraits: Ownable {
     /// get max_bet_number
     #[ink(message)]
     fn get_max_bet_number(&self) -> u32;
-
-    /// get ticket_amount_ratio
-    #[ink(message)]
-    fn get_session_total_ticket_amount(&self) -> u128;
 
     /// get total ticket in session
     #[ink(message)]
