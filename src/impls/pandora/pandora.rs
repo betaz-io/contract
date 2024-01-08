@@ -178,17 +178,6 @@ pub trait PandoraPoolTraitsImpl:
             "Invalid bet number"
         );
 
-        // check limited ticket amount in session
-        let session_ticket_amount = self.data::<Manager>().ticket_in_session.count(&session_id);
-        if session_ticket_amount < self.data::<Manager>().session_total_ticket_amount {
-            // add ticket to session
-            self.data::<Manager>()
-                .ticket_in_session
-                .insert(&session_id, &token_id.clone());
-        } else {
-            return Err(Error::TicketAmountLimitReached);
-        }
-
         if let Some(sessions_info) = self.data::<Manager>().sessions.get(&session_id) {
             if sessions_info.status == Processing {
                 // Check token lock
@@ -206,7 +195,7 @@ pub trait PandoraPoolTraitsImpl:
                     Some(token_id.clone()),
                 );
                 if !allowance {
-                    return Err(Error::NotApproved)
+                    return Err(Error::NotApproved);
                 }
 
                 // Transfer NFT from Caller to pandora pool Contract
@@ -228,6 +217,11 @@ pub trait PandoraPoolTraitsImpl:
 
                 // when transfer successfully
                 if transfer_nft_result.is_ok() {
+                    // add ticket to session
+                    self.data::<Manager>()
+                        .ticket_in_session
+                        .insert(&session_id, &token_id.clone());
+                                       
                     // add players_in_session
                     self.data::<Manager>()
                         .players_in_session
@@ -257,7 +251,7 @@ pub trait PandoraPoolTraitsImpl:
                     // emit event play
                     self._emit_play_event(session_id, caller, token_id.clone(), bet_number);
                 } else {
-                    return Err(Error::CannotTransfer)
+                    return Err(Error::CannotTransfer);
                 }
             } else {
                 return Err(Error::SessionNotProcessed);
@@ -475,15 +469,6 @@ pub trait PandoraPoolTraitsImpl:
         Ok(())
     }
 
-    /// set ticket_amount_ratio
-    #[modifiers(only_role(ADMINER))]
-    fn set_session_total_ticket_amount(
-        &mut self,
-        session_total_ticket_amount: u128,
-    ) -> Result<(), Error> {
-        Ok(self.data::<Manager>().session_total_ticket_amount = session_total_ticket_amount)
-    }
-
     /// set max_bet_number
     #[modifiers(only_role(ADMINER))]
     fn set_max_bet_number(&mut self, max_bet_number: u32) -> Result<(), Error> {
@@ -618,11 +603,6 @@ pub trait PandoraPoolTraitsImpl:
     /// get max_bet_number
     fn get_max_bet_number(&self) -> u32 {
         self.data::<Manager>().max_bet_number
-    }
-
-    /// get ticket_amount_ratio
-    fn get_session_total_ticket_amount(&self) -> u128 {
-        self.data::<Manager>().session_total_ticket_amount
     }
 
     /// get total ticket in session
