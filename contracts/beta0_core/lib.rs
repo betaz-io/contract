@@ -532,42 +532,38 @@ pub mod beta0_core {
             staking_pool_ratio: u32,
             treasury_pool_ratio: u32,
             pandora_pool_ratio: u32,
-            // caller address
             admin_address: AccountId,
             betaz_address: AccountId,
-            // contract address
             bet_token_address: AccountId,
             staking_address: AccountId,
             treasury_address: AccountId,
             pandora_address: AccountId,
             oracle_randomness_address: AccountId,
             dao_address: AccountId,
-            // round_distance: u64,
         ) -> Self {
             let mut instance = Self::default();
             let caller = <Self as DefaultEnv>::env().caller();
             ownable::Internal::_init_with_owner(&mut instance, caller);
             instance
                 .initialize(
-                    betaz_address,
-                    max_bet_ratio,
-                    bet_token_address,
+                    max_bet_ratio,        
                     token_ratio,
                     min_over_number,
                     max_over_number,
                     min_under_number,
                     max_under_number,
-                    admin_address,
                     core_pool_ratio,
                     staking_pool_ratio,
                     treasury_pool_ratio,
                     pandora_pool_ratio,
+                    admin_address,
+                    betaz_address,
+                    bet_token_address,
                     staking_address,
                     treasury_address,
                     pandora_address,
                     oracle_randomness_address,
                     dao_address,
-                    // round_distance,
                 )
                 .ok()
                 .unwrap();
@@ -580,30 +576,31 @@ pub mod beta0_core {
         #[modifiers(only_owner)]
         pub fn initialize(
             &mut self,
-            betaz_address: AccountId,
             max_bet_ratio: u32,
-            bet_token_address: AccountId,
             token_ratio: u32,
             min_over_number: u32,
             max_over_number: u32,
             min_under_number: u32,
             max_under_number: u32,
-            admin_address: AccountId,
             core_pool_ratio: u32,
             staking_pool_ratio: u32,
             treasury_pool_ratio: u32,
             pandora_pool_ratio: u32,
+            admin_address: AccountId,
+            betaz_address: AccountId,
+            bet_token_address: AccountId,
             staking_address: AccountId,
             treasury_address: AccountId,
             pandora_address: AccountId,
             oracle_randomness_address: AccountId,
             dao_address: AccountId,
-            // round_distance: u64,
         ) -> Result<(), Error> {
             // Make sure the initial data can only be init once
             if self.manager.bet_token_address != [0u8; 32].into() {
                 return Err(Error::AlreadyInit);
             }
+
+            // default init rates
             self.manager.over_rates = [
                 0, 0, 0, 0, 1030, 1035, 1040, 1060, 1070, 1080, 1090, 1100, 1120, 1130, 1140, 1160,
                 1170, 1190, 1200, 1220, 1230, 1250, 1260, 1280, 1300, 1320, 1330, 1350, 1370, 1390,
@@ -627,9 +624,12 @@ pub mod beta0_core {
             ]
             .to_vec();
             self.manager.percentage_rates = 1000;
-            self.manager.betaz_address = betaz_address;
+
+            // default init round distance
+            self.manager.round_distance = 1;
+
+            // init
             self.manager.max_bet_ratio = max_bet_ratio;
-            self.manager.bet_token_address = bet_token_address;
             self.manager.token_ratio = token_ratio;
             self.manager.min_over_number = min_over_number;
             self.manager.max_over_number = max_over_number;
@@ -639,12 +639,13 @@ pub mod beta0_core {
             self.manager.pool_manager.staking_pool_ratio = staking_pool_ratio;
             self.manager.pool_manager.treasury_pool_ratio = treasury_pool_ratio;
             self.manager.pool_manager.pandora_pool_ratio = pandora_pool_ratio;
+            self.manager.betaz_address = betaz_address;
+            self.manager.bet_token_address = bet_token_address;
             self.manager.staking_address = staking_address;
             self.manager.treasury_address = treasury_address;
             self.manager.pandora_pool_address = pandora_address;
             self.manager.oracle_randomness_address = oracle_randomness_address;
             self.manager.dao_address = dao_address;
-            self.manager.round_distance = 1;
             if max_bet_ratio == 0
                 || core_pool_ratio == 0
                 || staking_pool_ratio == 0

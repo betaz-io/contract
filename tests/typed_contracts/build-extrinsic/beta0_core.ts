@@ -23,19 +23,19 @@ export default class Methods {
 	/**
 	 * initialize
 	 *
-	 * @param { ArgumentTypes.AccountId } betazAddress,
 	 * @param { (number | string | BN) } maxBetRatio,
-	 * @param { ArgumentTypes.AccountId } betTokenAddress,
 	 * @param { (number | string | BN) } tokenRatio,
 	 * @param { (number | string | BN) } minOverNumber,
 	 * @param { (number | string | BN) } maxOverNumber,
 	 * @param { (number | string | BN) } minUnderNumber,
 	 * @param { (number | string | BN) } maxUnderNumber,
-	 * @param { ArgumentTypes.AccountId } adminAddress,
 	 * @param { (number | string | BN) } corePoolRatio,
 	 * @param { (number | string | BN) } stakingPoolRatio,
 	 * @param { (number | string | BN) } treasuryPoolRatio,
 	 * @param { (number | string | BN) } pandoraPoolRatio,
+	 * @param { ArgumentTypes.AccountId } adminAddress,
+	 * @param { ArgumentTypes.AccountId } betazAddress,
+	 * @param { ArgumentTypes.AccountId } betTokenAddress,
 	 * @param { ArgumentTypes.AccountId } stakingAddress,
 	 * @param { ArgumentTypes.AccountId } treasuryAddress,
 	 * @param { ArgumentTypes.AccountId } pandoraAddress,
@@ -43,19 +43,19 @@ export default class Methods {
 	 * @param { ArgumentTypes.AccountId } daoAddress,
 	*/
 	"initialize" (
-		betazAddress: ArgumentTypes.AccountId,
 		maxBetRatio: (number | string | BN),
-		betTokenAddress: ArgumentTypes.AccountId,
 		tokenRatio: (number | string | BN),
 		minOverNumber: (number | string | BN),
 		maxOverNumber: (number | string | BN),
 		minUnderNumber: (number | string | BN),
 		maxUnderNumber: (number | string | BN),
-		adminAddress: ArgumentTypes.AccountId,
 		corePoolRatio: (number | string | BN),
 		stakingPoolRatio: (number | string | BN),
 		treasuryPoolRatio: (number | string | BN),
 		pandoraPoolRatio: (number | string | BN),
+		adminAddress: ArgumentTypes.AccountId,
+		betazAddress: ArgumentTypes.AccountId,
+		betTokenAddress: ArgumentTypes.AccountId,
 		stakingAddress: ArgumentTypes.AccountId,
 		treasuryAddress: ArgumentTypes.AccountId,
 		pandoraAddress: ArgumentTypes.AccountId,
@@ -63,7 +63,7 @@ export default class Methods {
 		daoAddress: ArgumentTypes.AccountId,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "initialize", [betazAddress, maxBetRatio, betTokenAddress, tokenRatio, minOverNumber, maxOverNumber, minUnderNumber, maxUnderNumber, adminAddress, corePoolRatio, stakingPoolRatio, treasuryPoolRatio, pandoraPoolRatio, stakingAddress, treasuryAddress, pandoraAddress, oracleRandomnessAddress, daoAddress], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "initialize", [maxBetRatio, tokenRatio, minOverNumber, maxOverNumber, minUnderNumber, maxUnderNumber, corePoolRatio, stakingPoolRatio, treasuryPoolRatio, pandoraPoolRatio, adminAddress, betazAddress, betTokenAddress, stakingAddress, treasuryAddress, pandoraAddress, oracleRandomnessAddress, daoAddress], __options);
 	}
 
 	/**
@@ -131,33 +131,67 @@ export default class Methods {
 	}
 
 	/**
-	 * getPlatformFeeAmount
+	 * setMaxNumberUnderRoll
 	 *
+	 * @param { (number | string | BN) } maxUnderNumber,
 	*/
-	"getPlatformFeeAmount" (
+	"setMaxNumberUnderRoll" (
+		maxUnderNumber: (number | string | BN),
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getPlatformFeeAmount", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setMaxNumberUnderRoll", [maxUnderNumber], __options);
 	}
 
 	/**
-	 * getDaoAddress
+	 * setPercentageRates
 	 *
+	 * @param { (number | string | BN) } percentageRates,
 	*/
-	"getDaoAddress" (
+	"setPercentageRates" (
+		percentageRates: (number | string | BN),
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getDaoAddress", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setPercentageRates", [percentageRates], __options);
 	}
 
 	/**
-	 * transferStakingPool
+	 * getMaxBetRatio
 	 *
 	*/
-	"transferStakingPool" (
+	"getMaxBetRatio" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::transferStakingPool", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getMaxBetRatio", [], __options);
+	}
+
+	/**
+	 * updateCorePool
+	 *
+	*/
+	"updateCorePool" (
+		__options: GasLimitAndRequiredValue,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::updateCorePool", [], __options);
+	}
+
+	/**
+	 * changeState
+	 *
+	*/
+	"changeState" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::changeState", [], __options);
+	}
+
+	/**
+	 * getMaxNumberOverRoll
+	 *
+	*/
+	"getMaxNumberOverRoll" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getMaxNumberOverRoll", [], __options);
 	}
 
 	/**
@@ -173,23 +207,13 @@ export default class Methods {
 	}
 
 	/**
-	 * getOracleRandomnessAddress
+	 * getMaxBet
 	 *
 	*/
-	"getOracleRandomnessAddress" (
+	"getMaxBet" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getOracleRandomnessAddress", [], __options);
-	}
-
-	/**
-	 * getMaxBetRatio
-	 *
-	*/
-	"getMaxBetRatio" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getMaxBetRatio", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getMaxBet", [], __options);
 	}
 
 	/**
@@ -203,25 +227,131 @@ export default class Methods {
 	}
 
 	/**
-	 * setBetTokenAddress
+	 * getMinNumberOverRoll
 	 *
-	 * @param { ArgumentTypes.AccountId } betTokenAddress,
 	*/
-	"setBetTokenAddress" (
-		betTokenAddress: ArgumentTypes.AccountId,
+	"getMinNumberOverRoll" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setBetTokenAddress", [betTokenAddress], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getMinNumberOverRoll", [], __options);
 	}
 
 	/**
-	 * updateCorePool
+	 * getBet
+	 *
+	 * @param { ArgumentTypes.AccountId } player,
+	*/
+	"getBet" (
+		player: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getBet", [player], __options);
+	}
+
+	/**
+	 * setMaxNumberOverRoll
+	 *
+	 * @param { (number | string | BN) } maxOverNumber,
+	*/
+	"setMaxNumberOverRoll" (
+		maxOverNumber: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setMaxNumberOverRoll", [maxOverNumber], __options);
+	}
+
+	/**
+	 * getHoldAmountPlayers
+	 *
+	 * @param { ArgumentTypes.AccountId } address,
+	*/
+	"getHoldAmountPlayers" (
+		address: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getHoldAmountPlayers", [address], __options);
+	}
+
+	/**
+	 * getPercentageRates
 	 *
 	*/
-	"updateCorePool" (
-		__options: GasLimitAndRequiredValue,
+	"getPercentageRates" (
+		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::updateCorePool", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getPercentageRates", [], __options);
+	}
+
+	/**
+	 * getDaoAddress
+	 *
+	*/
+	"getDaoAddress" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getDaoAddress", [], __options);
+	}
+
+	/**
+	 * getTokenBalance
+	 *
+	*/
+	"getTokenBalance" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getTokenBalance", [], __options);
+	}
+
+	/**
+	 * getTreasuryPoolAmount
+	 *
+	*/
+	"getTreasuryPoolAmount" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getTreasuryPoolAmount", [], __options);
+	}
+
+	/**
+	 * getBetazAddress
+	 *
+	*/
+	"getBetazAddress" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getBetazAddress", [], __options);
+	}
+
+	/**
+	 * transferPandoraPool
+	 *
+	*/
+	"transferPandoraPool" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::transferPandoraPool", [], __options);
+	}
+
+	/**
+	 * setStakingAddress
+	 *
+	 * @param { ArgumentTypes.AccountId } address,
+	*/
+	"setStakingAddress" (
+		address: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setStakingAddress", [address], __options);
+	}
+
+	/**
+	 * getStakingAddress
+	 *
+	*/
+	"getStakingAddress" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getStakingAddress", [], __options);
 	}
 
 	/**
@@ -237,27 +367,189 @@ export default class Methods {
 	}
 
 	/**
-	 * withdrawHoldAmount
+	 * getUnderRates
 	 *
-	 * @param { ArgumentTypes.AccountId } receiver,
-	 * @param { (string | number | BN) } amount,
 	*/
-	"withdrawHoldAmount" (
-		receiver: ArgumentTypes.AccountId,
-		amount: (string | number | BN),
+	"getUnderRates" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::withdrawHoldAmount", [receiver, amount], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getUnderRates", [], __options);
 	}
 
 	/**
-	 * transferPandoraPool
+	 * withdrawFee
 	 *
+	 * @param { ArgumentTypes.AccountId } account,
+	 * @param { (string | number | BN) } value,
 	*/
-	"transferPandoraPool" (
+	"withdrawFee" (
+		account: ArgumentTypes.AccountId,
+		value: (string | number | BN),
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::transferPandoraPool", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::withdrawFee", [account, value], __options);
+	}
+
+	/**
+	 * getCorePoolRatio
+	 *
+	*/
+	"getCorePoolRatio" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getCorePoolRatio", [], __options);
+	}
+
+	/**
+	 * setDaoAddress
+	 *
+	 * @param { ArgumentTypes.AccountId } address,
+	*/
+	"setDaoAddress" (
+		address: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setDaoAddress", [address], __options);
+	}
+
+	/**
+	 * getPandoraPoolRatio
+	 *
+	*/
+	"getPandoraPoolRatio" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getPandoraPoolRatio", [], __options);
+	}
+
+	/**
+	 * setBetazAddress
+	 *
+	 * @param { ArgumentTypes.AccountId } account,
+	*/
+	"setBetazAddress" (
+		account: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setBetazAddress", [account], __options);
+	}
+
+	/**
+	 * setTokenRatio
+	 *
+	 * @param { (number | string | BN) } tokenRatio,
+	*/
+	"setTokenRatio" (
+		tokenRatio: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setTokenRatio", [tokenRatio], __options);
+	}
+
+	/**
+	 * getMaxNumberUnderRoll
+	 *
+	*/
+	"getMaxNumberUnderRoll" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getMaxNumberUnderRoll", [], __options);
+	}
+
+	/**
+	 * getHoldPlayersByIndex
+	 *
+	 * @param { (number | string | BN) } index,
+	*/
+	"getHoldPlayersByIndex" (
+		index: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getHoldPlayersByIndex", [index], __options);
+	}
+
+	/**
+	 * getOverRates
+	 *
+	*/
+	"getOverRates" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getOverRates", [], __options);
+	}
+
+	/**
+	 * getPandoraAddress
+	 *
+	*/
+	"getPandoraAddress" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getPandoraAddress", [], __options);
+	}
+
+	/**
+	 * setMaxBetRatio
+	 *
+	 * @param { (number | string | BN) } maxBetRatio,
+	*/
+	"setMaxBetRatio" (
+		maxBetRatio: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setMaxBetRatio", [maxBetRatio], __options);
+	}
+
+	/**
+	 * getStakingPoolAmount
+	 *
+	*/
+	"getStakingPoolAmount" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getStakingPoolAmount", [], __options);
+	}
+
+	/**
+	 * getPlatformFeeAmount
+	 *
+	*/
+	"getPlatformFeeAmount" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getPlatformFeeAmount", [], __options);
+	}
+
+	/**
+	 * getPandoraPoolAmount
+	 *
+	*/
+	"getPandoraPoolAmount" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getPandoraPoolAmount", [], __options);
+	}
+
+	/**
+	 * updateRewardPool
+	 *
+	 * @param { (string | number | BN) } amount,
+	*/
+	"updateRewardPool" (
+		amount: (string | number | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::updateRewardPool", [amount], __options);
+	}
+
+	/**
+	 * transferTreasuryPool
+	 *
+	*/
+	"transferTreasuryPool" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::transferTreasuryPool", [], __options);
 	}
 
 	/**
@@ -287,6 +579,124 @@ export default class Methods {
 	}
 
 	/**
+	 * isBetAvailable
+	 *
+	 * @param { ArgumentTypes.AccountId } player,
+	*/
+	"isBetAvailable" (
+		player: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::isBetAvailable", [player], __options);
+	}
+
+	/**
+	 * getMinNumberUnderRoll
+	 *
+	*/
+	"getMinNumberUnderRoll" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getMinNumberUnderRoll", [], __options);
+	}
+
+	/**
+	 * setBetTokenAddress
+	 *
+	 * @param { ArgumentTypes.AccountId } betTokenAddress,
+	*/
+	"setBetTokenAddress" (
+		betTokenAddress: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setBetTokenAddress", [betTokenAddress], __options);
+	}
+
+	/**
+	 * getTreasuryAddress
+	 *
+	*/
+	"getTreasuryAddress" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getTreasuryAddress", [], __options);
+	}
+
+	/**
+	 * betTokenAddress
+	 *
+	*/
+	"betTokenAddress" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::betTokenAddress", [], __options);
+	}
+
+	/**
+	 * getOracleRandomnessAddress
+	 *
+	*/
+	"getOracleRandomnessAddress" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getOracleRandomnessAddress", [], __options);
+	}
+
+	/**
+	 * getRoundDistance
+	 *
+	*/
+	"getRoundDistance" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getRoundDistance", [], __options);
+	}
+
+	/**
+	 * getCorePoolAmout
+	 *
+	*/
+	"getCorePoolAmout" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getCorePoolAmout", [], __options);
+	}
+
+	/**
+	 * getRewardPoolAmount
+	 *
+	*/
+	"getRewardPoolAmount" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getRewardPoolAmount", [], __options);
+	}
+
+	/**
+	 * getTreasuryPoolRatio
+	 *
+	*/
+	"getTreasuryPoolRatio" (
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getTreasuryPoolRatio", [], __options);
+	}
+
+	/**
+	 * withdrawHoldAmount
+	 *
+	 * @param { ArgumentTypes.AccountId } receiver,
+	 * @param { (string | number | BN) } amount,
+	*/
+	"withdrawHoldAmount" (
+		receiver: ArgumentTypes.AccountId,
+		amount: (string | number | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::withdrawHoldAmount", [receiver, amount], __options);
+	}
+
+	/**
 	 * getTokenRatio
 	 *
 	*/
@@ -294,16 +704,6 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getTokenRatio", [], __options);
-	}
-
-	/**
-	 * getMinNumberOverRoll
-	 *
-	*/
-	"getMinNumberOverRoll" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getMinNumberOverRoll", [], __options);
 	}
 
 	/**
@@ -321,160 +721,6 @@ export default class Methods {
 	}
 
 	/**
-	 * getBetazAddress
-	 *
-	*/
-	"getBetazAddress" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getBetazAddress", [], __options);
-	}
-
-	/**
-	 * isBetAvailable
-	 *
-	 * @param { ArgumentTypes.AccountId } player,
-	*/
-	"isBetAvailable" (
-		player: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::isBetAvailable", [player], __options);
-	}
-
-	/**
-	 * getPercentageRates
-	 *
-	*/
-	"getPercentageRates" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getPercentageRates", [], __options);
-	}
-
-	/**
-	 * getStakingPoolAmount
-	 *
-	*/
-	"getStakingPoolAmount" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getStakingPoolAmount", [], __options);
-	}
-
-	/**
-	 * getTreasuryPoolRatio
-	 *
-	*/
-	"getTreasuryPoolRatio" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getTreasuryPoolRatio", [], __options);
-	}
-
-	/**
-	 * getTreasuryAddress
-	 *
-	*/
-	"getTreasuryAddress" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getTreasuryAddress", [], __options);
-	}
-
-	/**
-	 * setPercentageRates
-	 *
-	 * @param { (number | string | BN) } percentageRates,
-	*/
-	"setPercentageRates" (
-		percentageRates: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setPercentageRates", [percentageRates], __options);
-	}
-
-	/**
-	 * setDaoAddress
-	 *
-	 * @param { ArgumentTypes.AccountId } address,
-	*/
-	"setDaoAddress" (
-		address: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setDaoAddress", [address], __options);
-	}
-
-	/**
-	 * getMaxNumberUnderRoll
-	 *
-	*/
-	"getMaxNumberUnderRoll" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getMaxNumberUnderRoll", [], __options);
-	}
-
-	/**
-	 * setBetazAddress
-	 *
-	 * @param { ArgumentTypes.AccountId } account,
-	*/
-	"setBetazAddress" (
-		account: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setBetazAddress", [account], __options);
-	}
-
-	/**
-	 * getPandoraPoolAmount
-	 *
-	*/
-	"getPandoraPoolAmount" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getPandoraPoolAmount", [], __options);
-	}
-
-	/**
-	 * withdrawFee
-	 *
-	 * @param { ArgumentTypes.AccountId } account,
-	 * @param { (string | number | BN) } value,
-	*/
-	"withdrawFee" (
-		account: ArgumentTypes.AccountId,
-		value: (string | number | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::withdrawFee", [account, value], __options);
-	}
-
-	/**
-	 * getPandoraPoolRatio
-	 *
-	*/
-	"getPandoraPoolRatio" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getPandoraPoolRatio", [], __options);
-	}
-
-	/**
-	 * updateRewardPool
-	 *
-	 * @param { (string | number | BN) } amount,
-	*/
-	"updateRewardPool" (
-		amount: (string | number | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::updateRewardPool", [amount], __options);
-	}
-
-	/**
 	 * setTreasuryAddress
 	 *
 	 * @param { ArgumentTypes.AccountId } address,
@@ -484,124 +730,6 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setTreasuryAddress", [address], __options);
-	}
-
-	/**
-	 * getBet
-	 *
-	 * @param { ArgumentTypes.AccountId } player,
-	*/
-	"getBet" (
-		player: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getBet", [player], __options);
-	}
-
-	/**
-	 * getTreasuryPoolAmount
-	 *
-	*/
-	"getTreasuryPoolAmount" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getTreasuryPoolAmount", [], __options);
-	}
-
-	/**
-	 * getStakingAddress
-	 *
-	*/
-	"getStakingAddress" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getStakingAddress", [], __options);
-	}
-
-	/**
-	 * getUnderRates
-	 *
-	*/
-	"getUnderRates" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getUnderRates", [], __options);
-	}
-
-	/**
-	 * getCorePoolRatio
-	 *
-	*/
-	"getCorePoolRatio" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getCorePoolRatio", [], __options);
-	}
-
-	/**
-	 * getMaxNumberOverRoll
-	 *
-	*/
-	"getMaxNumberOverRoll" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getMaxNumberOverRoll", [], __options);
-	}
-
-	/**
-	 * getOverRates
-	 *
-	*/
-	"getOverRates" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getOverRates", [], __options);
-	}
-
-	/**
-	 * getRoundDistance
-	 *
-	*/
-	"getRoundDistance" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getRoundDistance", [], __options);
-	}
-
-	/**
-	 * setMaxNumberOverRoll
-	 *
-	 * @param { (number | string | BN) } maxOverNumber,
-	*/
-	"setMaxNumberOverRoll" (
-		maxOverNumber: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setMaxNumberOverRoll", [maxOverNumber], __options);
-	}
-
-	/**
-	 * setMaxBetRatio
-	 *
-	 * @param { (number | string | BN) } maxBetRatio,
-	*/
-	"setMaxBetRatio" (
-		maxBetRatio: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setMaxBetRatio", [maxBetRatio], __options);
-	}
-
-	/**
-	 * setStakingAddress
-	 *
-	 * @param { ArgumentTypes.AccountId } address,
-	*/
-	"setStakingAddress" (
-		address: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setStakingAddress", [address], __options);
 	}
 
 	/**
@@ -617,28 +745,6 @@ export default class Methods {
 	}
 
 	/**
-	 * setMaxNumberUnderRoll
-	 *
-	 * @param { (number | string | BN) } maxUnderNumber,
-	*/
-	"setMaxNumberUnderRoll" (
-		maxUnderNumber: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setMaxNumberUnderRoll", [maxUnderNumber], __options);
-	}
-
-	/**
-	 * getPandoraAddress
-	 *
-	*/
-	"getPandoraAddress" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getPandoraAddress", [], __options);
-	}
-
-	/**
 	 * setMinNumberOverRoll
 	 *
 	 * @param { (number | string | BN) } minOverNumber,
@@ -651,119 +757,13 @@ export default class Methods {
 	}
 
 	/**
-	 * getCorePoolAmout
+	 * transferStakingPool
 	 *
 	*/
-	"getCorePoolAmout" (
+	"transferStakingPool" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getCorePoolAmout", [], __options);
-	}
-
-	/**
-	 * getHoldAmountPlayers
-	 *
-	 * @param { ArgumentTypes.AccountId } address,
-	*/
-	"getHoldAmountPlayers" (
-		address: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getHoldAmountPlayers", [address], __options);
-	}
-
-	/**
-	 * setTokenRatio
-	 *
-	 * @param { (number | string | BN) } tokenRatio,
-	*/
-	"setTokenRatio" (
-		tokenRatio: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::setTokenRatio", [tokenRatio], __options);
-	}
-
-	/**
-	 * getMinNumberUnderRoll
-	 *
-	*/
-	"getMinNumberUnderRoll" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getMinNumberUnderRoll", [], __options);
-	}
-
-	/**
-	 * getTokenBalance
-	 *
-	*/
-	"getTokenBalance" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getTokenBalance", [], __options);
-	}
-
-	/**
-	 * changeState
-	 *
-	*/
-	"changeState" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::changeState", [], __options);
-	}
-
-	/**
-	 * transferTreasuryPool
-	 *
-	*/
-	"transferTreasuryPool" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::transferTreasuryPool", [], __options);
-	}
-
-	/**
-	 * getRewardPoolAmount
-	 *
-	*/
-	"getRewardPoolAmount" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getRewardPoolAmount", [], __options);
-	}
-
-	/**
-	 * getHoldPlayersByIndex
-	 *
-	 * @param { (number | string | BN) } index,
-	*/
-	"getHoldPlayersByIndex" (
-		index: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getHoldPlayersByIndex", [index], __options);
-	}
-
-	/**
-	 * betTokenAddress
-	 *
-	*/
-	"betTokenAddress" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::betTokenAddress", [], __options);
-	}
-
-	/**
-	 * getMaxBet
-	 *
-	*/
-	"getMaxBet" (
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::getMaxBet", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "betA0CoreTrait::transferStakingPool", [], __options);
 	}
 
 	/**
@@ -777,13 +777,13 @@ export default class Methods {
 	}
 
 	/**
-	 * renounceOwnership
+	 * owner
 	 *
 	*/
-	"renounceOwnership" (
+	"owner" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::renounceOwnership", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::owner", [], __options);
 	}
 
 	/**
@@ -799,13 +799,13 @@ export default class Methods {
 	}
 
 	/**
-	 * owner
+	 * renounceOwnership
 	 *
 	*/
-	"owner" (
+	"renounceOwnership" (
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::owner", [], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "ownable::renounceOwnership", [], __options);
 	}
 
 	/**
@@ -831,17 +831,15 @@ export default class Methods {
 	}
 
 	/**
-	 * grantRole
+	 * getRoleAdmin
 	 *
 	 * @param { (number | string | BN) } role,
-	 * @param { ArgumentTypes.AccountId | null } account,
 	*/
-	"grantRole" (
+	"getRoleAdmin" (
 		role: (number | string | BN),
-		account: ArgumentTypes.AccountId | null,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::grantRole", [role, account], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::getRoleAdmin", [role], __options);
 	}
 
 	/**
@@ -859,15 +857,17 @@ export default class Methods {
 	}
 
 	/**
-	 * getRoleAdmin
+	 * renounceRole
 	 *
 	 * @param { (number | string | BN) } role,
+	 * @param { ArgumentTypes.AccountId | null } account,
 	*/
-	"getRoleAdmin" (
+	"renounceRole" (
 		role: (number | string | BN),
+		account: ArgumentTypes.AccountId | null,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::getRoleAdmin", [role], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::renounceRole", [role, account], __options);
 	}
 
 	/**
@@ -885,29 +885,17 @@ export default class Methods {
 	}
 
 	/**
-	 * renounceRole
+	 * grantRole
 	 *
 	 * @param { (number | string | BN) } role,
 	 * @param { ArgumentTypes.AccountId | null } account,
 	*/
-	"renounceRole" (
+	"grantRole" (
 		role: (number | string | BN),
 		account: ArgumentTypes.AccountId | null,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::renounceRole", [role, account], __options);
-	}
-
-	/**
-	 * getRoleMemberCount
-	 *
-	 * @param { (number | string | BN) } role,
-	*/
-	"getRoleMemberCount" (
-		role: (number | string | BN),
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControlEnumerable::getRoleMemberCount", [role], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControl::grantRole", [role, account], __options);
 	}
 
 	/**
@@ -922,6 +910,18 @@ export default class Methods {
 		__options: GasLimit,
 	){
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControlEnumerable::getRoleMember", [role, index], __options);
+	}
+
+	/**
+	 * getRoleMemberCount
+	 *
+	 * @param { (number | string | BN) } role,
+	*/
+	"getRoleMemberCount" (
+		role: (number | string | BN),
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "accessControlEnumerable::getRoleMemberCount", [role], __options);
 	}
 
 }
