@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x67f7a160b8ec10d2665f935f02780d176618e944fc8a01d42fcc70d190631538",
+    "hash": "0xa93459ceba56611bbefb54a5daaf313513bf6e6d5ad6cd3c2fd3b9304d6d5b75",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.75.0-nightly",
     "build_info": {
@@ -139,7 +139,7 @@
               "displayName": [
                 "Id"
               ],
-              "type": 23
+              "type": 25
             }
           },
           {
@@ -263,18 +263,27 @@
             }
           },
           {
-            "label": "win_amount",
+            "label": "random_number",
             "type": {
               "displayName": [
-                "Balance"
+                "u32"
               ],
-              "type": 8
+              "type": 4
+            }
+          },
+          {
+            "label": "status_type",
+            "type": {
+              "displayName": [
+                "SessionsStatusType"
+              ],
+              "type": 22
             }
           }
         ],
         "default": false,
         "docs": [],
-        "label": "update_win_amount_and_session_status",
+        "label": "update_bet_session",
         "mutates": true,
         "payable": false,
         "returnType": {
@@ -284,7 +293,7 @@
           ],
           "type": 13
         },
-        "selector": "0x43ba3561"
+        "selector": "0xe4bda728"
       },
       {
         "args": [
@@ -317,56 +326,80 @@
       {
         "args": [
           {
-            "label": "token_ids",
+            "label": "session_id",
             "type": {
               "displayName": [
                 "pandorapooltraits_external",
-                "BurnTicketUsedInput1"
+                "GetIdInSessionByRandomNumberAndIndexInput1"
               ],
-              "type": 22
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "PandoraPoolTraits::burn_ticket_used",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 13
-        },
-        "selector": "0x84dd0f1b"
-      },
-      {
-        "args": [
-          {
-            "label": "receiver",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "WithdrawHoldAmountInput1"
-              ],
-              "type": 0
+              "type": 4
             }
           },
           {
-            "label": "amount",
+            "label": "random_number",
             "type": {
               "displayName": [
                 "pandorapooltraits_external",
-                "WithdrawHoldAmountInput2"
+                "GetIdInSessionByRandomNumberAndIndexInput2"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "index",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "GetIdInSessionByRandomNumberAndIndexInput3"
               ],
               "type": 8
             }
           }
         ],
         "default": false,
-        "docs": [],
-        "label": "PandoraPoolTraits::withdraw_hold_amount",
+        "docs": [
+          " get Id in session by random number"
+        ],
+        "label": "PandoraPoolTraits::get_id_in_session_by_random_number_and_index",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 23
+        },
+        "selector": "0x1c7b8061"
+      },
+      {
+        "args": [
+          {
+            "label": "account",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "WithdrawFeeInput1"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "value",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "WithdrawFeeInput2"
+              ],
+              "type": 8
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " Withdraw fee"
+        ],
+        "label": "PandoraPoolTraits::withdraw_fee",
         "mutates": true,
         "payable": false,
         "returnType": {
@@ -376,7 +409,7 @@
           ],
           "type": 13
         },
-        "selector": "0x8b9f4bfe"
+        "selector": "0x1a9f91ea"
       },
       {
         "args": [
@@ -435,6 +468,64 @@
         "selector": "0x7c4f1539"
       },
       {
+        "args": [
+          {
+            "label": "session_id",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "GetChainlinkRequestIdBySessionIdInput1"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " get chainlink request id by session id"
+        ],
+        "label": "PandoraPoolTraits::get_chainlink_request_id_by_session_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 26
+        },
+        "selector": "0x9e02d145"
+      },
+      {
+        "args": [
+          {
+            "label": "is_locked",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "UpdateIsLockedInput1"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " update is locked"
+        ],
+        "label": "PandoraPoolTraits::update_is_locked",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x430c53c5"
+      },
+      {
         "args": [],
         "default": false,
         "docs": [
@@ -448,46 +539,28 @@
             "ink",
             "MessageResult"
           ],
-          "type": 24
+          "type": 28
         },
         "selector": "0xf4147bca"
       },
       {
-        "args": [],
-        "default": false,
-        "docs": [
-          " Get Hold Player Count"
-        ],
-        "label": "PandoraPoolTraits::get_hold_bidder_count",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 25
-        },
-        "selector": "0xaebc15cb"
-      },
-      {
         "args": [
           {
-            "label": "session_id",
+            "label": "address",
             "type": {
               "displayName": [
                 "pandorapooltraits_external",
-                "GetBetSessionInput1"
+                "GetHoldAmountPlayersInput1"
               ],
-              "type": 4
+              "type": 0
             }
           }
         ],
         "default": false,
         "docs": [
-          " get bet session"
+          " Get hold amount players"
         ],
-        "label": "PandoraPoolTraits::get_bet_session",
+        "label": "PandoraPoolTraits::get_hold_amount_players",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -495,9 +568,27 @@
             "ink",
             "MessageResult"
           ],
-          "type": 26
+          "type": 29
         },
-        "selector": "0x7c4dc868"
+        "selector": "0x045c951e"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          " get total win amount"
+        ],
+        "label": "PandoraPoolTraits::get_total_win_amount",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
+        },
+        "selector": "0x9c52f857"
       },
       {
         "args": [
@@ -539,302 +630,21 @@
       {
         "args": [
           {
-            "label": "token_id",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "GetNftInfoInput1"
-              ],
-              "type": 23
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "PandoraPoolTraits::get_nft_info",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 30
-        },
-        "selector": "0x63a8ad62"
-      },
-      {
-        "args": [
-          {
-            "label": "account",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "WithdrawFeeInput1"
-              ],
-              "type": 0
-            }
-          },
-          {
-            "label": "value",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "WithdrawFeeInput2"
-              ],
-              "type": 8
-            }
-          }
-        ],
-        "default": false,
-        "docs": [
-          " Withdraw fee"
-        ],
-        "label": "PandoraPoolTraits::withdraw_fee",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 13
-        },
-        "selector": "0x1a9f91ea"
-      },
-      {
-        "args": [
-          {
-            "label": "is_locked",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "UpdateIsLockedInput1"
-              ],
-              "type": 3
-            }
-          }
-        ],
-        "default": false,
-        "docs": [
-          " update is locked"
-        ],
-        "label": "PandoraPoolTraits::update_is_locked",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 13
-        },
-        "selector": "0x430c53c5"
-      },
-      {
-        "args": [
-          {
             "label": "session_id",
             "type": {
               "displayName": [
                 "pandorapooltraits_external",
-                "GetIdInSessionByRandomNumberAndIndexInput1"
-              ],
-              "type": 4
-            }
-          },
-          {
-            "label": "random_number",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "GetIdInSessionByRandomNumberAndIndexInput2"
-              ],
-              "type": 4
-            }
-          },
-          {
-            "label": "index",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "GetIdInSessionByRandomNumberAndIndexInput3"
-              ],
-              "type": 8
-            }
-          }
-        ],
-        "default": false,
-        "docs": [
-          " get Id in session by random number"
-        ],
-        "label": "PandoraPoolTraits::get_id_in_session_by_random_number_and_index",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 33
-        },
-        "selector": "0x1c7b8061"
-      },
-      {
-        "args": [
-          {
-            "label": "session_id",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "GetIdInSessionByIndexInput1"
-              ],
-              "type": 4
-            }
-          },
-          {
-            "label": "index",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "GetIdInSessionByIndexInput2"
-              ],
-              "type": 8
-            }
-          }
-        ],
-        "default": false,
-        "docs": [
-          " get Id in session"
-        ],
-        "label": "PandoraPoolTraits::get_id_in_session_by_index",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 33
-        },
-        "selector": "0xcc5dbd65"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "PandoraPoolTraits::add_new_bet_session",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 13
-        },
-        "selector": "0x6e8baa4d"
-      },
-      {
-        "args": [
-          {
-            "label": "token_id",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "GetPlayerByNftIdInput1"
-              ],
-              "type": 23
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "PandoraPoolTraits::get_player_by_nft_id",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 35
-        },
-        "selector": "0x5d742f27"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [
-          " get is locked"
-        ],
-        "label": "PandoraPoolTraits::get_is_locked",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 37
-        },
-        "selector": "0x225447fa"
-      },
-      {
-        "args": [
-          {
-            "label": "session_id",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "TotalTicketsWinInput1"
-              ],
-              "type": 4
-            }
-          },
-          {
-            "label": "random_number",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "TotalTicketsWinInput2"
+                "SessionTotalTicketAmountInput1"
               ],
               "type": 4
             }
           }
         ],
         "default": false,
-        "docs": [],
-        "label": "PandoraPoolTraits::total_tickets_win",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 38
-        },
-        "selector": "0x8ad46672"
-      },
-      {
-        "args": [
-          {
-            "label": "index",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "GetHoldPlayersByIndexInput1"
-              ],
-              "type": 7
-            }
-          }
-        ],
-        "default": false,
         "docs": [
-          " Get hold players by index"
+          " get total ticket in session"
         ],
-        "label": "PandoraPoolTraits::get_hold_players_by_index",
+        "label": "PandoraPoolTraits::session_total_ticket_amount",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -842,137 +652,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 35
+          "type": 31
         },
-        "selector": "0x00878623"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [
-          " get total hold amount"
-        ],
-        "label": "PandoraPoolTraits::get_total_hold_amount",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 38
-        },
-        "selector": "0x3cf6a1f8"
-      },
-      {
-        "args": [
-          {
-            "label": "session_id",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "GetPlayerWinAmountInput1"
-              ],
-              "type": 4
-            }
-          },
-          {
-            "label": "account",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "GetPlayerWinAmountInput2"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "PandoraPoolTraits::get_player_win_amount",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 39
-        },
-        "selector": "0xce2766b7"
-      },
-      {
-        "args": [
-          {
-            "label": "session_id",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "GetPlayersInSessionByIndexInput1"
-              ],
-              "type": 4
-            }
-          },
-          {
-            "label": "index",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "GetPlayersInSessionByIndexInput2"
-              ],
-              "type": 8
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "PandoraPoolTraits::get_players_in_session_by_index",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 35
-        },
-        "selector": "0xd130f5ed"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [
-          " get total win amount"
-        ],
-        "label": "PandoraPoolTraits::get_total_win_amount",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 38
-        },
-        "selector": "0x9c52f857"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [
-          " get last session id"
-        ],
-        "label": "PandoraPoolTraits::get_last_session_id",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 41
-        },
-        "selector": "0xaadab449"
+        "selector": "0x15d02921"
       },
       {
         "args": [
@@ -1000,225 +682,6 @@
           "type": 13
         },
         "selector": "0x2138d28f"
-      },
-      {
-        "args": [
-          {
-            "label": "session_id",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "TotalPlayersInSessionInput1"
-              ],
-              "type": 4
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "PandoraPoolTraits::total_players_in_session",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 38
-        },
-        "selector": "0x4dce7946"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "PandoraPoolTraits::get_owner",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 35
-        },
-        "selector": "0x4a992a16"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [
-          " get max_bet_number"
-        ],
-        "label": "PandoraPoolTraits::get_max_bet_number",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 41
-        },
-        "selector": "0xa0bd542e"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "PandoraPoolTraits::get_player_not_yet_processed",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 38
-        },
-        "selector": "0xc1dde424"
-      },
-      {
-        "args": [
-          {
-            "label": "session_id",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "FinalizeInput1"
-              ],
-              "type": 4
-            }
-          },
-          {
-            "label": "random_number",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "FinalizeInput2"
-              ],
-              "type": 4
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "PandoraPoolTraits::finalize",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 13
-        },
-        "selector": "0x5f2b6996"
-      },
-      {
-        "args": [
-          {
-            "label": "address",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "GetHoldAmountPlayersInput1"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [
-          " Get hold amount players"
-        ],
-        "label": "PandoraPoolTraits::get_hold_amount_players",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 39
-        },
-        "selector": "0x045c951e"
-      },
-      {
-        "args": [
-          {
-            "label": "session_id",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "SessionTotalTicketAmountInput1"
-              ],
-              "type": 4
-            }
-          }
-        ],
-        "default": false,
-        "docs": [
-          " get total ticket in session"
-        ],
-        "label": "PandoraPoolTraits::session_total_ticket_amount",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 38
-        },
-        "selector": "0x15d02921"
-      },
-      {
-        "args": [
-          {
-            "label": "session_id",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "PlayInput1"
-              ],
-              "type": 4
-            }
-          },
-          {
-            "label": "bet_number",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "PlayInput2"
-              ],
-              "type": 4
-            }
-          },
-          {
-            "label": "token_id",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "PlayInput3"
-              ],
-              "type": 23
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "PandoraPoolTraits::play",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 13
-        },
-        "selector": "0x63eb22f9"
       },
       {
         "args": [
@@ -1260,23 +723,12 @@
         "selector": "0x94a4200b"
       },
       {
-        "args": [
-          {
-            "label": "session_id",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "GetChainlinkRequestIdBySessionIdInput1"
-              ],
-              "type": 4
-            }
-          }
-        ],
+        "args": [],
         "default": false,
         "docs": [
-          " get chainlink request id by session id"
+          " Get Hold Player Count"
         ],
-        "label": "PandoraPoolTraits::get_chainlink_request_id_by_session_id",
+        "label": "PandoraPoolTraits::get_hold_player_count",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -1284,9 +736,27 @@
             "ink",
             "MessageResult"
           ],
-          "type": 42
+          "type": 32
         },
-        "selector": "0x9e02d145"
+        "selector": "0x1d19d9b8"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          " get total hold amount"
+        ],
+        "label": "PandoraPoolTraits::get_total_hold_amount",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
+        },
+        "selector": "0x3cf6a1f8"
       },
       {
         "args": [
@@ -1295,7 +765,7 @@
             "type": {
               "displayName": [
                 "pandorapooltraits_external",
-                "UpdateBetSessionInput1"
+                "FinalizeInput1"
               ],
               "type": 4
             }
@@ -1305,27 +775,15 @@
             "type": {
               "displayName": [
                 "pandorapooltraits_external",
-                "UpdateBetSessionInput2"
+                "FinalizeInput2"
               ],
               "type": 4
-            }
-          },
-          {
-            "label": "status_type",
-            "type": {
-              "displayName": [
-                "pandorapooltraits_external",
-                "UpdateBetSessionInput3"
-              ],
-              "type": 29
             }
           }
         ],
         "default": false,
-        "docs": [
-          " update bet session"
-        ],
-        "label": "PandoraPoolTraits::update_bet_session",
+        "docs": [],
+        "label": "PandoraPoolTraits::finalize",
         "mutates": true,
         "payable": false,
         "returnType": {
@@ -1335,13 +793,290 @@
           ],
           "type": 13
         },
-        "selector": "0x09c6bb92"
+        "selector": "0x5f2b6996"
+      },
+      {
+        "args": [
+          {
+            "label": "receiver",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "WithdrawHoldAmountInput1"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "amount",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "WithdrawHoldAmountInput2"
+              ],
+              "type": 8
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "PandoraPoolTraits::withdraw_hold_amount",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x8b9f4bfe"
       },
       {
         "args": [],
         "default": false,
         "docs": [],
-        "label": "Ownable::owner",
+        "label": "PandoraPoolTraits::add_new_bet_session",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x6e8baa4d"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          " get max_bet_number"
+        ],
+        "label": "PandoraPoolTraits::get_max_bet_number",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 33
+        },
+        "selector": "0xa0bd542e"
+      },
+      {
+        "args": [
+          {
+            "label": "session_id",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "TotalTicketsWinInput1"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "random_number",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "TotalTicketsWinInput2"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "PandoraPoolTraits::total_tickets_win",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
+        },
+        "selector": "0x8ad46672"
+      },
+      {
+        "args": [
+          {
+            "label": "session_id",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "PlayInput1"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "bet_number",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "PlayInput2"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "token_id",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "PlayInput3"
+              ],
+              "type": 25
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "PandoraPoolTraits::play",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x63eb22f9"
+      },
+      {
+        "args": [
+          {
+            "label": "session_id",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "GetIdInSessionByIndexInput1"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "index",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "GetIdInSessionByIndexInput2"
+              ],
+              "type": 8
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " get Id in session"
+        ],
+        "label": "PandoraPoolTraits::get_id_in_session_by_index",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 23
+        },
+        "selector": "0xcc5dbd65"
+      },
+      {
+        "args": [
+          {
+            "label": "token_ids",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "BurnTicketUsedInput1"
+              ],
+              "type": 34
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "PandoraPoolTraits::burn_ticket_used",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 13
+        },
+        "selector": "0x84dd0f1b"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          " get last session id"
+        ],
+        "label": "PandoraPoolTraits::get_last_session_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 33
+        },
+        "selector": "0xaadab449"
+      },
+      {
+        "args": [
+          {
+            "label": "session_id",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "TotalPlayersInSessionInput1"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "PandoraPoolTraits::total_players_in_session",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
+        },
+        "selector": "0x4dce7946"
+      },
+      {
+        "args": [
+          {
+            "label": "token_id",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "GetPlayerByNftIdInput1"
+              ],
+              "type": 25
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "PandoraPoolTraits::get_player_by_nft_id",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -1351,7 +1086,216 @@
           ],
           "type": 35
         },
-        "selector": "0x4fa43c8c"
+        "selector": "0x5d742f27"
+      },
+      {
+        "args": [
+          {
+            "label": "session_id",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "GetPlayersInSessionByIndexInput1"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "index",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "GetPlayersInSessionByIndexInput2"
+              ],
+              "type": 8
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "PandoraPoolTraits::get_players_in_session_by_index",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 35
+        },
+        "selector": "0xd130f5ed"
+      },
+      {
+        "args": [
+          {
+            "label": "session_id",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "GetPlayerWinAmountInput1"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "account",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "GetPlayerWinAmountInput2"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "PandoraPoolTraits::get_player_win_amount",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 29
+        },
+        "selector": "0xce2766b7"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "PandoraPoolTraits::get_player_not_yet_processed",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
+        },
+        "selector": "0xc1dde424"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "PandoraPoolTraits::get_owner",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 35
+        },
+        "selector": "0x4a992a16"
+      },
+      {
+        "args": [
+          {
+            "label": "token_id",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "GetNftInfoInput1"
+              ],
+              "type": 25
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "PandoraPoolTraits::get_nft_info",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 37
+        },
+        "selector": "0x63a8ad62"
+      },
+      {
+        "args": [
+          {
+            "label": "index",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "GetHoldPlayersByIndexInput1"
+              ],
+              "type": 7
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " Get hold players by index"
+        ],
+        "label": "PandoraPoolTraits::get_hold_players_by_index",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 35
+        },
+        "selector": "0x00878623"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          " get is locked"
+        ],
+        "label": "PandoraPoolTraits::get_is_locked",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 40
+        },
+        "selector": "0x225447fa"
+      },
+      {
+        "args": [
+          {
+            "label": "session_id",
+            "type": {
+              "displayName": [
+                "pandorapooltraits_external",
+                "GetBetSessionInput1"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " get bet session"
+        ],
+        "label": "PandoraPoolTraits::get_bet_session",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 41
+        },
+        "selector": "0x7c4dc868"
       },
       {
         "args": [
@@ -1400,6 +1344,22 @@
         "args": [],
         "default": false,
         "docs": [],
+        "label": "Ownable::owner",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 35
+        },
+        "selector": "0x4fa43c8c"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
         "label": "Pausable::paused",
         "mutates": false,
         "payable": false,
@@ -1408,7 +1368,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 37
+          "type": 40
         },
         "selector": "0xd123ce11"
       },
@@ -1446,25 +1406,35 @@
             "type": {
               "displayName": [
                 "accesscontrol_external",
-                "GetRoleAdminInput1"
+                "RevokeRoleInput1"
               ],
               "type": 4
+            }
+          },
+          {
+            "label": "account",
+            "type": {
+              "displayName": [
+                "accesscontrol_external",
+                "RevokeRoleInput2"
+              ],
+              "type": 36
             }
           }
         ],
         "default": false,
         "docs": [],
-        "label": "AccessControl::get_role_admin",
-        "mutates": false,
+        "label": "AccessControl::revoke_role",
+        "mutates": true,
         "payable": false,
         "returnType": {
           "displayName": [
             "ink",
             "MessageResult"
           ],
-          "type": 41
+          "type": 50
         },
-        "selector": "0x83da3bb2"
+        "selector": "0x6e4f0991"
       },
       {
         "args": [
@@ -1502,6 +1472,33 @@
           "type": 50
         },
         "selector": "0xeaf1248a"
+      },
+      {
+        "args": [
+          {
+            "label": "role",
+            "type": {
+              "displayName": [
+                "accesscontrol_external",
+                "GetRoleAdminInput1"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "AccessControl::get_role_admin",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 33
+        },
+        "selector": "0x83da3bb2"
       },
       {
         "args": [
@@ -1573,46 +1570,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 37
+          "type": 40
         },
         "selector": "0xc1d9ac18"
-      },
-      {
-        "args": [
-          {
-            "label": "role",
-            "type": {
-              "displayName": [
-                "accesscontrol_external",
-                "RevokeRoleInput1"
-              ],
-              "type": 4
-            }
-          },
-          {
-            "label": "account",
-            "type": {
-              "displayName": [
-                "accesscontrol_external",
-                "RevokeRoleInput2"
-              ],
-              "type": 36
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "AccessControl::revoke_role",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 50
-        },
-        "selector": "0x6e4f0991"
       },
       {
         "args": [
@@ -1674,7 +1634,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 41
+          "type": 33
         },
         "selector": "0xf1b1a9d7"
       }
@@ -2926,13 +2886,17 @@
                 "name": "ChainlinkRequestIdIsExists"
               },
               {
+                "index": 73,
+                "name": "CannotUpdateSession"
+              },
+              {
                 "fields": [
                   {
                     "type": 16,
                     "typeName": "OwnableError"
                   }
                 ],
-                "index": 73,
+                "index": 74,
                 "name": "OwnableError"
               },
               {
@@ -2942,7 +2906,7 @@
                     "typeName": "AccessControlError"
                   }
                 ],
-                "index": 74,
+                "index": 75,
                 "name": "AccessControlError"
               },
               {
@@ -2952,7 +2916,7 @@
                     "typeName": "PSP22Error"
                   }
                 ],
-                "index": 75,
+                "index": 76,
                 "name": "PSP22Error"
               },
               {
@@ -2962,7 +2926,7 @@
                     "typeName": "PSP34Error"
                   }
                 ],
-                "index": 76,
+                "index": 77,
                 "name": "PSP34Error"
               },
               {
@@ -2972,11 +2936,11 @@
                     "typeName": "PausableError"
                   }
                 ],
-                "index": 77,
+                "index": 78,
                 "name": "PausableError"
               },
               {
-                "index": 78,
+                "index": 79,
                 "name": "CheckedOperations"
               }
             ]
@@ -3238,14 +3202,109 @@
       "id": 22,
       "type": {
         "def": {
-          "sequence": {
-            "type": 23
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "Processing"
+              },
+              {
+                "index": 1,
+                "name": "Finalized"
+              },
+              {
+                "index": 2,
+                "name": "Completed"
+              }
+            ]
           }
-        }
+        },
+        "path": [
+          "bet_a0",
+          "impls",
+          "pandora",
+          "data",
+          "SessionsStatusType"
+        ]
       }
     },
     {
       "id": 23,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 24
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 24
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 25
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 25
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 25,
       "type": {
         "def": {
           "variant": {
@@ -3322,90 +3381,6 @@
       }
     },
     {
-      "id": 24,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 0
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 0
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 25,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 7
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 7
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
       "id": 26,
       "type": {
         "def": {
@@ -3460,7 +3435,7 @@
               {
                 "fields": [
                   {
-                    "type": 28
+                    "type": 10
                   }
                 ],
                 "index": 1,
@@ -3472,7 +3447,7 @@
         "params": [
           {
             "name": "T",
-            "type": 28
+            "type": 10
           }
         ],
         "path": [
@@ -3484,70 +3459,12 @@
       "id": 28,
       "type": {
         "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "random_number",
-                "type": 4,
-                "typeName": "u32"
-              },
-              {
-                "name": "status",
-                "type": 29,
-                "typeName": "SessionsStatusType"
-              }
-            ]
-          }
-        },
-        "path": [
-          "bet_a0",
-          "impls",
-          "pandora",
-          "data",
-          "SessionInfo"
-        ]
-      }
-    },
-    {
-      "id": 29,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "index": 0,
-                "name": "Processing"
-              },
-              {
-                "index": 1,
-                "name": "Finalized"
-              },
-              {
-                "index": 2,
-                "name": "Completed"
-              }
-            ]
-          }
-        },
-        "path": [
-          "bet_a0",
-          "impls",
-          "pandora",
-          "data",
-          "SessionsStatusType"
-        ]
-      }
-    },
-    {
-      "id": 30,
-      "type": {
-        "def": {
           "variant": {
             "variants": [
               {
                 "fields": [
                   {
-                    "type": 31
+                    "type": 0
                   }
                 ],
                 "index": 0,
@@ -3568,7 +3485,7 @@
         "params": [
           {
             "name": "T",
-            "type": 31
+            "type": 0
           },
           {
             "name": "E",
@@ -3581,78 +3498,7 @@
       }
     },
     {
-      "id": 31,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "index": 0,
-                "name": "None"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 32
-                  }
-                ],
-                "index": 1,
-                "name": "Some"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 32
-          }
-        ],
-        "path": [
-          "Option"
-        ]
-      }
-    },
-    {
-      "id": 32,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "name": "session_id",
-                "type": 4,
-                "typeName": "u32"
-              },
-              {
-                "name": "bet_number",
-                "type": 4,
-                "typeName": "u32"
-              },
-              {
-                "name": "time",
-                "type": 7,
-                "typeName": "Timestamp"
-              },
-              {
-                "name": "used",
-                "type": 3,
-                "typeName": "bool"
-              }
-            ]
-          }
-        },
-        "path": [
-          "bet_a0",
-          "impls",
-          "pandora",
-          "data",
-          "NFTInfomation"
-        ]
-      }
-    },
-    {
-      "id": 33,
+      "id": 29,
       "type": {
         "def": {
           "variant": {
@@ -3660,7 +3506,7 @@
               {
                 "fields": [
                   {
-                    "type": 34
+                    "type": 30
                   }
                 ],
                 "index": 0,
@@ -3681,7 +3527,166 @@
         "params": [
           {
             "name": "T",
-            "type": 34
+            "type": 30
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 8
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 8
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 8
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 8
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 7
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 7
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 33,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 4
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 4
           },
           {
             "name": "E",
@@ -3697,33 +3702,10 @@
       "id": 34,
       "type": {
         "def": {
-          "variant": {
-            "variants": [
-              {
-                "index": 0,
-                "name": "None"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 23
-                  }
-                ],
-                "index": 1,
-                "name": "Some"
-              }
-            ]
+          "sequence": {
+            "type": 25
           }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 23
-          }
-        ],
-        "path": [
-          "Option"
-        ]
+        }
       }
     },
     {
@@ -3810,6 +3792,119 @@
               {
                 "fields": [
                   {
+                    "type": 38
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 38
+          },
+          {
+            "name": "E",
+            "type": 12
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 38,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 39
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 39
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 39,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "session_id",
+                "type": 4,
+                "typeName": "u32"
+              },
+              {
+                "name": "bet_number",
+                "type": 4,
+                "typeName": "u32"
+              },
+              {
+                "name": "time",
+                "type": 7,
+                "typeName": "Timestamp"
+              },
+              {
+                "name": "used",
+                "type": 3,
+                "typeName": "bool"
+              }
+            ]
+          }
+        },
+        "path": [
+          "bet_a0",
+          "impls",
+          "pandora",
+          "data",
+          "NFTInfomation"
+        ]
+      }
+    },
+    {
+      "id": 40,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
                     "type": 3
                   }
                 ],
@@ -3844,123 +3939,6 @@
       }
     },
     {
-      "id": 38,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 8
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 8
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 39,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 40
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 40
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 40,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "index": 0,
-                "name": "None"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 8
-                  }
-                ],
-                "index": 1,
-                "name": "Some"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 8
-          }
-        ],
-        "path": [
-          "Option"
-        ]
-      }
-    },
-    {
       "id": 41,
       "type": {
         "def": {
@@ -3969,7 +3947,7 @@
               {
                 "fields": [
                   {
-                    "type": 4
+                    "type": 42
                   }
                 ],
                 "index": 0,
@@ -3990,7 +3968,7 @@
         "params": [
           {
             "name": "T",
-            "type": 4
+            "type": 42
           },
           {
             "name": "E",
@@ -4009,55 +3987,13 @@
           "variant": {
             "variants": [
               {
-                "fields": [
-                  {
-                    "type": 43
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 43
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 43,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
                 "index": 0,
                 "name": "None"
               },
               {
                 "fields": [
                   {
-                    "type": 10
+                    "type": 43
                   }
                 ],
                 "index": 1,
@@ -4069,11 +4005,39 @@
         "params": [
           {
             "name": "T",
-            "type": 10
+            "type": 43
           }
         ],
         "path": [
           "Option"
+        ]
+      }
+    },
+    {
+      "id": 43,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "random_number",
+                "type": 4,
+                "typeName": "u32"
+              },
+              {
+                "name": "status",
+                "type": 22,
+                "typeName": "SessionsStatusType"
+              }
+            ]
+          }
+        },
+        "path": [
+          "bet_a0",
+          "impls",
+          "pandora",
+          "data",
+          "SessionInfo"
         ]
       }
     },

@@ -29,8 +29,10 @@ pub trait PandoraPoolTraits: Ownable {
     #[ink(message)]
     fn add_new_bet_session(&mut self) -> Result<(), Error>;
 
+    /// update total win amount
+    fn update_total_win_amount(&mut self, amount: Balance) -> Result<(), Error>;
+
     /// update bet session
-    #[ink(message)]
     fn update_bet_session(
         &mut self,
         session_id: u32,
@@ -90,7 +92,7 @@ pub trait PandoraPoolTraits: Ownable {
 
     /// Get Hold Player Count
     #[ink(message)]
-    fn get_hold_bidder_count(&self) -> u64;
+    fn get_hold_player_count(&self) -> u64;
 
     /// get Id in session
     #[ink(message)]

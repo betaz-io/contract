@@ -264,7 +264,7 @@ describe('Betaz token test', () => {
         try {
             pandoraAdminAddress = adminer.address;
             pandoraPsp34ContractAddress = aliceAddress;
-            sessionTotalTicketAmount = 123;
+            // sessionTotalTicketAmount = 123;
             maxBetNumber = 123;
 
             // "refTime: 3041832201"
@@ -277,7 +277,7 @@ describe('Betaz token test', () => {
                 await contractFactory.new(
                     pandoraAdminAddress,
                     pandoraPsp34ContractAddress,
-                    sessionTotalTicketAmount,
+                    // sessionTotalTicketAmount,
                     maxBetNumber,
                     { gasLimit }
                 )
@@ -975,8 +975,8 @@ describe('Betaz token test', () => {
     });
 
     it('Can hold amount when finalized', async () => {
-        let hold_bidder_count = (await coreQuery.getHoldBidderCount()).value.ok!;
-        console.log({ hold_bidder_count })
+        let hold_player_count = (await coreQuery.getHoldPlayerCount()).value.ok!;
+        console.log({ hold_player_count })
         // set max bet ration = 1
         await coreTx.setMaxBetRatio(1);
 
@@ -1015,20 +1015,20 @@ describe('Betaz token test', () => {
 
         // win
         if (random_number_player4 > bet_number) {
-            let new_hold_bidder_count = (await coreQuery.getHoldBidderCount()).value.ok!;
-            expect(new_hold_bidder_count - hold_bidder_count > 0).to.equal(true);
+            let new_hold_player_count = (await coreQuery.getHoldPlayerCount()).value.ok!;
+            expect(new_hold_player_count - hold_player_count > 0).to.equal(true);
 
             let hold_player = (await coreQuery.getHoldPlayersByIndex(0)).value.ok!;
             expect(hold_player).to.equal(player4.address);
 
             let hold_amount = (await coreQuery.getHoldAmountPlayers(player4.address)).value.ok!;
-            console.log({ new_hold_bidder_count, hold_player, hold_amount });
+            console.log({ new_hold_player_count, hold_player, hold_amount });
         }
     });
 
     it('Can withdraw hold amount', async () => {
-        let hold_bidder_count = (await coreQuery.getHoldBidderCount()).value.ok!;
-        if (hold_bidder_count > 0) {
+        let hold_player_count = (await coreQuery.getHoldPlayerCount()).value.ok!;
+        if (hold_player_count > 0) {
             let balancePlayer4 = await showAZBalance(api, player4.address);
             let hold_amount = (await coreQuery.getHoldAmountPlayers(player4.address)).value.ok!;
             console.log({ balancePlayer4 });

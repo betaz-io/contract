@@ -10,6 +10,7 @@ pub mod beta0_core {
         impls::{
             admin::AdminTraitImpl,
             beta0_core::{data::Manager, BetA0CoreTraitImpl, BetInformation, ADMINER, *},
+            pandora::Finalized,
         },
         traits::error::Error,
     };
@@ -477,8 +478,8 @@ pub mod beta0_core {
 
         /// Get Hold Player Count
         #[ink(message)]
-        fn get_hold_bidder_count(&self) -> u64 {
-            BetA0CoreTraitImpl::get_hold_bidder_count(self)
+        fn get_hold_player_count(&self) -> u64 {
+            BetA0CoreTraitImpl::get_hold_player_count(self)
         }
 
         /// Get oracle randomness address
@@ -531,42 +532,38 @@ pub mod beta0_core {
             staking_pool_ratio: u32,
             treasury_pool_ratio: u32,
             pandora_pool_ratio: u32,
-            // caller address
             admin_address: AccountId,
             betaz_address: AccountId,
-            // contract address
             bet_token_address: AccountId,
             staking_address: AccountId,
             treasury_address: AccountId,
             pandora_address: AccountId,
             oracle_randomness_address: AccountId,
             dao_address: AccountId,
-            // round_distance: u64,
         ) -> Self {
             let mut instance = Self::default();
             let caller = <Self as DefaultEnv>::env().caller();
             ownable::Internal::_init_with_owner(&mut instance, caller);
             instance
                 .initialize(
-                    betaz_address,
-                    max_bet_ratio,
-                    bet_token_address,
+                    max_bet_ratio,        
                     token_ratio,
                     min_over_number,
                     max_over_number,
                     min_under_number,
                     max_under_number,
-                    admin_address,
                     core_pool_ratio,
                     staking_pool_ratio,
                     treasury_pool_ratio,
                     pandora_pool_ratio,
+                    admin_address,
+                    betaz_address,
+                    bet_token_address,
                     staking_address,
                     treasury_address,
                     pandora_address,
                     oracle_randomness_address,
                     dao_address,
-                    // round_distance,
                 )
                 .ok()
                 .unwrap();
@@ -579,54 +576,60 @@ pub mod beta0_core {
         #[modifiers(only_owner)]
         pub fn initialize(
             &mut self,
-            betaz_address: AccountId,
             max_bet_ratio: u32,
-            bet_token_address: AccountId,
             token_ratio: u32,
             min_over_number: u32,
             max_over_number: u32,
             min_under_number: u32,
             max_under_number: u32,
-            admin_address: AccountId,
             core_pool_ratio: u32,
             staking_pool_ratio: u32,
             treasury_pool_ratio: u32,
             pandora_pool_ratio: u32,
+            admin_address: AccountId,
+            betaz_address: AccountId,
+            bet_token_address: AccountId,
             staking_address: AccountId,
             treasury_address: AccountId,
             pandora_address: AccountId,
             oracle_randomness_address: AccountId,
             dao_address: AccountId,
-            // round_distance: u64,
         ) -> Result<(), Error> {
             // Make sure the initial data can only be init once
             if self.manager.bet_token_address != [0u8; 32].into() {
                 return Err(Error::AlreadyInit);
             }
+
+            // default init rates
             self.manager.over_rates = [
-                0, 0, 0, 0, 1030, 1035, 1040, 1060, 1070, 1080, 1090, 1100, 1120, 1130, 1140, 1160, 1170, 1190,
-                1200, 1220, 1230, 1250, 1260, 1280, 1300, 1320, 1330, 1350, 1370, 1390, 1410, 1430, 1460, 1480,
-                1500, 1520, 1550, 1570, 1600, 1630, 1650, 1680, 1710, 1740, 1780, 1810, 1840, 1880, 1920, 1960,
-                2000, 2040, 2080, 2130, 2170, 2220, 2280, 2330, 2390, 2450, 2510, 2580, 2650, 2720, 2800, 2880,
-                2970, 3060, 3160, 3270, 3380, 3500, 3630, 3770, 3940, 4090, 4270, 4460, 4680, 4910, 5170, 5460,
-                5780, 6140, 6550, 7020, 7560, 8190, 8940, 9840, 9940, 11310, 13070, 15410, 18700, 23620, 31830,
-                48250, 98500, 0
+                0, 0, 0, 0, 1030, 1035, 1040, 1060, 1070, 1080, 1090, 1100, 1120, 1130, 1140, 1160,
+                1170, 1190, 1200, 1220, 1230, 1250, 1260, 1280, 1300, 1320, 1330, 1350, 1370, 1390,
+                1410, 1430, 1460, 1480, 1500, 1520, 1550, 1570, 1600, 1630, 1650, 1680, 1710, 1740,
+                1780, 1810, 1840, 1880, 1920, 1960, 2000, 2040, 2080, 2130, 2170, 2220, 2280, 2330,
+                2390, 2450, 2510, 2580, 2650, 2720, 2800, 2880, 2970, 3060, 3160, 3270, 3380, 3500,
+                3630, 3770, 3940, 4090, 4270, 4460, 4680, 4910, 5170, 5460, 5780, 6140, 6550, 7020,
+                7560, 8190, 8940, 9840, 9940, 11310, 13070, 15410, 18700, 23620, 31830, 48250,
+                98500, 0,
             ]
             .to_vec();
             self.manager.under_rates = [
-                0, 98500, 48250, 31830, 23620, 18700, 15410, 13070, 11310, 9940, 9840, 8940, 8190, 7560, 7020,
-                6550, 6140, 5780, 5460, 5170, 4910, 4680, 4460, 4270, 4090, 3940, 3770, 3630, 3500, 3380, 3270, 
-                3160, 3060, 2970, 2880, 2800, 2720, 2650, 2580, 2510, 2450, 2390, 2330, 2280, 2220, 2170, 2130, 
-                2080, 2040, 2000, 1960, 1920, 1880, 1840, 1810, 1780, 1740, 1710, 1680, 1650, 1630, 1600, 1570, 
-                1550, 1520, 1500, 1480, 1460, 1430, 1410, 1390, 1370, 1350, 1330, 1320, 1300, 1280, 1260, 1250, 
-                1230, 1220, 1200, 1190, 1170, 1160, 1140, 1130, 1120, 1100, 1090, 1080, 1070, 1060, 1040, 1035, 
-                1030, 0, 0, 0, 0
+                0, 98500, 48250, 31830, 23620, 18700, 15410, 13070, 11310, 9940, 9840, 8940, 8190,
+                7560, 7020, 6550, 6140, 5780, 5460, 5170, 4910, 4680, 4460, 4270, 4090, 3940, 3770,
+                3630, 3500, 3380, 3270, 3160, 3060, 2970, 2880, 2800, 2720, 2650, 2580, 2510, 2450,
+                2390, 2330, 2280, 2220, 2170, 2130, 2080, 2040, 2000, 1960, 1920, 1880, 1840, 1810,
+                1780, 1740, 1710, 1680, 1650, 1630, 1600, 1570, 1550, 1520, 1500, 1480, 1460, 1430,
+                1410, 1390, 1370, 1350, 1330, 1320, 1300, 1280, 1260, 1250, 1230, 1220, 1200, 1190,
+                1170, 1160, 1140, 1130, 1120, 1100, 1090, 1080, 1070, 1060, 1040, 1035, 1030, 0, 0,
+                0, 0,
             ]
             .to_vec();
             self.manager.percentage_rates = 1000;
-            self.manager.betaz_address = betaz_address;
+
+            // default init round distance
+            self.manager.round_distance = 1;
+
+            // init
             self.manager.max_bet_ratio = max_bet_ratio;
-            self.manager.bet_token_address = bet_token_address;
             self.manager.token_ratio = token_ratio;
             self.manager.min_over_number = min_over_number;
             self.manager.max_over_number = max_over_number;
@@ -636,12 +639,13 @@ pub mod beta0_core {
             self.manager.pool_manager.staking_pool_ratio = staking_pool_ratio;
             self.manager.pool_manager.treasury_pool_ratio = treasury_pool_ratio;
             self.manager.pool_manager.pandora_pool_ratio = pandora_pool_ratio;
+            self.manager.betaz_address = betaz_address;
+            self.manager.bet_token_address = bet_token_address;
             self.manager.staking_address = staking_address;
             self.manager.treasury_address = treasury_address;
             self.manager.pandora_pool_address = pandora_address;
             self.manager.oracle_randomness_address = oracle_randomness_address;
             self.manager.dao_address = dao_address;
-            self.manager.round_distance = 1;
             if max_bet_ratio == 0
                 || core_pool_ratio == 0
                 || staking_pool_ratio == 0
@@ -786,12 +790,12 @@ pub mod beta0_core {
                                 if let Some(hold_amount_player) =
                                     self.manager.hold_amount_players.get(player)
                                 {
-                                    if let Some(hold_amount_bidder_tmp) =
+                                    if let Some(hold_amount_player_tmp) =
                                         hold_amount_player.checked_add(hold_amount)
                                     {
                                         self.manager
                                             .hold_amount_players
-                                            .insert(player, &hold_amount_bidder_tmp);
+                                            .insert(player, &hold_amount_player_tmp);
                                     } else {
                                         return Err(Error::CheckedOperations);
                                     }
@@ -954,12 +958,12 @@ pub mod beta0_core {
                                 if let Some(hold_amount_player) =
                                     self.manager.hold_amount_players.get(player)
                                 {
-                                    if let Some(hold_amount_bidder_tmp) =
+                                    if let Some(hold_amount_player_tmp) =
                                         hold_amount_player.checked_add(hold_amount)
                                     {
                                         self.manager
                                             .hold_amount_players
-                                            .insert(player, &hold_amount_bidder_tmp);
+                                            .insert(player, &hold_amount_player_tmp);
                                     } else {
                                         return Err(Error::CheckedOperations);
                                     }
@@ -1140,16 +1144,29 @@ pub mod beta0_core {
                 }
             }
 
+            // add reward
             let mut pandora_pool_contract: PandoraPoolContractRef =
                 ink::env::call::FromAccountId::from_account_id(self.manager.pandora_pool_address);
-            assert!(
-                PandoraPoolContractRef::update_win_amount_and_session_status(
-                    &mut pandora_pool_contract,
-                    session_id,
-                    contract_balance,
-                )
-                .is_ok()
-            );
+            if PandoraPoolContractRef::update_total_win_amount(
+                &mut pandora_pool_contract,
+                contract_balance,
+            )
+            .is_err()
+            {
+                return Err(Error::RewardNotAdded);
+            }
+
+            // update session
+            if PandoraPoolContractRef::update_bet_session(
+                &mut pandora_pool_contract,
+                session_id,
+                0,
+                Finalized,
+            )
+            .is_err()
+            {
+                return Err(Error::CannotUpdateSession);
+            }
 
             Ok(())
         }
@@ -1163,30 +1180,31 @@ pub mod beta0_core {
             let contract_address = self.manager.staking_address;
 
             if contract_balance > 0 {
-                assert!(self
+                if self
                     .env()
                     .transfer(contract_address, contract_balance)
-                    .is_ok());
-                self.manager.pool_manager.staking_pool_amount = self
-                    .manager
-                    .pool_manager
-                    .staking_pool_amount
-                    .checked_sub(contract_balance)
-                    .unwrap();
+                    .is_ok()
+                {
+                    self.manager.pool_manager.staking_pool_amount = self
+                        .manager
+                        .pool_manager
+                        .staking_pool_amount
+                        .checked_sub(contract_balance)
+                        .unwrap();
 
-                // Event
-                self._emit_transfer_staking_pool_event(contract_address, contract_balance);
-            } else {
-                return Err(Error::NotEnoughBalance);
+                    // Event
+                    self._emit_transfer_staking_pool_event(contract_address, contract_balance);
+                }
             }
 
+            // add reward
             let mut staking_pool_contract: StakingPoolContractRef =
                 ink::env::call::FromAccountId::from_account_id(self.manager.staking_address);
-            assert!(StakingPoolContractRef::add_reward(
-                &mut staking_pool_contract,
-                contract_balance,
-            )
-            .is_ok());
+            if StakingPoolContractRef::add_reward(&mut staking_pool_contract, contract_balance)
+                .is_err()
+            {
+                return Err(Error::RewardNotAdded);
+            };
 
             Ok(())
         }

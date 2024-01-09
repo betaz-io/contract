@@ -306,12 +306,12 @@ pub trait PandoraPoolTraitsImpl:
                                 .hold_amount_players
                                 .get(&player_address)
                             {
-                                if let Some(hold_amount_bidder_tmp) =
+                                if let Some(hold_amount_player_tmp) =
                                     hold_amount_player.checked_add(win_balance)
                                 {
                                     self.data::<Manager>()
                                         .hold_amount_players
-                                        .insert(&player_address, &hold_amount_bidder_tmp);
+                                        .insert(&player_address, &hold_amount_player_tmp);
                                 } else {
                                     return Err(Error::CheckedOperations);
                                 }
@@ -539,7 +539,7 @@ pub trait PandoraPoolTraitsImpl:
     }
 
     /// Get Hold Player Count
-    fn get_hold_bidder_count(&self) -> u64 {
+    fn get_hold_player_count(&self) -> u64 {
         self.data::<Manager>().hold_players.count(1) as u64
     }
 

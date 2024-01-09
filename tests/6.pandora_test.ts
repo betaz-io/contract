@@ -61,7 +61,7 @@ describe('Betaz token test', () => {
     let tokenMinter: string;
     let tokenAdminer: string;
 
-    
+
     // psp34 contract
     let psp34ContractAddress: any;
     let psp34Contract: any;
@@ -257,7 +257,7 @@ describe('Betaz token test', () => {
         try {
             pandoraAdminAddress = adminer.address;
             pandoraPsp34ContractAddress = aliceAddress;
-            sessionTotalTicketAmount = 123;
+            // sessionTotalTicketAmount = 123;
             maxBetNumber = 123;
 
             // "refTime: 3041832201"
@@ -270,7 +270,7 @@ describe('Betaz token test', () => {
                 await contractFactory.new(
                     pandoraAdminAddress,
                     pandoraPsp34ContractAddress,
-                    sessionTotalTicketAmount,
+                    // sessionTotalTicketAmount,
                     maxBetNumber,
                     { gasLimit }
                 )
@@ -365,8 +365,8 @@ describe('Betaz token test', () => {
         expect(psp34_address).to.equal(pandoraPsp34ContractAddress);
 
         // Check SessionTotalTicketAmount
-        let session_total_ticket_amount = (await pandoraQuery.getSessionTotalTicketAmount()).value.ok;
-        expect(Number(session_total_ticket_amount?.toString())).to.equal(sessionTotalTicketAmount);
+        // let session_total_ticket_amount = (await pandoraQuery.getSessionTotalTicketAmount()).value.ok;
+        // expect(Number(session_total_ticket_amount?.toString())).to.equal(sessionTotalTicketAmount);
 
         // Check MaxBetNumber
         let max_bet_number = (await pandoraQuery.getMaxBetNumber()).value.ok!;
@@ -384,9 +384,9 @@ describe('Betaz token test', () => {
         expect(betaz_token_address).to.equal(new_pandoraTokenContractAddress);
 
         // Check sessionTotalTicketAmount
-        await pandoraTx.setSessionTotalTicketAmount(new_sessionTotalTicketAmount)
-        let session_total_ticket_amount = (await pandoraQuery.getSessionTotalTicketAmount()).value.ok;
-        expect(Number(session_total_ticket_amount?.toString())).to.equal(new_sessionTotalTicketAmount);
+        // await pandoraTx.setSessionTotalTicketAmount(new_sessionTotalTicketAmount)
+        // let session_total_ticket_amount = (await pandoraQuery.getSessionTotalTicketAmount()).value.ok;
+        // expect(Number(session_total_ticket_amount?.toString())).to.equal(new_sessionTotalTicketAmount);
 
         // Check maxBetNumber
         await pandoraTx.setMaxBetNumber(new_maxBetNumber)
@@ -688,13 +688,21 @@ describe('Betaz token test', () => {
         expect(bet_session.status !== "Finished").to.equal(true);
 
         let totalWinAmount = (await pandoraQuery.getTotalWinAmount()).value.ok!;
-        let winAmount = "100000000000000";
+        let winAmount = new BN(100 * (10 ** 12));
+        await pandoraContract.withSigner(defaultSigner).tx.updateIsLocked(true);
         try {
-            await pandoraTx.updateWinAmountAndSessionStatus(last_session_id, winAmount)
+            await pandoraTx.updateTotalWinAmount(winAmount);
         } catch (error) {
-
+            console.log(error)
         }
+        try {
+            await pandoraTx.updateBetSession(last_session_id, 0, "Finalized");
+        } catch (error) {
+            console.log(error)
+        }
+
         let new_totalWinAmount = (await pandoraQuery.getTotalWinAmount()).value.ok!;
+        console.log({ new_totalWinAmount: new_totalWinAmount.rawNumber.toString(), totalWinAmount: totalWinAmount.toString() })
         let gain = new BN(new_totalWinAmount.toString()).sub(new BN(totalWinAmount.toString()))
         expect(toNumber(gain)).to.equal(toNumber(winAmount))
         bet_session = (await pandoraQuery.getBetSession(last_session_id)).value.ok!;
@@ -705,6 +713,7 @@ describe('Betaz token test', () => {
         await transfer.signAndSend(alice);
 
         // back to origin status
+        await pandoraContract.withSigner(defaultSigner).tx.updateIsLocked(false);
         await pandoraContract.withSigner(defaultSigner).tx.updateBetSession(last_session_id, 0, "Processing");
     })
 
@@ -837,8 +846,8 @@ describe('Betaz token test', () => {
     })
 
     it('Can withdraw hold amount', async () => {
-        let hold_bidder_count = (await pandoraQuery.getHoldBidderCount()).value.ok!;
-        if (hold_bidder_count > 0) {
+        let hold_player_count = (await pandoraQuery.getHoldPlayerCount()).value.ok!;
+        if (hold_player_count > 0) {
             let balancePlayer4 = await showAZBalance(api, player4.address);
             let hold_amount = (await pandoraQuery.getHoldAmountPlayers(player4.address)).value.ok!;
             console.log({ hold_amount, balancePlayer4 });

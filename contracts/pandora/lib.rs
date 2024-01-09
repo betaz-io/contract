@@ -19,8 +19,8 @@ pub mod pandora {
 
     use ink::{
         codegen::{EmitEvent, Env},
-        reflect::ContractEventBase,
         prelude::vec::Vec,
+        reflect::ContractEventBase,
     };
 
     use crate::pandora::access_control::only_role;
@@ -115,8 +115,12 @@ pub mod pandora {
             PandoraPoolTraitsImpl::add_new_bet_session(self)
         }
 
+        /// update total win amount
+        fn update_total_win_amount(&mut self, amount: Balance) -> Result<(), Error> {
+            PandoraPoolTraitsImpl::update_total_win_amount(self, amount)
+        }
+
         /// update bet session
-        #[ink(message)]
         fn update_bet_session(
             &mut self,
             session_id: u32,
@@ -221,8 +225,8 @@ pub mod pandora {
 
         /// Get Hold Player Count
         #[ink(message)]
-        fn get_hold_bidder_count(&self) -> u64 {
-            PandoraPoolTraitsImpl::get_hold_bidder_count(self)
+        fn get_hold_player_count(&self) -> u64 {
+            PandoraPoolTraitsImpl::get_hold_player_count(self)
         }
 
         /// get Id in session
@@ -339,11 +343,7 @@ pub mod pandora {
             let mut instance = Self::default();
             ownable::Internal::_init_with_owner(&mut instance, Self::env().caller());
             instance
-                .initialize(
-                    admin_address,
-                    psp34_contract_address,
-                    max_bet_number,
-                )
+                .initialize(admin_address, psp34_contract_address, max_bet_number)
                 .ok()
                 .unwrap();
             instance
@@ -376,21 +376,13 @@ pub mod pandora {
 
         #[ink(message)]
         #[modifiers(only_role(ADMINER))]
-        pub fn update_win_amount_and_session_status(
+        pub fn update_bet_session(
             &mut self,
             session_id: u32,
-            win_amount: Balance,
+            random_number: u32,
+            status_type: SessionsStatusType,
         ) -> Result<(), Error> {
-            if PandoraPoolTraitsImpl::update_total_win_amount(self, win_amount).is_err() {
-                return Err(Error::RewardNotAdded);
-            }
-            if let Some(mut secssion_info) = self.manager.sessions.get(&session_id) {
-                secssion_info.status = Finalized;
-                self.manager.sessions.insert(&session_id, &secssion_info);
-            } else {
-                return Err(Error::SessionNotExists);
-            }
-            Ok(())
+            PandoraPoolTraits::update_bet_session(self, session_id, random_number, status_type)
         }
 
         /// update total win amount
@@ -398,7 +390,7 @@ pub mod pandora {
         #[modifiers(only_locked)]
         #[modifiers(only_role(ADMINER))]
         pub fn update_total_win_amount(&mut self, amount: Balance) -> Result<(), Error> {
-            PandoraPoolTraitsImpl::update_total_win_amount(self, amount)
+            PandoraPoolTraits::update_total_win_amount(self, amount)
         }
 
         pub fn emit_event<EE: EmitEvent<Self>>(emitter: EE, event: Event) {
