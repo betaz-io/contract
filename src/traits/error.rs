@@ -79,6 +79,7 @@ pub enum Error {
     FailToDecreaseClaimableReward,
     RewardNotAdded,
     ChainlinkRequestIdIsExists,
+    CannotUpdateSession,
     OwnableError(OwnableError),
     AccessControlError(AccessControlError),
     PSP22Error(PSP22Error),

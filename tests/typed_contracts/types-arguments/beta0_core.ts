@@ -80,6 +80,7 @@ export interface Error {
 	failToDecreaseClaimableReward ? : null,
 	rewardNotAdded ? : null,
 	chainlinkRequestIdIsExists ? : null,
+	cannotUpdateSession ? : null,
 	ownableError ? : OwnableError,
 	accessControlError ? : AccessControlError,
 	psp22Error ? : PSP22Error,
@@ -452,6 +453,11 @@ export class ErrorBuilder {
 	static ChainlinkRequestIdIsExists(): Error {
 		return {
 			chainlinkRequestIdIsExists: null,
+		};
+	}
+	static CannotUpdateSession(): Error {
+		return {
+			cannotUpdateSession: null,
 		};
 	}
 	static OwnableError(value: OwnableError): Error {

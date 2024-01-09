@@ -229,7 +229,7 @@ pub trait BetA0CoreTrait {
 
     /// Get Hold Player Count
     #[ink(message)]
-    fn get_hold_bidder_count(&self) -> u64;
+    fn get_hold_player_count(&self) -> u64;
 
     /// Get oracle randomness address
     #[ink(message)]

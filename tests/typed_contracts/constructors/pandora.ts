@@ -25,13 +25,11 @@ export default class Constructors {
 	*
 	* @param { ArgumentTypes.AccountId } adminAddress,
 	* @param { ArgumentTypes.AccountId } psp34ContractAddress,
-	* @param { (string | number | BN) } sessionTotalTicketAmount,
 	* @param { (number | string | BN) } maxBetNumber,
 	*/
    	async "new" (
 		adminAddress: ArgumentTypes.AccountId,
 		psp34ContractAddress: ArgumentTypes.AccountId,
-		sessionTotalTicketAmount: (string | number | BN),
 		maxBetNumber: (number | string | BN),
 		__options ? : ConstructorOptions,
    	) {
@@ -40,7 +38,7 @@ export default class Constructors {
 		const gasLimit = (await _genValidGasLimitAndValue(this.nativeAPI, __options)).gasLimit as WeightV2;
 
 		const storageDepositLimit = __options?.storageDepositLimit;
-			const tx = code.tx["new"]!({ gasLimit, storageDepositLimit, value: __options?.value }, adminAddress, psp34ContractAddress, sessionTotalTicketAmount, maxBetNumber);
+			const tx = code.tx["new"]!({ gasLimit, storageDepositLimit, value: __options?.value }, adminAddress, psp34ContractAddress, maxBetNumber);
 			let response;
 
 			try {

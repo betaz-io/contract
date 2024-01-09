@@ -641,7 +641,7 @@ pub trait BetA0CoreTraitImpl:
     }
 
     /// Get Hold Player Count
-    fn get_hold_bidder_count(&self) -> u64 {
+    fn get_hold_player_count(&self) -> u64 {
         self.data::<Manager>().hold_players.count(1) as u64
     }
 

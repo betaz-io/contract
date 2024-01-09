@@ -166,16 +166,101 @@ export default class Methods {
 	}
 
 	/**
-	* transferTreasuryPool
+	* getPlatformFeeAmount
+	*
+	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
+	*/
+	"getPlatformFeeAmount" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getPlatformFeeAmount", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getDaoAddress
+	*
+	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
+	*/
+	"getDaoAddress" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getDaoAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(24, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* transferStakingPool
 	*
 	* @returns { void }
 	*/
-	"transferTreasuryPool" (
+	"transferStakingPool" (
 		__options: GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::transferTreasuryPool", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::transferStakingPool", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
 		}, [], __options);
+	}
+
+	/**
+	* setMinNumberUnderRoll
+	*
+	* @param { (number | string | BN) } minUnderNumber,
+	* @returns { void }
+	*/
+	"setMinNumberUnderRoll" (
+		minUnderNumber: (number | string | BN),
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setMinNumberUnderRoll", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [minUnderNumber], __options);
+	}
+
+	/**
+	* getOracleRandomnessAddress
+	*
+	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
+	*/
+	"getOracleRandomnessAddress" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getOracleRandomnessAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(24, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getMaxBetRatio
+	*
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getMaxBetRatio" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getMaxBetRatio", [], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getHoldPlayerCount
+	*
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getHoldPlayerCount" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getHoldPlayerCount", [], __options, (result) => { return handleReturnType(result, getTypeDescription(26, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* setBetTokenAddress
+	*
+	* @param { ArgumentTypes.AccountId } betTokenAddress,
+	* @returns { void }
+	*/
+	"setBetTokenAddress" (
+		betTokenAddress: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setBetTokenAddress", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [betTokenAddress], __options);
 	}
 
 	/**
@@ -192,68 +277,18 @@ export default class Methods {
 	}
 
 	/**
-	* getMaxBetRatio
+	* setPandoraAddress
 	*
-	* @returns { Result<number, ReturnTypes.LangError> }
-	*/
-	"getMaxBetRatio" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getMaxBetRatio", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getBet
-	*
-	* @param { ArgumentTypes.AccountId } player,
-	* @returns { Result<ReturnTypes.BetInformation | null, ReturnTypes.LangError> }
-	*/
-	"getBet" (
-		player: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnTypes.BetInformation | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getBet", [player], __options, (result) => { return handleReturnType(result, getTypeDescription(24, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* setMaxNumberUnderRoll
-	*
-	* @param { (number | string | BN) } maxUnderNumber,
+	* @param { ArgumentTypes.AccountId } address,
 	* @returns { void }
 	*/
-	"setMaxNumberUnderRoll" (
-		maxUnderNumber: (number | string | BN),
+	"setPandoraAddress" (
+		address: ArgumentTypes.AccountId,
 		__options: GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setMaxNumberUnderRoll", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setPandoraAddress", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [maxUnderNumber], __options);
-	}
-
-	/**
-	* setMaxNumberOverRoll
-	*
-	* @param { (number | string | BN) } maxOverNumber,
-	* @returns { void }
-	*/
-	"setMaxNumberOverRoll" (
-		maxOverNumber: (number | string | BN),
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setMaxNumberOverRoll", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [maxOverNumber], __options);
-	}
-
-	/**
-	* getPandoraAddress
-	*
-	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
-	*/
-	"getPandoraAddress" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getPandoraAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
+		}, [address], __options);
 	}
 
 	/**
@@ -274,233 +309,16 @@ export default class Methods {
 	}
 
 	/**
-	* setDaoAddress
+	* transferPandoraPool
 	*
-	* @param { ArgumentTypes.AccountId } address,
 	* @returns { void }
 	*/
-	"setDaoAddress" (
-		address: ArgumentTypes.AccountId,
+	"transferPandoraPool" (
 		__options: GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setDaoAddress", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::transferPandoraPool", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [address], __options);
-	}
-
-	/**
-	* setOracleRandomnessAddress
-	*
-	* @param { ArgumentTypes.AccountId } address,
-	* @returns { void }
-	*/
-	"setOracleRandomnessAddress" (
-		address: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setOracleRandomnessAddress", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [address], __options);
-	}
-
-	/**
-	* setStakingAddress
-	*
-	* @param { ArgumentTypes.AccountId } address,
-	* @returns { void }
-	*/
-	"setStakingAddress" (
-		address: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setStakingAddress", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [address], __options);
-	}
-
-	/**
-	* getMaxNumberUnderRoll
-	*
-	* @returns { Result<number, ReturnTypes.LangError> }
-	*/
-	"getMaxNumberUnderRoll" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getMaxNumberUnderRoll", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getHoldAmountPlayers
-	*
-	* @param { ArgumentTypes.AccountId } address,
-	* @returns { Result<ReturnNumber | null, ReturnTypes.LangError> }
-	*/
-	"getHoldAmountPlayers" (
-		address: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getHoldAmountPlayers", [address], __options, (result) => { return handleReturnType(result, getTypeDescription(28, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* setRoundDistance
-	*
-	* @param { (number | string | BN) } roundDistance,
-	* @returns { void }
-	*/
-	"setRoundDistance" (
-		roundDistance: (number | string | BN),
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setRoundDistance", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [roundDistance], __options);
-	}
-
-	/**
-	* setMinNumberUnderRoll
-	*
-	* @param { (number | string | BN) } minUnderNumber,
-	* @returns { void }
-	*/
-	"setMinNumberUnderRoll" (
-		minUnderNumber: (number | string | BN),
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setMinNumberUnderRoll", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [minUnderNumber], __options);
-	}
-
-	/**
-	* getStakingPoolAmount
-	*
-	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
-	*/
-	"getStakingPoolAmount" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getStakingPoolAmount", [], __options, (result) => { return handleReturnType(result, getTypeDescription(30, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getCorePoolAmout
-	*
-	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
-	*/
-	"getCorePoolAmout" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getCorePoolAmout", [], __options, (result) => { return handleReturnType(result, getTypeDescription(30, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getUnderRates
-	*
-	* @returns { Result<Array<number>, ReturnTypes.LangError> }
-	*/
-	"getUnderRates" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<Array<number>, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getUnderRates", [], __options, (result) => { return handleReturnType(result, getTypeDescription(31, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* setMaxBetRatio
-	*
-	* @param { (number | string | BN) } maxBetRatio,
-	* @returns { void }
-	*/
-	"setMaxBetRatio" (
-		maxBetRatio: (number | string | BN),
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setMaxBetRatio", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [maxBetRatio], __options);
-	}
-
-	/**
-	* getStakingPoolRatio
-	*
-	* @returns { Result<number, ReturnTypes.LangError> }
-	*/
-	"getStakingPoolRatio" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getStakingPoolRatio", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getRoundDistance
-	*
-	* @returns { Result<number, ReturnTypes.LangError> }
-	*/
-	"getRoundDistance" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getRoundDistance", [], __options, (result) => { return handleReturnType(result, getTypeDescription(32, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getHoldPlayersByIndex
-	*
-	* @param { (number | string | BN) } index,
-	* @returns { Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> }
-	*/
-	"getHoldPlayersByIndex" (
-		index: (number | string | BN),
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getHoldPlayersByIndex", [index], __options, (result) => { return handleReturnType(result, getTypeDescription(33, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getHoldBidderCount
-	*
-	* @returns { Result<number, ReturnTypes.LangError> }
-	*/
-	"getHoldBidderCount" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getHoldBidderCount", [], __options, (result) => { return handleReturnType(result, getTypeDescription(32, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getOracleRandomnessAddress
-	*
-	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
-	*/
-	"getOracleRandomnessAddress" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getOracleRandomnessAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* setPandoraAddress
-	*
-	* @param { ArgumentTypes.AccountId } address,
-	* @returns { void }
-	*/
-	"setPandoraAddress" (
-		address: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setPandoraAddress", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [address], __options);
-	}
-
-	/**
-	* getMinNumberOverRoll
-	*
-	* @returns { Result<number, ReturnTypes.LangError> }
-	*/
-	"getMinNumberOverRoll" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getMinNumberOverRoll", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+		}, [], __options);
 	}
 
 	/**
@@ -521,262 +339,40 @@ export default class Methods {
 	}
 
 	/**
-	* updateRewardPool
+	* setOracleRandomnessAddress
 	*
-	* @param { (string | number | BN) } amount,
+	* @param { ArgumentTypes.AccountId } address,
 	* @returns { void }
 	*/
-	"updateRewardPool" (
-		amount: (string | number | BN),
+	"setOracleRandomnessAddress" (
+		address: ArgumentTypes.AccountId,
 		__options: GasLimit,
 	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::updateRewardPool", (events: EventRecord) => {
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setOracleRandomnessAddress", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [amount], __options);
+		}, [address], __options);
 	}
 
 	/**
-	* getTreasuryAddress
-	*
-	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
-	*/
-	"getTreasuryAddress" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getTreasuryAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* transferStakingPool
-	*
-	* @returns { void }
-	*/
-	"transferStakingPool" (
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::transferStakingPool", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
-	}
-
-	/**
-	* getCorePoolRatio
+	* getTokenRatio
 	*
 	* @returns { Result<number, ReturnTypes.LangError> }
 	*/
-	"getCorePoolRatio" (
+	"getTokenRatio" (
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getCorePoolRatio", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getTokenRatio", [], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
-	* getMinNumberUnderRoll
+	* getMinNumberOverRoll
 	*
 	* @returns { Result<number, ReturnTypes.LangError> }
 	*/
-	"getMinNumberUnderRoll" (
+	"getMinNumberOverRoll" (
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getMinNumberUnderRoll", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* setPercentageRates
-	*
-	* @param { (number | string | BN) } percentageRates,
-	* @returns { void }
-	*/
-	"setPercentageRates" (
-		percentageRates: (number | string | BN),
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setPercentageRates", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [percentageRates], __options);
-	}
-
-	/**
-	* betTokenAddress
-	*
-	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
-	*/
-	"betTokenAddress" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::betTokenAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getRewardPoolAmount
-	*
-	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
-	*/
-	"getRewardPoolAmount" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getRewardPoolAmount", [], __options, (result) => { return handleReturnType(result, getTypeDescription(30, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* setTokenRatio
-	*
-	* @param { (number | string | BN) } tokenRatio,
-	* @returns { void }
-	*/
-	"setTokenRatio" (
-		tokenRatio: (number | string | BN),
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setTokenRatio", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [tokenRatio], __options);
-	}
-
-	/**
-	* getStakingAddress
-	*
-	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
-	*/
-	"getStakingAddress" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getStakingAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* setBetTokenAddress
-	*
-	* @param { ArgumentTypes.AccountId } betTokenAddress,
-	* @returns { void }
-	*/
-	"setBetTokenAddress" (
-		betTokenAddress: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setBetTokenAddress", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [betTokenAddress], __options);
-	}
-
-	/**
-	* isBetAvailable
-	*
-	* @param { ArgumentTypes.AccountId } player,
-	* @returns { Result<boolean, ReturnTypes.LangError> }
-	*/
-	"isBetAvailable" (
-		player: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<boolean, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::isBetAvailable", [player], __options, (result) => { return handleReturnType(result, getTypeDescription(35, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* setBetazAddress
-	*
-	* @param { ArgumentTypes.AccountId } account,
-	* @returns { void }
-	*/
-	"setBetazAddress" (
-		account: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setBetazAddress", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [account], __options);
-	}
-
-	/**
-	* getTreasuryPoolRatio
-	*
-	* @returns { Result<number, ReturnTypes.LangError> }
-	*/
-	"getTreasuryPoolRatio" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getTreasuryPoolRatio", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getMaxBet
-	*
-	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
-	*/
-	"getMaxBet" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getMaxBet", [], __options, (result) => { return handleReturnType(result, getTypeDescription(30, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* transferPandoraPool
-	*
-	* @returns { void }
-	*/
-	"transferPandoraPool" (
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::transferPandoraPool", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
-	}
-
-	/**
-	* getMaxNumberOverRoll
-	*
-	* @returns { Result<number, ReturnTypes.LangError> }
-	*/
-	"getMaxNumberOverRoll" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getMaxNumberOverRoll", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getPandoraPoolRatio
-	*
-	* @returns { Result<number, ReturnTypes.LangError> }
-	*/
-	"getPandoraPoolRatio" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getPandoraPoolRatio", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getPlatformFeeAmount
-	*
-	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
-	*/
-	"getPlatformFeeAmount" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getPlatformFeeAmount", [], __options, (result) => { return handleReturnType(result, getTypeDescription(30, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getOverRates
-	*
-	* @returns { Result<Array<number>, ReturnTypes.LangError> }
-	*/
-	"getOverRates" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<Array<number>, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getOverRates", [], __options, (result) => { return handleReturnType(result, getTypeDescription(31, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* changeState
-	*
-	* @returns { void }
-	*/
-	"changeState" (
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::changeState", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [], __options);
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getMinNumberOverRoll", [], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -797,47 +393,6 @@ export default class Methods {
 	}
 
 	/**
-	* setMinNumberOverRoll
-	*
-	* @param { (number | string | BN) } minOverNumber,
-	* @returns { void }
-	*/
-	"setMinNumberOverRoll" (
-		minOverNumber: (number | string | BN),
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setMinNumberOverRoll", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [minOverNumber], __options);
-	}
-
-	/**
-	* setTreasuryAddress
-	*
-	* @param { ArgumentTypes.AccountId } address,
-	* @returns { void }
-	*/
-	"setTreasuryAddress" (
-		address: ArgumentTypes.AccountId,
-		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setTreasuryAddress", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [address], __options);
-	}
-
-	/**
-	* getDaoAddress
-	*
-	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
-	*/
-	"getDaoAddress" (
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getDaoAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
 	* getBetazAddress
 	*
 	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
@@ -845,7 +400,131 @@ export default class Methods {
 	"getBetazAddress" (
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getBetazAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getBetazAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(24, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* isBetAvailable
+	*
+	* @param { ArgumentTypes.AccountId } player,
+	* @returns { Result<boolean, ReturnTypes.LangError> }
+	*/
+	"isBetAvailable" (
+		player: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<boolean, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::isBetAvailable", [player], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getPercentageRates
+	*
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getPercentageRates" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getPercentageRates", [], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getStakingPoolAmount
+	*
+	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
+	*/
+	"getStakingPoolAmount" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getStakingPoolAmount", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getTreasuryPoolRatio
+	*
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getTreasuryPoolRatio" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getTreasuryPoolRatio", [], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getTreasuryAddress
+	*
+	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
+	*/
+	"getTreasuryAddress" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getTreasuryAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(24, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* setPercentageRates
+	*
+	* @param { (number | string | BN) } percentageRates,
+	* @returns { void }
+	*/
+	"setPercentageRates" (
+		percentageRates: (number | string | BN),
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setPercentageRates", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [percentageRates], __options);
+	}
+
+	/**
+	* setDaoAddress
+	*
+	* @param { ArgumentTypes.AccountId } address,
+	* @returns { void }
+	*/
+	"setDaoAddress" (
+		address: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setDaoAddress", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [address], __options);
+	}
+
+	/**
+	* getMaxNumberUnderRoll
+	*
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getMaxNumberUnderRoll" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getMaxNumberUnderRoll", [], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* setBetazAddress
+	*
+	* @param { ArgumentTypes.AccountId } account,
+	* @returns { void }
+	*/
+	"setBetazAddress" (
+		account: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setBetazAddress", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [account], __options);
+	}
+
+	/**
+	* getPandoraPoolAmount
+	*
+	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
+	*/
+	"getPandoraPoolAmount" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getPandoraPoolAmount", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -866,47 +545,57 @@ export default class Methods {
 	}
 
 	/**
-	* getPercentageRates
+	* getPandoraPoolRatio
 	*
 	* @returns { Result<number, ReturnTypes.LangError> }
 	*/
-	"getPercentageRates" (
+	"getPandoraPoolRatio" (
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getPercentageRates", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getPandoraPoolRatio", [], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
-	* getTokenRatio
+	* updateRewardPool
 	*
-	* @returns { Result<number, ReturnTypes.LangError> }
+	* @param { (string | number | BN) } amount,
+	* @returns { void }
 	*/
-	"getTokenRatio" (
+	"updateRewardPool" (
+		amount: (string | number | BN),
 		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getTokenRatio", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::updateRewardPool", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [amount], __options);
 	}
 
 	/**
-	* getPandoraPoolAmount
+	* setTreasuryAddress
 	*
-	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
+	* @param { ArgumentTypes.AccountId } address,
+	* @returns { void }
 	*/
-	"getPandoraPoolAmount" (
+	"setTreasuryAddress" (
+		address: ArgumentTypes.AccountId,
 		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getPandoraPoolAmount", [], __options, (result) => { return handleReturnType(result, getTypeDescription(30, DATA_TYPE_DESCRIPTIONS)); });
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setTreasuryAddress", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [address], __options);
 	}
 
 	/**
-	* getTokenBalance
+	* getBet
 	*
-	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
+	* @param { ArgumentTypes.AccountId } player,
+	* @returns { Result<ReturnTypes.BetInformation | null, ReturnTypes.LangError> }
 	*/
-	"getTokenBalance" (
+	"getBet" (
+		player: ArgumentTypes.AccountId,
 		__options: GasLimit,
-	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getTokenBalance", [], __options, (result) => { return handleReturnType(result, getTypeDescription(30, DATA_TYPE_DESCRIPTIONS)); });
+	): Promise< QueryReturnType< Result<ReturnTypes.BetInformation | null, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getBet", [player], __options, (result) => { return handleReturnType(result, getTypeDescription(28, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -917,18 +606,318 @@ export default class Methods {
 	"getTreasuryPoolAmount" (
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getTreasuryPoolAmount", [], __options, (result) => { return handleReturnType(result, getTypeDescription(30, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getTreasuryPoolAmount", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
-	* owner
+	* getStakingAddress
 	*
+	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
+	*/
+	"getStakingAddress" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getStakingAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(24, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getUnderRates
+	*
+	* @returns { Result<Array<number>, ReturnTypes.LangError> }
+	*/
+	"getUnderRates" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<Array<number>, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getUnderRates", [], __options, (result) => { return handleReturnType(result, getTypeDescription(31, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getCorePoolRatio
+	*
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getCorePoolRatio" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getCorePoolRatio", [], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getMaxNumberOverRoll
+	*
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getMaxNumberOverRoll" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getMaxNumberOverRoll", [], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getOverRates
+	*
+	* @returns { Result<Array<number>, ReturnTypes.LangError> }
+	*/
+	"getOverRates" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<Array<number>, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getOverRates", [], __options, (result) => { return handleReturnType(result, getTypeDescription(31, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getRoundDistance
+	*
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getRoundDistance" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getRoundDistance", [], __options, (result) => { return handleReturnType(result, getTypeDescription(26, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* setMaxNumberOverRoll
+	*
+	* @param { (number | string | BN) } maxOverNumber,
+	* @returns { void }
+	*/
+	"setMaxNumberOverRoll" (
+		maxOverNumber: (number | string | BN),
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setMaxNumberOverRoll", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [maxOverNumber], __options);
+	}
+
+	/**
+	* setMaxBetRatio
+	*
+	* @param { (number | string | BN) } maxBetRatio,
+	* @returns { void }
+	*/
+	"setMaxBetRatio" (
+		maxBetRatio: (number | string | BN),
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setMaxBetRatio", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [maxBetRatio], __options);
+	}
+
+	/**
+	* setStakingAddress
+	*
+	* @param { ArgumentTypes.AccountId } address,
+	* @returns { void }
+	*/
+	"setStakingAddress" (
+		address: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setStakingAddress", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [address], __options);
+	}
+
+	/**
+	* setRoundDistance
+	*
+	* @param { (number | string | BN) } roundDistance,
+	* @returns { void }
+	*/
+	"setRoundDistance" (
+		roundDistance: (number | string | BN),
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setRoundDistance", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [roundDistance], __options);
+	}
+
+	/**
+	* setMaxNumberUnderRoll
+	*
+	* @param { (number | string | BN) } maxUnderNumber,
+	* @returns { void }
+	*/
+	"setMaxNumberUnderRoll" (
+		maxUnderNumber: (number | string | BN),
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setMaxNumberUnderRoll", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [maxUnderNumber], __options);
+	}
+
+	/**
+	* getPandoraAddress
+	*
+	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
+	*/
+	"getPandoraAddress" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getPandoraAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(24, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* setMinNumberOverRoll
+	*
+	* @param { (number | string | BN) } minOverNumber,
+	* @returns { void }
+	*/
+	"setMinNumberOverRoll" (
+		minOverNumber: (number | string | BN),
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setMinNumberOverRoll", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [minOverNumber], __options);
+	}
+
+	/**
+	* getCorePoolAmout
+	*
+	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
+	*/
+	"getCorePoolAmout" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getCorePoolAmout", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getHoldAmountPlayers
+	*
+	* @param { ArgumentTypes.AccountId } address,
+	* @returns { Result<ReturnNumber | null, ReturnTypes.LangError> }
+	*/
+	"getHoldAmountPlayers" (
+		address: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnNumber | null, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getHoldAmountPlayers", [address], __options, (result) => { return handleReturnType(result, getTypeDescription(32, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* setTokenRatio
+	*
+	* @param { (number | string | BN) } tokenRatio,
+	* @returns { void }
+	*/
+	"setTokenRatio" (
+		tokenRatio: (number | string | BN),
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::setTokenRatio", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [tokenRatio], __options);
+	}
+
+	/**
+	* getMinNumberUnderRoll
+	*
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getMinNumberUnderRoll" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getMinNumberUnderRoll", [], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getTokenBalance
+	*
+	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
+	*/
+	"getTokenBalance" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getTokenBalance", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* changeState
+	*
+	* @returns { void }
+	*/
+	"changeState" (
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::changeState", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* transferTreasuryPool
+	*
+	* @returns { void }
+	*/
+	"transferTreasuryPool" (
+		__options: GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "betA0CoreTrait::transferTreasuryPool", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [], __options);
+	}
+
+	/**
+	* getRewardPoolAmount
+	*
+	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
+	*/
+	"getRewardPoolAmount" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getRewardPoolAmount", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getHoldPlayersByIndex
+	*
+	* @param { (number | string | BN) } index,
 	* @returns { Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> }
 	*/
-	"owner" (
+	"getHoldPlayersByIndex" (
+		index: (number | string | BN),
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "ownable::owner", [], __options, (result) => { return handleReturnType(result, getTypeDescription(33, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getHoldPlayersByIndex", [index], __options, (result) => { return handleReturnType(result, getTypeDescription(34, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* betTokenAddress
+	*
+	* @returns { Result<ReturnTypes.AccountId, ReturnTypes.LangError> }
+	*/
+	"betTokenAddress" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnTypes.AccountId, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::betTokenAddress", [], __options, (result) => { return handleReturnType(result, getTypeDescription(24, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getMaxBet
+	*
+	* @returns { Result<ReturnNumber, ReturnTypes.LangError> }
+	*/
+	"getMaxBet" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnNumber, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getMaxBet", [], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getStakingPoolRatio
+	*
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getStakingPoolRatio" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "betA0CoreTrait::getStakingPoolRatio", [], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -960,6 +949,17 @@ export default class Methods {
 	}
 
 	/**
+	* owner
+	*
+	* @returns { Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> }
+	*/
+	"owner" (
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "ownable::owner", [], __options, (result) => { return handleReturnType(result, getTypeDescription(34, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
 	* paused
 	*
 	* @returns { Result<boolean, ReturnTypes.LangError> }
@@ -967,7 +967,7 @@ export default class Methods {
 	"paused" (
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<boolean, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "pausable::paused", [], __options, (result) => { return handleReturnType(result, getTypeDescription(35, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "pausable::paused", [], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -1003,20 +1003,31 @@ export default class Methods {
 	}
 
 	/**
-	* renounceRole
+	* hasRole
 	*
 	* @param { (number | string | BN) } role,
-	* @param { ArgumentTypes.AccountId | null } account,
-	* @returns { void }
+	* @param { ArgumentTypes.AccountId | null } address,
+	* @returns { Result<boolean, ReturnTypes.LangError> }
 	*/
-	"renounceRole" (
+	"hasRole" (
 		role: (number | string | BN),
-		account: ArgumentTypes.AccountId | null,
+		address: ArgumentTypes.AccountId | null,
 		__options: GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::renounceRole", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [role, account], __options);
+	): Promise< QueryReturnType< Result<boolean, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControl::hasRole", [role, address], __options, (result) => { return handleReturnType(result, getTypeDescription(27, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getRoleAdmin
+	*
+	* @param { (number | string | BN) } role,
+	* @returns { Result<number, ReturnTypes.LangError> }
+	*/
+	"getRoleAdmin" (
+		role: (number | string | BN),
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControl::getRoleAdmin", [role], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -1037,31 +1048,20 @@ export default class Methods {
 	}
 
 	/**
-	* hasRole
+	* renounceRole
 	*
 	* @param { (number | string | BN) } role,
-	* @param { ArgumentTypes.AccountId | null } address,
-	* @returns { Result<boolean, ReturnTypes.LangError> }
+	* @param { ArgumentTypes.AccountId | null } account,
+	* @returns { void }
 	*/
-	"hasRole" (
+	"renounceRole" (
 		role: (number | string | BN),
-		address: ArgumentTypes.AccountId | null,
+		account: ArgumentTypes.AccountId | null,
 		__options: GasLimit,
-	): Promise< QueryReturnType< Result<boolean, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControl::hasRole", [role, address], __options, (result) => { return handleReturnType(result, getTypeDescription(35, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
-	* getRoleAdmin
-	*
-	* @param { (number | string | BN) } role,
-	* @returns { Result<number, ReturnTypes.LangError> }
-	*/
-	"getRoleAdmin" (
-		role: (number | string | BN),
-		__options: GasLimit,
-	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControl::getRoleAdmin", [role], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "accessControl::renounceRole", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [role, account], __options);
 	}
 
 	/**
@@ -1074,7 +1074,7 @@ export default class Methods {
 		role: (number | string | BN),
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<number, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControlEnumerable::getRoleMemberCount", [role], __options, (result) => { return handleReturnType(result, getTypeDescription(23, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControlEnumerable::getRoleMemberCount", [role], __options, (result) => { return handleReturnType(result, getTypeDescription(25, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -1089,7 +1089,7 @@ export default class Methods {
 		index: (number | string | BN),
 		__options: GasLimit,
 	): Promise< QueryReturnType< Result<ReturnTypes.AccountId | null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControlEnumerable::getRoleMember", [role, index], __options, (result) => { return handleReturnType(result, getTypeDescription(33, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "accessControlEnumerable::getRoleMember", [role, index], __options, (result) => { return handleReturnType(result, getTypeDescription(34, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 }

@@ -80,6 +80,7 @@ export interface Error {
 	failToDecreaseClaimableReward ? : null,
 	rewardNotAdded ? : null,
 	chainlinkRequestIdIsExists ? : null,
+	cannotUpdateSession ? : null,
 	ownableError ? : OwnableError,
 	accessControlError ? : AccessControlError,
 	psp22Error ? : PSP22Error,
@@ -454,6 +455,11 @@ export class ErrorBuilder {
 			chainlinkRequestIdIsExists: null,
 		};
 	}
+	static CannotUpdateSession(): Error {
+		return {
+			cannotUpdateSession: null,
+		};
+	}
 	static OwnableError(value: OwnableError): Error {
 		return {
 			ownableError: value,
@@ -622,6 +628,12 @@ export enum PausableError {
 	notPaused = 'NotPaused'
 }
 
+export enum SessionsStatusType {
+	processing = 'Processing',
+	finalized = 'Finalized',
+	completed = 'Completed'
+}
+
 export interface Id {
 	u8 ? : (number | string | BN),
 	u16 ? : (number | string | BN),
@@ -662,12 +674,6 @@ export class IdBuilder {
 			bytes: value,
 		};
 	}
-}
-
-export enum SessionsStatusType {
-	processing = 'Processing',
-	finalized = 'Finalized',
-	completed = 'Completed'
 }
 
 export type NFTInfomation = {
