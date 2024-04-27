@@ -93,6 +93,12 @@ pub trait PandoraPoolTraitsImpl:
         _win_amount: Balance,
     );
 
+    fn _emit_withdraw_hold_amount_event(
+        &self,
+        _receiver:AccountId,
+        _amount:Balance,
+    );
+
     // EXECUTE FUNCTIONS
     // Change state contract
     #[modifiers(only_role(ADMINER))]
@@ -409,6 +415,9 @@ pub trait PandoraPoolTraitsImpl:
                             .hold_players
                             .remove_value(1, &receiver);
                     }
+
+                     //emit event withdraw hold amount
+                     self._emit_withdraw_hold_amount_event(receiver,amount);
                 } else {
                     if Self::env().transfer(receiver, total_hold_amount).is_err() {
                         return Err(Error::CannotTransfer);

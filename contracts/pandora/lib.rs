@@ -57,6 +57,12 @@ pub mod pandora {
         win_amount: Balance,
     }
 
+    #[ink(event)]
+    pub struct WithdrawHoldAmountEvent {
+        receiver: Option<AccountId>,
+        amount:Balance,
+    }
+
     impl AdminTraitImpl for PandoraPoolContract {}
     impl PandoraPoolTraitsImpl for PandoraPoolContract {
         fn _emit_play_event(
@@ -89,6 +95,20 @@ pub mod pandora {
                     session_id: _session_id,
                     player: Some(_player),
                     win_amount: _win_amount,
+                }),
+            );
+        }
+
+        fn _emit_withdraw_hold_amount_event(
+            &self,
+            _receiver:AccountId,
+            _amount:Balance,
+        ) {
+            PandoraPoolContract::emit_event(
+                self.env(),
+                Event::WithdrawHoldAmountEvent(WithdrawHoldAmountEvent {
+                    receiver: Some(_receiver),
+                    amount: _amount,
                 }),
             );
         }
