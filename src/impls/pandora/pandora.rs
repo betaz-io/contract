@@ -93,11 +93,7 @@ pub trait PandoraPoolTraitsImpl:
         _win_amount: Balance,
     );
 
-    fn _emit_withdraw_hold_amount_event(
-        &self,
-        _receiver:AccountId,
-        _amount:Balance,
-    );
+    fn _emit_withdraw_hold_amount_event(&self, _withdrawer: AccountId, _receiver: AccountId, _amount: Balance);
 
     // EXECUTE FUNCTIONS
     // Change state contract
@@ -227,7 +223,7 @@ pub trait PandoraPoolTraitsImpl:
                     self.data::<Manager>()
                         .ticket_in_session
                         .insert(&session_id, &token_id.clone());
-                                       
+
                     // add players_in_session
                     self.data::<Manager>()
                         .players_in_session
@@ -388,6 +384,7 @@ pub trait PandoraPoolTraitsImpl:
     // withdraw by winner
     #[modifiers(when_not_paused)]
     fn withdraw_hold_amount(&mut self, receiver: AccountId, amount: Balance) -> Result<(), Error> {
+        let caller = Self::env().caller();
         if let Some(hold_amount) = self.data::<Manager>().hold_amount_players.get(&receiver) {
             let total_hold_amount = Self::env()
                 .balance()
@@ -416,8 +413,8 @@ pub trait PandoraPoolTraitsImpl:
                             .remove_value(1, &receiver);
                     }
 
-                     //emit event withdraw hold amount
-                     self._emit_withdraw_hold_amount_event(receiver,amount);
+                    //emit event withdraw hold amount
+                    self._emit_withdraw_hold_amount_event(caller, receiver, amount);
                 } else {
                     if Self::env().transfer(receiver, total_hold_amount).is_err() {
                         return Err(Error::CannotTransfer);
@@ -428,6 +425,8 @@ pub trait PandoraPoolTraitsImpl:
                     self.data::<Manager>()
                         .hold_amount_players
                         .insert(&receiver, &new_hold_amount);
+                    //emit event withdraw hold amount
+                    self._emit_withdraw_hold_amount_event(caller, receiver, total_hold_amount);
                 }
             }
         } else {

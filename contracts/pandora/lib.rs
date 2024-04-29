@@ -59,8 +59,9 @@ pub mod pandora {
 
     #[ink(event)]
     pub struct WithdrawHoldAmountEvent {
-        receiver: Option<AccountId>,
-        amount:Balance,
+        withdrawer: AccountId,
+        receiver: AccountId,
+        amount: Balance,
     }
 
     impl AdminTraitImpl for PandoraPoolContract {}
@@ -101,13 +102,15 @@ pub mod pandora {
 
         fn _emit_withdraw_hold_amount_event(
             &self,
-            _receiver:AccountId,
-            _amount:Balance,
+            _withdrawer: AccountId,
+            _receiver: AccountId,
+            _amount: Balance,
         ) {
             PandoraPoolContract::emit_event(
                 self.env(),
                 Event::WithdrawHoldAmountEvent(WithdrawHoldAmountEvent {
-                    receiver: Some(_receiver),
+                    withdrawer: _withdrawer,
+                    receiver: _receiver,
                     amount: _amount,
                 }),
             );
