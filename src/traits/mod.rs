@@ -7,3 +7,4 @@ pub mod staking;
 pub mod pandora;
 pub mod dao_contract;
 pub mod pandora_psp34_standard;
+pub mod wheel_of_fortune;

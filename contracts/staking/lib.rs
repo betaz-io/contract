@@ -7,7 +7,7 @@ pub use self::staking::StakingPoolContractRef;
 pub mod staking {
     use bet_a0::{
         impls::{
-            admin::AdminTraitImpl,
+            admin::*,
             staking::{data::Data, StakingPoolTraitImpl, ADMINER, *},
         },
         traits::{error::Error, staking::Psp22Ref},
@@ -37,8 +37,6 @@ pub mod staking {
         enumerable: enumerable::Data,
         #[storage_field]
         data: Data,
-        #[storage_field]
-        admin_data: bet_a0::impls::admin::data::Data,
     }
 
     #[ink(event)]
@@ -83,7 +81,7 @@ pub mod staking {
         reward_amount: Balance,
     }
 
-    impl AdminTraitImpl for StakingPoolContract {}
+    impl AdminTrait for StakingPoolContract {}
     impl StakingPoolTraitImpl for StakingPoolContract {}
 
     impl StakingPoolTrait for StakingPoolContract {

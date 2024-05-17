@@ -6,7 +6,7 @@ pub use self::pandora::PandoraPoolContractRef;
 pub mod pandora {
     use bet_a0::{
         impls::{
-            admin::AdminTraitImpl,
+            admin::*,
             pandora::{PandoraPoolTraitsImpl, ADMINER, *},
         },
         traits::error::Error,
@@ -38,8 +38,6 @@ pub mod pandora {
         manager: pandora::data::Manager,
         #[storage_field]
         enumerable: enumerable::Data,
-        #[storage_field]
-        admin: bet_a0::impls::admin::data::Data,
     }
 
     #[ink(event)]
@@ -64,7 +62,7 @@ pub mod pandora {
         amount: Balance,
     }
 
-    impl AdminTraitImpl for PandoraPoolContract {}
+    impl AdminTrait for PandoraPoolContract {}
     impl PandoraPoolTraitsImpl for PandoraPoolContract {
         fn _emit_play_event(
             &self,
