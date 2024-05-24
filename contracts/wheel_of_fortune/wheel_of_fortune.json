@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0xed1e418a1174a2d8dcaac4b2aa8c5ee182bdd768c5cc87432924b0c1e25e1be8",
+    "hash": "0x4a8d3b19586767d9387a3aa7e05b5a16f055f8aff058bb7421494b0819cd3d96",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.75.0-nightly",
     "build_info": {
@@ -292,6 +292,45 @@
       {
         "args": [
           {
+            "label": "value",
+            "type": {
+              "displayName": [
+                "admintrait_external",
+                "WithdrawFeeInput1"
+              ],
+              "type": 6
+            }
+          },
+          {
+            "label": "receiver",
+            "type": {
+              "displayName": [
+                "admintrait_external",
+                "WithdrawFeeInput2"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " This function allows contract owner to withdraw contract balance to his account."
+        ],
+        "label": "AdminTrait::withdraw_fee",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 10
+        },
+        "selector": "0x07573e99"
+      },
+      {
+        "args": [
+          {
             "label": "psp22_contract_address",
             "type": {
               "displayName": [
@@ -341,63 +380,6 @@
       {
         "args": [
           {
-            "label": "value",
-            "type": {
-              "displayName": [
-                "admintrait_external",
-                "WithdrawFeeInput1"
-              ],
-              "type": 6
-            }
-          },
-          {
-            "label": "receiver",
-            "type": {
-              "displayName": [
-                "admintrait_external",
-                "WithdrawFeeInput2"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [
-          " This function allows contract owner to withdraw contract balance to his account."
-        ],
-        "label": "AdminTrait::withdraw_fee",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0x07573e99"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [
-          " Function changes state"
-        ],
-        "label": "WheelOfFortuneTrait::change_state",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0xaa36936f"
-      },
-      {
-        "args": [
-          {
             "label": "amount_out_min_nft",
             "type": {
               "displayName": [
@@ -426,7 +408,7 @@
         "args": [],
         "default": false,
         "docs": [],
-        "label": "WheelOfFortuneTrait::get_betaz_token_fee",
+        "label": "WheelOfFortuneTrait::get_round_distance",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -436,13 +418,58 @@
           ],
           "type": 23
         },
-        "selector": "0x69de9066"
+        "selector": "0xb4c8268c"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          " Function changes state"
+        ],
+        "label": "WheelOfFortuneTrait::change_state",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 10
+        },
+        "selector": "0xaa36936f"
+      },
+      {
+        "args": [
+          {
+            "label": "betaz_token_address",
+            "type": {
+              "displayName": [
+                "wheeloffortunetrait_external",
+                "SetBetazTokenAddressInput1"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "WheelOfFortuneTrait::set_betaz_token_address",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 10
+        },
+        "selector": "0xd717b373"
       },
       {
         "args": [],
         "default": false,
         "docs": [],
-        "label": "WheelOfFortuneTrait::get_betaz_token_address",
+        "label": "WheelOfFortuneTrait::get_amount_out_min_nft",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -450,57 +477,63 @@
             "ink",
             "MessageResult"
           ],
-          "type": 24
+          "type": 23
         },
-        "selector": "0x96898373"
+        "selector": "0xad1ec64d"
       },
       {
-        "args": [],
+        "args": [
+          {
+            "label": "oracle_randomness_address",
+            "type": {
+              "displayName": [
+                "wheeloffortunetrait_external",
+                "SetOracleRandomnessAddressInput1"
+              ],
+              "type": 0
+            }
+          }
+        ],
         "default": false,
         "docs": [],
-        "label": "WheelOfFortuneTrait::get_psp34_contract_address",
-        "mutates": false,
+        "label": "WheelOfFortuneTrait::set_oracle_randomness_address",
+        "mutates": true,
         "payable": false,
         "returnType": {
           "displayName": [
             "ink",
             "MessageResult"
           ],
-          "type": 24
+          "type": 10
         },
-        "selector": "0x751d60b1"
+        "selector": "0xe24f2f0f"
       },
       {
-        "args": [],
+        "args": [
+          {
+            "label": "psp34_contract_address",
+            "type": {
+              "displayName": [
+                "wheeloffortunetrait_external",
+                "SetPsp34ContractAddressInput1"
+              ],
+              "type": 0
+            }
+          }
+        ],
         "default": false,
         "docs": [],
-        "label": "WheelOfFortuneTrait::get_amount_out_max_nft",
-        "mutates": false,
+        "label": "WheelOfFortuneTrait::set_psp34_contract_address",
+        "mutates": true,
         "payable": false,
         "returnType": {
           "displayName": [
             "ink",
             "MessageResult"
           ],
-          "type": 25
+          "type": 10
         },
-        "selector": "0x0a6e96ff"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "WheelOfFortuneTrait::get_oracle_randomness_address",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 24
-        },
-        "selector": "0xc6cb5527"
+        "selector": "0x4ecc9249"
       },
       {
         "args": [
@@ -560,7 +593,7 @@
         "args": [],
         "default": false,
         "docs": [],
-        "label": "WheelOfFortuneTrait::get_amount_out_min_nft",
+        "label": "WheelOfFortuneTrait::get_psp34_contract_address",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -568,79 +601,9 @@
             "ink",
             "MessageResult"
           ],
-          "type": 25
+          "type": 24
         },
-        "selector": "0xad1ec64d"
-      },
-      {
-        "args": [
-          {
-            "label": "oracle_randomness_address",
-            "type": {
-              "displayName": [
-                "wheeloffortunetrait_external",
-                "SetOracleRandomnessAddressInput1"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "WheelOfFortuneTrait::set_oracle_randomness_address",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0xe24f2f0f"
-      },
-      {
-        "args": [],
-        "default": false,
-        "docs": [],
-        "label": "WheelOfFortuneTrait::get_round_distance",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 25
-        },
-        "selector": "0xb4c8268c"
-      },
-      {
-        "args": [
-          {
-            "label": "betaz_token_address",
-            "type": {
-              "displayName": [
-                "wheeloffortunetrait_external",
-                "SetBetazTokenAddressInput1"
-              ],
-              "type": 0
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "WheelOfFortuneTrait::set_betaz_token_address",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 10
-        },
-        "selector": "0xd717b373"
+        "selector": "0x751d60b1"
       },
       {
         "args": [
@@ -670,31 +633,68 @@
         "selector": "0x8656e2d7"
       },
       {
-        "args": [
-          {
-            "label": "psp34_contract_address",
-            "type": {
-              "displayName": [
-                "wheeloffortunetrait_external",
-                "SetPsp34ContractAddressInput1"
-              ],
-              "type": 0
-            }
-          }
-        ],
+        "args": [],
         "default": false,
         "docs": [],
-        "label": "WheelOfFortuneTrait::set_psp34_contract_address",
-        "mutates": true,
+        "label": "WheelOfFortuneTrait::get_betaz_token_fee",
+        "mutates": false,
         "payable": false,
         "returnType": {
           "displayName": [
             "ink",
             "MessageResult"
           ],
-          "type": 10
+          "type": 25
         },
-        "selector": "0x4ecc9249"
+        "selector": "0x69de9066"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "WheelOfFortuneTrait::get_betaz_token_address",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 24
+        },
+        "selector": "0x96898373"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "WheelOfFortuneTrait::get_amount_out_max_nft",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 23
+        },
+        "selector": "0x0a6e96ff"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "WheelOfFortuneTrait::get_oracle_randomness_address",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 24
+        },
+        "selector": "0xc6cb5527"
       },
       {
         "args": [],
@@ -805,7 +805,7 @@
             "type": {
               "displayName": [
                 "accesscontrol_external",
-                "RevokeRoleInput1"
+                "GrantRoleInput1"
               ],
               "type": 4
             }
@@ -815,7 +815,7 @@
             "type": {
               "displayName": [
                 "accesscontrol_external",
-                "RevokeRoleInput2"
+                "GrantRoleInput2"
               ],
               "type": 27
             }
@@ -823,7 +823,7 @@
         ],
         "default": false,
         "docs": [],
-        "label": "AccessControl::revoke_role",
+        "label": "AccessControl::grant_role",
         "mutates": true,
         "payable": false,
         "returnType": {
@@ -833,7 +833,34 @@
           ],
           "type": 35
         },
-        "selector": "0x6e4f0991"
+        "selector": "0x4ac062fd"
+      },
+      {
+        "args": [
+          {
+            "label": "role",
+            "type": {
+              "displayName": [
+                "accesscontrol_external",
+                "GetRoleAdminInput1"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "AccessControl::get_role_admin",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 37
+        },
+        "selector": "0x83da3bb2"
       },
       {
         "args": [
@@ -916,34 +943,7 @@
             "type": {
               "displayName": [
                 "accesscontrol_external",
-                "GetRoleAdminInput1"
-              ],
-              "type": 4
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "AccessControl::get_role_admin",
-        "mutates": false,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 37
-        },
-        "selector": "0x83da3bb2"
-      },
-      {
-        "args": [
-          {
-            "label": "role",
-            "type": {
-              "displayName": [
-                "accesscontrol_external",
-                "GrantRoleInput1"
+                "RevokeRoleInput1"
               ],
               "type": 4
             }
@@ -953,7 +953,7 @@
             "type": {
               "displayName": [
                 "accesscontrol_external",
-                "GrantRoleInput2"
+                "RevokeRoleInput2"
               ],
               "type": 27
             }
@@ -961,7 +961,7 @@
         ],
         "default": false,
         "docs": [],
-        "label": "AccessControl::grant_role",
+        "label": "AccessControl::revoke_role",
         "mutates": true,
         "payable": false,
         "returnType": {
@@ -971,7 +971,7 @@
           ],
           "type": 35
         },
-        "selector": "0x4ac062fd"
+        "selector": "0x6e4f0991"
       }
     ]
   },
@@ -2211,7 +2211,7 @@
               {
                 "fields": [
                   {
-                    "type": 6
+                    "type": 7
                   }
                 ],
                 "index": 0,
@@ -2232,7 +2232,7 @@
         "params": [
           {
             "name": "T",
-            "type": 6
+            "type": 7
           },
           {
             "name": "E",
@@ -2295,7 +2295,7 @@
               {
                 "fields": [
                   {
-                    "type": 7
+                    "type": 6
                   }
                 ],
                 "index": 0,
@@ -2316,7 +2316,7 @@
         "params": [
           {
             "name": "T",
-            "type": 7
+            "type": 6
           },
           {
             "name": "E",
