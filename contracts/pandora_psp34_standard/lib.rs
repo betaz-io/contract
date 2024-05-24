@@ -14,7 +14,7 @@ pub use self::pandora_psp34_standard::PandoraPsp34StandardContractRef;
 pub mod pandora_psp34_standard {
     use bet_a0::{
         impls::{
-            admin::AdminTraitImpl,
+            admin::*,
             pandora_psp34_standard::{Psp34TraitsImpl, ADMINER, *},
         },
         traits::error::Error,
@@ -47,8 +47,6 @@ pub mod pandora_psp34_standard {
         manager: pandora_psp34_standard::data::Manager,
         #[storage_field]
         enumerable: enumerable::Data,
-        #[storage_field]
-        admin: bet_a0::impls::admin::data::Data,
     }
 
     #[ink(event)]
@@ -58,7 +56,7 @@ pub mod pandora_psp34_standard {
         betaz_price: Balance,
     }
 
-    impl AdminTraitImpl for PandoraPsp34StandardContract {}
+    impl AdminTrait for PandoraPsp34StandardContract {}
     impl Psp34TraitsImpl for PandoraPsp34StandardContract {
         fn _emit_public_buy_event(&self, _buyer: AccountId, _amounts: u64, _betaz_price: Balance) {
             PandoraPsp34StandardContract::emit_event(
@@ -117,7 +115,6 @@ pub mod pandora_psp34_standard {
         fn change_state(&mut self, state: bool) -> Result<(), Error> {
             Psp34TraitsImpl::change_state(self, state)
         }
-
 
         #[ink(message)]
         fn lock(&mut self, token_id: Id) -> Result<(), Error> {
@@ -236,11 +233,7 @@ pub mod pandora_psp34_standard {
                 symbol,
             );
             instance
-                .initialize(
-                    admin_address,
-                    betaz_token_address,
-                    public_mint_price,
-                )
+                .initialize(admin_address, betaz_token_address, public_mint_price)
                 .ok()
                 .unwrap();
             instance
@@ -290,13 +283,16 @@ pub mod pandora_psp34_standard {
 
         #[ink(message)]
         #[modifiers(only_role(ADMINER))]
-        pub fn multiple_mint_ticket(&mut self, amounts: u64) -> Result<(), Error> {
-            let caller = self.env().caller();
+        pub fn multiple_mint_ticket(
+            &mut self,
+            receiver: AccountId,
+            amounts: u64,
+        ) -> Result<(), Error> {
             let start = self.manager.last_token_id;
             for i in start..amounts.checked_add(start).unwrap() {
                 let token_id = i.checked_add(1).unwrap();
                 self.manager.last_token_id = token_id;
-                if psp34::Internal::_mint_to(self, caller, Id::U64(token_id)).is_err() {
+                if psp34::Internal::_mint_to(self, receiver, Id::U64(token_id)).is_err() {
                     return Err(Error::CannotMint);
                 }
             }

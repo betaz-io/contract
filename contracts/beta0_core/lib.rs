@@ -8,7 +8,7 @@ pub mod beta0_core {
     use crate::beta0_core::access_control::only_role;
     use bet_a0::{
         impls::{
-            admin::AdminTraitImpl,
+            admin::*,
             beta0_core::{data::Manager, BetA0CoreTraitImpl, BetInformation, ADMINER, *},
             pandora::Finalized,
         },
@@ -44,8 +44,6 @@ pub mod beta0_core {
         enumerable: enumerable::Data,
         #[storage_field]
         manager: Manager,
-        #[storage_field]
-        admin_data: bet_a0::impls::admin::data::Data,
     }
 
     #[ink(event)]
@@ -106,7 +104,7 @@ pub mod beta0_core {
 
     pub type Event = <BetA0CoreContract as ContractEventBase>::Type;
 
-    impl AdminTraitImpl for BetA0CoreContract {}
+    impl AdminTrait for BetA0CoreContract {}
     impl BetA0CoreTraitImpl for BetA0CoreContract {
         fn _emit_transfer_staking_pool_event(
             &self,

@@ -5,7 +5,7 @@
 pub mod sale {
     use bet_a0::{
         impls::{
-            admin::AdminTraitImpl,
+            admin::*,
             sale::{data::Data, SalePoolTraitImpl, ADMINER, *},
         },
         traits::error::Error,
@@ -38,8 +38,6 @@ pub mod sale {
         enumerable: enumerable::Data,
         #[storage_field]
         data: Data,
-        #[storage_field]
-        admin_data: bet_a0::impls::admin::data::Data,
     }
 
     #[ink(event)]
@@ -93,7 +91,7 @@ pub mod sale {
 
     pub type Event = <SalePoolContract as ContractEventBase>::Type;
 
-    impl AdminTraitImpl for SalePoolContract {}
+    impl AdminTrait for SalePoolContract {}
     impl SalePoolTraitImpl for SalePoolContract {
         // emit event
         fn _emit_sale_pool_buy_event(&self, _buyer: AccountId, _amount: Balance, _fee: Balance) {

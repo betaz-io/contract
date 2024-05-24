@@ -6,7 +6,7 @@ pub use self::pandora::PandoraPoolContractRef;
 pub mod pandora {
     use bet_a0::{
         impls::{
-            admin::AdminTraitImpl,
+            admin::*,
             pandora::{PandoraPoolTraitsImpl, ADMINER, *},
         },
         traits::error::Error,
@@ -38,8 +38,6 @@ pub mod pandora {
         manager: pandora::data::Manager,
         #[storage_field]
         enumerable: enumerable::Data,
-        #[storage_field]
-        admin: bet_a0::impls::admin::data::Data,
     }
 
     #[ink(event)]
@@ -57,7 +55,14 @@ pub mod pandora {
         win_amount: Balance,
     }
 
-    impl AdminTraitImpl for PandoraPoolContract {}
+    #[ink(event)]
+    pub struct WithdrawHoldAmountEvent {
+        withdrawer: AccountId,
+        receiver: AccountId,
+        amount: Balance,
+    }
+
+    impl AdminTrait for PandoraPoolContract {}
     impl PandoraPoolTraitsImpl for PandoraPoolContract {
         fn _emit_play_event(
             &self,
@@ -89,6 +94,22 @@ pub mod pandora {
                     session_id: _session_id,
                     player: Some(_player),
                     win_amount: _win_amount,
+                }),
+            );
+        }
+
+        fn _emit_withdraw_hold_amount_event(
+            &self,
+            _withdrawer: AccountId,
+            _receiver: AccountId,
+            _amount: Balance,
+        ) {
+            PandoraPoolContract::emit_event(
+                self.env(),
+                Event::WithdrawHoldAmountEvent(WithdrawHoldAmountEvent {
+                    withdrawer: _withdrawer,
+                    receiver: _receiver,
+                    amount: _amount,
                 }),
             );
         }

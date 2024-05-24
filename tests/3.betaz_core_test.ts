@@ -931,7 +931,8 @@ describe('Betaz token test', () => {
         /** Player 3 play */
         const isOver = 1;
         let max_over_number = (await coreQuery.getMaxNumberOverRoll()).value.ok!;
-        let bet_amount = new BN(1 * (10 ** 12));
+        let bet_amount = new BN(0.5 * (10 ** 12));
+        // let bet_amount = (await coreQuery.getMaxBet()).value.ok!
         let bet_number = max_over_number;
 
         try {
@@ -1112,7 +1113,8 @@ describe('Betaz token test', () => {
         })
 
         // grant role core contract
-        await pandoraTx.grantRole(RoleType, coreContractAddress)
+        await pandoraTx.grantRole(RoleType, coreContractAddress);
+        await pandoraContract.withSigner(defaultSigner).tx.updateIsLocked(true);
 
         // tranfer
         await coreTx.transferAndUpdateSessionPandoraPool(last_bet_session_id);

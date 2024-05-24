@@ -5,7 +5,7 @@
 pub mod dao_contract {
     use bet_a0::{
         impls::{
-            admin::AdminTraitImpl,
+            admin::*,
             dao_contract::{data::Manager, DAOTraitsImpl, ADMINER, *},
         },
         traits::error::Error,
@@ -38,8 +38,6 @@ pub mod dao_contract {
         enumerable: enumerable::Data,
         #[storage_field]
         data: Manager,
-        #[storage_field]
-        admin_data: bet_a0::impls::admin::data::Data,
     }
 
     #[ink(event)]
@@ -52,7 +50,7 @@ pub mod dao_contract {
 
     pub type Event = <DAOContract as ContractEventBase>::Type;
 
-    impl AdminTraitImpl for DAOContract {}
+    impl AdminTrait for DAOContract {}
     impl DAOTraitsImpl for DAOContract {}
 
     impl DAOTrait for DAOContract {

@@ -1,6 +1,5 @@
+pub use crate::traits::admin::*;
 use crate::traits::error::Error;
-use crate::{impls::admin::data, traits::admin::*};
-use ink::env::CallFlags;
 use ink::prelude::vec::Vec;
 use openbrush::{
     contracts::ownable::*,
@@ -8,9 +7,7 @@ use openbrush::{
     traits::{AccountId, Balance, Storage},
 };
 
-pub trait AdminTraitImpl: Storage<data::Data> + Storage<ownable::Data> {
-    fn _emit_withdraw_fee(&self, _value: Balance, _receiver: AccountId) {}
-
+pub trait AdminTrait: Storage<ownable::Data> {
     #[modifiers(only_owner)]
     fn withdraw_fee(&mut self, value: Balance, receiver: AccountId) -> Result<(), Error> {
         if value > Self::env().balance() {
@@ -19,8 +16,11 @@ pub trait AdminTraitImpl: Storage<data::Data> + Storage<ownable::Data> {
         if Self::env().transfer(receiver, value).is_err() {
             return Err(Error::WithdrawFeeError);
         }
-        self._emit_withdraw_fee(value, receiver);
         Ok(())
+    }
+
+    fn get_balance(&self) -> Result<Balance, Error> {
+        Ok(Self::env().balance())
     }
 
     #[modifiers(only_owner)]
@@ -31,17 +31,14 @@ pub trait AdminTraitImpl: Storage<data::Data> + Storage<ownable::Data> {
         receiver: AccountId,
     ) -> Result<(), Error> {
         let builder =
-            Psp22Ref::transfer_builder(&psp22_contract_address, receiver, amount, Vec::<u8>::new())
-                .call_flags(CallFlags::default().set_allow_reentry(true));
+            Psp22Ref::transfer_builder(&psp22_contract_address, receiver, amount, Vec::<u8>::new());
 
-        let result = match builder.try_invoke() {
+        match builder.try_invoke() {
             Ok(Ok(Ok(_))) => Ok(()),
             Ok(Ok(Err(e))) => Err(e.into()),
             Ok(Err(ink::LangError::CouldNotReadInput)) => Ok(()),
             Err(ink::env::Error::NotCallable) => Ok(()),
             _ => Err(Error::CannotTransfer),
-        };
-
-        result
+        }
     }
 }

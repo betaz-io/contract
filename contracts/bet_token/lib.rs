@@ -17,7 +17,7 @@ pub use self::bet_token::BetTokenContractRef;
 pub mod bet_token {
     use bet_a0::{
         impls::{
-            admin::AdminTraitImpl,
+            admin::*,
             bet_token::{BetAZTraitImpl, ADMINER, MINTER, *},
         },
         traits::error::Error,
@@ -53,8 +53,6 @@ pub mod bet_token {
         metadata: metadata::Data,
         #[storage_field]
         data: bet_token::data::Data,
-        #[storage_field]
-        admin_data: bet_a0::impls::admin::data::Data,
     }
 
     #[ink(event)]
@@ -114,7 +112,7 @@ pub mod bet_token {
     #[modifiers(only_role(MINTER))]
     fn mint() {}
 
-    impl AdminTraitImpl for BetTokenContract {}
+    impl AdminTrait for BetTokenContract {}
     impl BetAZTraitImpl for BetTokenContract {
         fn _emit_burn_event(&self, account: AccountId, amount: Balance) {
             self.env().emit_event(Burn { account, amount });
