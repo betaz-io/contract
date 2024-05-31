@@ -86,7 +86,7 @@ pub enum Error {
     PSP34Error(PSP34Error),
     PausableError(PausableError),
     CheckedOperations,
-    CannotRandomAmounts
+    CannotRandomAmounts,
 }
 
 impl From<OwnableError> for Error {

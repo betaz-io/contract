@@ -289,8 +289,8 @@ pub mod pandora_psp34_standard {
             amounts: u64,
         ) -> Result<(), Error> {
             let start = self.manager.last_token_id;
-            for i in start..amounts.checked_add(start).unwrap() {
-                let token_id = i.checked_add(1).unwrap();
+            let end = start.checked_add(amounts).ok_or(Error::CheckedOperations)?;
+            for token_id in start.checked_add(1).ok_or(Error::CheckedOperations)?..=end {
                 self.manager.last_token_id = token_id;
                 if psp34::Internal::_mint_to(self, receiver, Id::U64(token_id)).is_err() {
                     return Err(Error::CannotMint);

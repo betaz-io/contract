@@ -160,6 +160,7 @@ pub mod wheel_of_fortune {
             &mut self,
             psp34_contract_address: AccountId,
         ) -> Result<(), WheelOfFortuneError> {
+            self.ownable._check_owner(Some(self.env().caller()))?;
             self.data
                 .set_psp34_contract_address(psp34_contract_address)?;
             Ok(())
