@@ -355,45 +355,45 @@ pub mod wheel_of_fortune {
 
             if bet_token_contract
                 .transfer_from(caller, Self::env().account_id(), fee, Vec::<u8>::new())
-                .is_err()
+                .is_ok()
             {
-                return Err(WheelOfFortuneError::CannotTransfer);
-            }
-            if let Some(amounts) = self.get_random_amount_nft() {
-                let mint_result = PandoraPsp34StandardContractRef::multiple_mint_ticket(
-                    &mut pandora_psp34_standard,
-                    caller,
-                    amounts,
-                );
+                if let Some(amounts) = self.get_random_amount_nft() {
+                    let mint_result = PandoraPsp34StandardContractRef::multiple_mint_ticket(
+                        &mut pandora_psp34_standard,
+                        caller,
+                        amounts,
+                    );
 
-                if mint_result.is_err() {
-                    return Err(WheelOfFortuneError::CannotMint);
+                    if mint_result.is_ok() {
+                        WheelOfFortuneContract::emit_event(
+                            self.env(),
+                            Event::BuyEvent(BuyEvent {
+                                buyer: caller,
+                                nft_amount: amounts,
+                                betaz_fee: fee,
+                            }),
+                        );
+                        Ok((fee, amounts))
+                    } else {
+                        return Err(WheelOfFortuneError::CannotMint);
+                    }
+                } else {
+                    return Err(WheelOfFortuneError::CannotRandomAmounts);
                 }
-
-                WheelOfFortuneContract::emit_event(
-                    self.env(),
-                    Event::BuyEvent(BuyEvent {
-                        buyer: caller,
-                        nft_amount: amounts,
-                        betaz_fee: fee,
-                    }),
-                );
-                Ok((fee, amounts))
             } else {
-                return Err(WheelOfFortuneError::CannotRandomAmounts);
+                return Err(WheelOfFortuneError::CannotTransfer);
             }
         }
 
         #[inline]
-        pub fn get_random_amount_nft(&mut self) -> Option<u64> {
+        fn get_random_amount_nft(&mut self) -> Option<u64> {
             let randomness_oracle_contract: RandomnessOracleRef =
                 FromAccountId::from_account_id(self.data.oracle_randomness_address);
 
-            let round = <RandomnessOracleRef as RandomOracleGetter>::get_latest_round(
+            let round_next = <RandomnessOracleRef as RandomOracleGetter>::get_latest_round(
                 &randomness_oracle_contract,
-            );
-
-            let round_next = round.checked_add(self.data.round_distance).unwrap();
+            )
+            .checked_add(self.data.round_distance)?;
 
             if let Some(random_number_oracle) =
                 <RandomnessOracleRef as RandomOracleGetter>::get_random_value_for_round(
@@ -401,38 +401,28 @@ pub mod wheel_of_fortune {
                     round_next,
                 )
             {
-                // Convert the received random bytes to a u64 number
-                let mut output =
-                    <ink::env::hash::Keccak256 as ink::env::hash::HashOutput>::Type::default();
+                let mut output = [0u8; 32];
                 ink::env::hash_bytes::<ink::env::hash::Keccak256>(
                     &random_number_oracle,
                     &mut output,
                 );
-                let hash = output.as_ref();
 
-                // Safely convert first 8 bytes of the hash to a u64
-                let raw_random_number =
-                    u64::from_be_bytes(hash[..8].try_into().expect("slice with incorrect length"));
+                let raw_random_number = u64::from_be_bytes(output[..8].try_into().ok()?);
+                let range = self
+                    .data
+                    .amount_out_max_nft
+                    .checked_sub(self.data.amount_out_min_nft)?
+                    .checked_add(1)?;
 
-                // Scale the random number within the provided min and max range
-                let scaled_random_number = self
+                // Tạo số ngẫu nhiên trong khoảng từ min đến max
+                let random_amount = self
                     .data
                     .amount_out_min_nft
-                    .checked_add(
-                        raw_random_number
-                            % ((self
-                                .data
-                                .amount_out_max_nft
-                                .checked_sub(self.data.amount_out_min_nft)
-                                .unwrap())
-                            .checked_add(1 as u64)
-                            .unwrap()),
-                    )
-                    .unwrap();
+                    .checked_add(raw_random_number % range)?;
 
-                return Some(scaled_random_number);
+                Some(random_amount)
             } else {
-                return None;
+                None
             }
         }
 

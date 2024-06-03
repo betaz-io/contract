@@ -113,54 +113,12 @@ pub mod bet_token {
     fn mint() {}
 
     impl AdminTrait for BetTokenContract {}
-    impl BetAZTraitImpl for BetTokenContract {
-        fn _emit_burn_event(&self, account: AccountId, amount: Balance) {
-            self.env().emit_event(Burn { account, amount });
-        }
-    }
+    impl BetAZTraitImpl for BetTokenContract {}
     impl BetAZTrait for BetTokenContract {
         // EXECUTE FUNCTION
         #[ink(message)]
         fn change_state(&mut self) -> Result<(), Error> {
             BetAZTraitImpl::change_state(self)
-        }
-        /// Only minter can mint
-        #[ink(message)]
-        fn mint(&mut self, account: AccountId, amount: Balance) -> Result<(), Error> {
-            BetAZTraitImpl::mint(self, account, amount)
-        }
-
-        #[ink(message)]
-        fn burn(&mut self, account: AccountId, amount: Balance) -> Result<(), Error> {
-            BetAZTraitImpl::burn(self, account, amount)
-        }
-
-        /// Withdraw any Balance of Contract - only Owner
-        #[ink(message)]
-        fn withdraw(&mut self, value: Balance) -> Result<(), Error> {
-            BetAZTraitImpl::withdraw(self, value)
-        }
-
-        // GET FUNCTIONS
-        #[ink(message)]
-        fn is_admin_address(&self, address: AccountId) -> bool {
-            BetAZTraitImpl::is_admin_address(self, address)
-        }
-
-        #[ink(message)]
-        fn is_minter_address(&self, address: AccountId) -> bool {
-            BetAZTraitImpl::is_minter_address(self, address)
-        }
-
-        // SET FUNCTIONS
-        #[ink(message)]
-        fn set_admin_address(&mut self, address: AccountId) -> Result<(), Error> {
-            BetAZTraitImpl::set_admin_address(self, address)
-        }
-
-        #[ink(message)]
-        fn set_minter_address(&mut self, address: AccountId) -> Result<(), Error> {
-            BetAZTraitImpl::set_minter_address(self, address)
         }
     }
 
