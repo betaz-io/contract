@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0xdc02ae1237b84754916e85c0db67efb2ca3502b7684234767737562a0351fa19",
+    "hash": "0xf68bfa49c1fe34dccf61ed9de2fd977c280d6845295267bee687fa67f73e505e",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.75.0-nightly",
     "build_info": {
@@ -126,13 +126,13 @@
         "displayName": [
           "ChainExtension"
         ],
-        "type": 36
+        "type": 33
       },
       "hash": {
         "displayName": [
           "Hash"
         ],
-        "type": 32
+        "type": 29
       },
       "maxEventTopics": 4,
       "timestamp": {
@@ -153,7 +153,7 @@
               "displayName": [
                 "Option"
               ],
-              "type": 22
+              "type": 19
             }
           },
           {
@@ -164,7 +164,7 @@
               "displayName": [
                 "Option"
               ],
-              "type": 22
+              "type": 19
             }
           }
         ],
@@ -313,7 +313,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 18
+          "type": 10
         },
         "selector": "0x9b5bfd93"
       },
@@ -329,7 +329,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 21
+          "type": 18
         },
         "selector": "0x4fa43c8c"
       },
@@ -345,7 +345,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 23
+          "type": 20
         },
         "selector": "0x5e228753"
       },
@@ -357,7 +357,7 @@
               "displayName": [
                 "Option"
               ],
-              "type": 22
+              "type": 19
             }
           }
         ],
@@ -371,7 +371,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 23
+          "type": 20
         },
         "selector": "0x11f43efd"
       },
@@ -387,7 +387,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 25
+          "type": 22
         },
         "selector": "0xd123ce11"
       },
@@ -601,7 +601,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 26
+          "type": 23
         },
         "selector": "0x96898373"
       },
@@ -617,7 +617,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 26
+          "type": 23
         },
         "selector": "0x751d60b1"
       },
@@ -633,7 +633,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 26
+          "type": 23
         },
         "selector": "0xc6cb5527"
       },
@@ -649,7 +649,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 27
+          "type": 24
         },
         "selector": "0x69de9066"
       },
@@ -665,7 +665,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 28
+          "type": 25
         },
         "selector": "0xb4c8268c"
       },
@@ -681,7 +681,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 28
+          "type": 25
         },
         "selector": "0xad1ec64d"
       },
@@ -697,7 +697,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 28
+          "type": 25
         },
         "selector": "0x0a6e96ff"
       },
@@ -718,7 +718,7 @@
               "displayName": [
                 "Option"
               ],
-              "type": 22
+              "type": 19
             }
           }
         ],
@@ -732,7 +732,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 25
+          "type": 22
         },
         "selector": "0xc1d9ac18"
       },
@@ -758,7 +758,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 29
+          "type": 26
         },
         "selector": "0x83da3bb2"
       },
@@ -779,7 +779,7 @@
               "displayName": [
                 "Option"
               ],
-              "type": 22
+              "type": 19
             }
           }
         ],
@@ -793,7 +793,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 30
+          "type": 27
         },
         "selector": "0x4ac062fd"
       },
@@ -814,7 +814,7 @@
               "displayName": [
                 "Option"
               ],
-              "type": 22
+              "type": 19
             }
           }
         ],
@@ -828,7 +828,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 30
+          "type": 27
         },
         "selector": "0x6e4f0991"
       },
@@ -849,7 +849,7 @@
               "displayName": [
                 "Option"
               ],
-              "type": 22
+              "type": 19
             }
           }
         ],
@@ -863,7 +863,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 30
+          "type": 27
         },
         "selector": "0xeaf1248a"
       },
@@ -875,7 +875,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 32
+              "type": 29
             }
           }
         ],
@@ -889,7 +889,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 33
+          "type": 30
         },
         "selector": "0x9e32fab2"
       }
@@ -1581,101 +1581,6 @@
           "variant": {
             "variants": [
               {
-                "fields": [
-                  {
-                    "type": 20
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 12
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 20
-          },
-          {
-            "name": "E",
-            "type": 12
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 20,
-      "type": {
-        "def": {
-          "tuple": [
-            6,
-            7
-          ]
-        }
-      }
-    },
-    {
-      "id": 21,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 22
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 9
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 22
-          },
-          {
-            "name": "E",
-            "type": 9
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 22,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
                 "index": 0,
                 "name": "None"
               },
@@ -1703,7 +1608,7 @@
       }
     },
     {
-      "id": 23,
+      "id": 20,
       "type": {
         "def": {
           "variant": {
@@ -1711,7 +1616,7 @@
               {
                 "fields": [
                   {
-                    "type": 24
+                    "type": 21
                   }
                 ],
                 "index": 0,
@@ -1732,7 +1637,7 @@
         "params": [
           {
             "name": "T",
-            "type": 24
+            "type": 21
           },
           {
             "name": "E",
@@ -1745,7 +1650,7 @@
       }
     },
     {
-      "id": 24,
+      "id": 21,
       "type": {
         "def": {
           "variant": {
@@ -1787,7 +1692,7 @@
       }
     },
     {
-      "id": 25,
+      "id": 22,
       "type": {
         "def": {
           "variant": {
@@ -1829,7 +1734,7 @@
       }
     },
     {
-      "id": 26,
+      "id": 23,
       "type": {
         "def": {
           "variant": {
@@ -1871,7 +1776,7 @@
       }
     },
     {
-      "id": 27,
+      "id": 24,
       "type": {
         "def": {
           "variant": {
@@ -1913,7 +1818,7 @@
       }
     },
     {
-      "id": 28,
+      "id": 25,
       "type": {
         "def": {
           "variant": {
@@ -1955,7 +1860,7 @@
       }
     },
     {
-      "id": 29,
+      "id": 26,
       "type": {
         "def": {
           "variant": {
@@ -1993,6 +1898,110 @@
         ],
         "path": [
           "Result"
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 28
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 28
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 1
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 17
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 1
+          },
+          {
+            "name": "E",
+            "type": 17
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 3,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "Hash"
         ]
       }
     },
@@ -2056,7 +2065,7 @@
               {
                 "fields": [
                   {
-                    "type": 17
+                    "type": 32
                   }
                 ],
                 "index": 1,
@@ -2072,7 +2081,7 @@
           },
           {
             "name": "E",
-            "type": 17
+            "type": 32
           }
         ],
         "path": [
@@ -2082,110 +2091,6 @@
     },
     {
       "id": 32,
-      "type": {
-        "def": {
-          "composite": {
-            "fields": [
-              {
-                "type": 3,
-                "typeName": "[u8; 32]"
-              }
-            ]
-          }
-        },
-        "path": [
-          "ink_primitives",
-          "types",
-          "Hash"
-        ]
-      }
-    },
-    {
-      "id": 33,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 34
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 9
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 34
-          },
-          {
-            "name": "E",
-            "type": 9
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 34,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 1
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 35
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 1
-          },
-          {
-            "name": "E",
-            "type": 35
-          }
-        ],
-        "path": [
-          "Result"
-        ]
-      }
-    },
-    {
-      "id": 35,
       "type": {
         "def": {
           "variant": {
@@ -2217,7 +2122,7 @@
       }
     },
     {
-      "id": 36,
+      "id": 33,
       "type": {
         "def": {
           "variant": {}

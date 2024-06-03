@@ -6,4 +6,3 @@ pub mod pandora;
 pub mod pandora_psp34_standard;
 pub mod sale;
 pub mod staking;
-pub mod wheel_of_fortune;

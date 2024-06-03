@@ -336,7 +336,7 @@ pub mod wheel_of_fortune {
         }
 
         #[ink(message)]
-        pub fn random_nft(&mut self) -> Result<(Balance, u64), WheelOfFortuneError> {
+        pub fn random_nft(&mut self) -> Result<(), WheelOfFortuneError> {
             let mut pandora_psp34_standard: PandoraPsp34StandardContractRef =
                 FromAccountId::from_account_id(self.data.psp34_contract_address);
             let caller = Self::env().caller();
@@ -372,8 +372,7 @@ pub mod wheel_of_fortune {
                                 nft_amount: amounts,
                                 betaz_fee: fee,
                             }),
-                        );
-                        Ok((fee, amounts))
+                        );                  
                     } else {
                         return Err(WheelOfFortuneError::CannotMint);
                     }
@@ -383,6 +382,8 @@ pub mod wheel_of_fortune {
             } else {
                 return Err(WheelOfFortuneError::CannotTransfer);
             }
+
+            Ok(())
         }
 
         #[inline]
@@ -414,7 +415,6 @@ pub mod wheel_of_fortune {
                     .checked_sub(self.data.amount_out_min_nft)?
                     .checked_add(1)?;
 
-                // Tạo số ngẫu nhiên trong khoảng từ min đến max
                 let random_amount = self
                     .data
                     .amount_out_min_nft
