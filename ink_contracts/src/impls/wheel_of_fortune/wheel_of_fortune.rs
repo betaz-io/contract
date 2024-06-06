@@ -1,7 +1,20 @@
 pub use crate::traits::errors::WheelOfFortuneError;
 use ink::env::{DefaultEnvironment, Environment};
 use ink::primitives::AccountId;
+use ink::storage::Mapping;
 pub type Balance = <DefaultEnvironment as Environment>::Balance;
+
+#[cfg(feature = "std")]
+use ink::storage::traits::StorageLayout;
+
+#[derive(
+    Copy, Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Default, scale::Encode, scale::Decode,
+)]
+#[cfg_attr(feature = "std", derive(StorageLayout, scale_info::TypeInfo))]
+pub struct RandomInformation {
+    pub random_amount: u64,
+    pub oracle_round: u64,
+}
 
 #[ink::storage_item]
 #[derive(Debug)]
@@ -13,6 +26,7 @@ pub struct Data {
     pub round_distance: u64,
     pub amount_out_min_nft: u64,
     pub amount_out_max_nft: u64,
+    pub player_random_amounts_link: Mapping<AccountId, RandomInformation>,
     pub _reserved: Option<()>,
 }
 
@@ -26,6 +40,7 @@ impl Default for Data {
             betaz_token_fee: Default::default(),
             amount_out_min_nft: Default::default(),
             amount_out_max_nft: Default::default(),
+            player_random_amounts_link: Default::default(),
             _reserved: Default::default(),
         }
     }
@@ -87,6 +102,12 @@ impl Data {
     }
 
     // GET FUNCTIONS
+    pub fn get_random_nft_by_player(&self, player: AccountId) -> Option<RandomInformation> {
+        if let Some(random_info) = self.player_random_amounts_link.get(&player) {
+            return Some(random_info);
+        }
+        return None;
+    }
     pub fn get_betaz_token_address(&self) -> AccountId {
         self.betaz_token_address
     }

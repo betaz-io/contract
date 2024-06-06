@@ -96,7 +96,7 @@ pub mod betaz_random {
         }
 
         #[ink(message)]
-        pub fn get_random_number_for_round(&mut self, round: u64) -> Option<u32> {
+        pub fn get_random_number_for_round(&self, round: u64) -> Option<u32> {
             let randomness_oracle_contract: RandomnessOracleRef =
                 ink::env::call::FromAccountId::from_account_id(
                     self.manager.oracle_randomness_address,
@@ -118,6 +118,49 @@ pub mod betaz_random {
                 let random_number =
                     u32::from_be_bytes(hash[..4].try_into().expect("slice with incorrect length"))
                         % 100;
+                return Some(random_number);
+            } else {
+                return None;
+            }
+        }
+
+        #[ink(message)]
+        pub fn get_random_number_within_for_round(
+            &self,
+            amount_out_min_nft: u64,
+            amount_out_max_nft: u64,
+            round: u64,
+        ) -> Option<u64> {
+            let range = amount_out_max_nft
+                .checked_sub(amount_out_min_nft)
+                .unwrap()
+                .checked_add(1)
+                .unwrap();
+            let randomness_oracle_contract: RandomnessOracleRef =
+                ink::env::call::FromAccountId::from_account_id(
+                    self.manager.oracle_randomness_address,
+                );
+            if let Some(random_number_oracle) =
+                <RandomnessOracleRef as RandomOracleGetter>::get_random_value_for_round(
+                    &randomness_oracle_contract,
+                    round,
+                )
+            {
+                // Todo: convert random number oracle to number
+                let mut output = [0u8; 32];
+                ink::env::hash_bytes::<ink::env::hash::Keccak256>(
+                    &random_number_oracle,
+                    &mut output,
+                );
+
+                let raw_random_number = output
+                    .get(..8)
+                    .and_then(|slice| slice.try_into().ok())
+                    .map(u64::from_be_bytes)
+                    .unwrap_or(0);
+                let random_number = amount_out_min_nft
+                    .checked_add(raw_random_number.checked_rem(range).unwrap_or(0))
+                    .unwrap_or(0);
                 return Some(random_number);
             } else {
                 return None;

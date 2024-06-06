@@ -9,10 +9,9 @@ ink = { version = "4.3", default-features = false }
 scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
 scale-info = { version = "2.9", default-features = false, features = ["derive"], optional = true }
 betaz_project = { path = "../../..", default-features = false }
-dia-randomness-oracle = { path = "../../../../contracts/dia-randomness-oracle", default-features = false, features = ["ink-as-dependency"] }
-dia-oracle-randomness-getter = { path = "../../../../contracts/oracle-randomness-getter", default-features = false, features = ["ink-as-dependency"] }
 pandora_psp34_standard = { path = "../../../../contracts/pandora_psp34_standard", default-features = false, features = ["ink-as-dependency"] }
 bet_token = { path = "../../../../contracts/bet_token", default-features = false, features = ["ink-as-dependency"] }
+betaz_random = { path = "../../../../contracts/betaz_random", default-features = false, features = ["ink-as-dependency"] }
 psp22 = { version = "1.0", default-features = false, features = ["ink-as-dependency"] }
 
 [lib]
@@ -26,10 +25,9 @@ std = [
     "betaz_project/std",
     "scale/std",
     "scale-info/std",
-    "dia-randomness-oracle/std",
-    "dia-oracle-randomness-getter/std",
     "pandora_psp34_standard/std",
     "bet_token/std",
+    "betaz_random/std",
     "psp22/std",
 ]
 ink-as-dependency = []

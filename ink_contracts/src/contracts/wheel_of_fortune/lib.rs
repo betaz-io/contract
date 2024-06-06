@@ -9,8 +9,7 @@ pub mod wheel_of_fortune {
         impls::{ownable::*, pausable::*, wheel_of_fortune::*},
         traits::{access_control::*, ownable::*, pausable::*, upgradeable::*, wheel_of_fortune::*},
     };
-    use dia_oracle_randomness_getter::RandomOracleGetter;
-    use dia_randomness_oracle::oracle_anchor::RandomnessOracleRef;
+    use betaz_random::betaz_random::BetA0RandomContractRef;
     use ink::contract_ref;
     use ink::env::call::FromAccountId;
     use ink::storage::Mapping;
@@ -44,6 +43,13 @@ pub mod wheel_of_fortune {
         nft_amount: u64,
         #[ink(topic)]
         betaz_fee: Balance,
+    }
+
+    #[ink(event)]
+    pub struct PlayRandomEvent {
+        player: Option<AccountId>,
+        random_amount: u64,
+        oracle_round: u64,
     }
 
     pub type Event = <WheelOfFortuneContract as ContractEventBase>::Type;
@@ -167,6 +173,10 @@ pub mod wheel_of_fortune {
         }
 
         // GET FUNCTIONS
+        #[ink(message)]
+        fn get_random_nft_by_player(&self, player: AccountId) -> Option<RandomInformation> {
+            self.data.get_random_nft_by_player(player)
+        }
         #[ink(message)]
         fn get_betaz_token_address(&self) -> AccountId {
             self.data.get_betaz_token_address()
@@ -336,94 +346,98 @@ pub mod wheel_of_fortune {
         }
 
         #[ink(message)]
-        pub fn random_nft(&mut self) -> Result<(), WheelOfFortuneError> {
+        pub fn finalize_random_nfts(&mut self) -> Result<(), WheelOfFortuneError> {
+            let player = self.env().caller();
             let mut pandora_psp34_standard: PandoraPsp34StandardContractRef =
                 FromAccountId::from_account_id(self.data.psp34_contract_address);
-            let caller = Self::env().caller();
             let mut bet_token_contract: contract_ref!(PSP22) = self.data.betaz_token_address.into();
 
             // Transfer BETAZ Token from Caller to contract
             let fee = self.data.betaz_token_fee;
-            let betaz_balance = bet_token_contract.balance_of(caller);
+            let betaz_balance = bet_token_contract.balance_of(player);
 
             // Check PSP22 balance and allowance of caller
-            let allowance = bet_token_contract.allowance(caller, Self::env().account_id());
+            let allowance = bet_token_contract.allowance(player, Self::env().account_id());
 
             if allowance < fee || betaz_balance < fee {
                 return Err(WheelOfFortuneError::InvalidBalanceAndAllowance);
             }
 
             if bet_token_contract
-                .transfer_from(caller, Self::env().account_id(), fee, Vec::<u8>::new())
+                .transfer_from(player, Self::env().account_id(), fee, Vec::<u8>::new())
                 .is_err()
             {
                 return Err(WheelOfFortuneError::CannotTransfer);
             }
 
-            let amounts = self
-                .get_random_amount_nft()
-                .ok_or(WheelOfFortuneError::CannotRandomAmounts)?;
-
-            if PandoraPsp34StandardContractRef::multiple_mint_ticket(
-                &mut pandora_psp34_standard,
-                caller,
-                amounts,
-            )
-            .is_err()
-            {
-                return Err(WheelOfFortuneError::CannotMint);
+            if let Some(play_random_info) = self.data.player_random_amounts_link.get(&player) {
+                let amounts = play_random_info.random_amount;
+                if PandoraPsp34StandardContractRef::multiple_mint_ticket(
+                    &mut pandora_psp34_standard,
+                    player,
+                    amounts,
+                )
+                .is_err()
+                {
+                    return Err(WheelOfFortuneError::CannotMint);
+                }
+                self.data.player_random_amounts_link.remove(&player);
+                WheelOfFortuneContract::emit_event(
+                    self.env(),
+                    Event::BuyEvent(BuyEvent {
+                        buyer: player,
+                        nft_amount: amounts,
+                        betaz_fee: fee,
+                    }),
+                );
+            } else {
+                return Err(WheelOfFortuneError::PlayerRandomAmountsLinkNotExist);
             }
-
-            WheelOfFortuneContract::emit_event(
-                self.env(),
-                Event::BuyEvent(BuyEvent {
-                    buyer: caller,
-                    nft_amount: amounts,
-                    betaz_fee: fee,
-                }),
-            );
-
             Ok(())
         }
 
-        #[inline]
-        fn get_random_amount_nft(&mut self) -> Option<u64> {
-            let randomness_oracle_contract: RandomnessOracleRef =
-                FromAccountId::from_account_id(self.data.oracle_randomness_address);
+        #[ink(message)]
+        pub fn play_random_nfts(&mut self) -> Result<(), WheelOfFortuneError> {
+            let player = self.env().caller();
 
-            let round_next = <RandomnessOracleRef as RandomOracleGetter>::get_latest_round(
-                &randomness_oracle_contract,
-            )
-            .checked_add(self.data.round_distance)?;
+            if let Some(_play_random_info) = self.data.player_random_amounts_link.get(&player) {
+                return Err(WheelOfFortuneError::RandomNftsNotFinalized);
+            }
 
-            let random_number_oracle =
-                <RandomnessOracleRef as RandomOracleGetter>::get_random_value_for_round(
-                    &randomness_oracle_contract,
-                    round_next,
-                )?;
+            let betaz_random_contract: BetA0RandomContractRef =
+                ink::env::call::FromAccountId::from_account_id(self.data.oracle_randomness_address);
+            let round = BetA0RandomContractRef::get_latest_round(&betaz_random_contract);
 
-            let mut output = [0u8; 32];
-            ink::env::hash_bytes::<ink::env::hash::Keccak256>(&random_number_oracle, &mut output);
+            let round_next = round.checked_add(self.data.round_distance).unwrap();
 
-            let raw_random_number = output
-                .get(..8)
-                .and_then(|slice| slice.try_into().ok())
-                .map(u64::from_be_bytes)
-                .unwrap_or(0);
+            if let Some(random_amount) = BetA0RandomContractRef::get_random_number_within_for_round(
+                &betaz_random_contract,
+                self.data.amount_out_min_nft,
+                self.data.amount_out_max_nft,
+                round_next,
+            ) {
+                let new_random_info = RandomInformation {
+                    random_amount,
+                    oracle_round: round_next,
+                };
 
-            let range = self
-                .data
-                .amount_out_max_nft
-                .checked_sub(self.data.amount_out_min_nft)?
-                .checked_add(1)?;
+                self.data
+                    .player_random_amounts_link
+                    .insert(&player, &new_random_info);
 
-            let random_amount = self
-                .data
-                .amount_out_min_nft
-                .checked_add(raw_random_number.checked_rem(range).unwrap_or(0))
-                .unwrap_or(0);
+                WheelOfFortuneContract::emit_event(
+                    self.env(),
+                    Event::PlayRandomEvent(PlayRandomEvent {
+                        player: Some(player),
+                        random_amount: new_random_info.random_amount,
+                        oracle_round: new_random_info.oracle_round,
+                    }),
+                );
+            } else {
+                return Err(WheelOfFortuneError::CannotRandomAmounts);
+            }
 
-            Some(random_amount)
+            Ok(())
         }
 
         pub fn emit_event<EE: EmitEvent<Self>>(emitter: EE, event: Event) {

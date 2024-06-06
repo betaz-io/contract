@@ -2,6 +2,7 @@ pub use crate::traits::errors::WheelOfFortuneError;
 use ink::env::{DefaultEnvironment, Environment};
 use ink::primitives::AccountId;
 pub type Balance = <DefaultEnvironment as Environment>::Balance;
+use crate::impls::wheel_of_fortune::RandomInformation;
 
 #[ink::trait_definition]
 pub trait WheelOfFortuneTrait {
@@ -41,6 +42,8 @@ pub trait WheelOfFortuneTrait {
     ) -> Result<(), WheelOfFortuneError>;
 
     // GET FUNCTIONS
+    #[ink(message)]
+     fn get_random_nft_by_player(&self, player: AccountId) -> Option<RandomInformation>;
     #[ink(message)]
     fn get_betaz_token_address(&self) -> AccountId;
     #[ink(message)]

@@ -13,7 +13,9 @@ pub enum WheelOfFortuneError {
     InvalidBalanceAndAllowance,
     CannotTransfer,
     CannotMint,
-    CannotRandomAmounts
+    CannotRandomAmounts,
+    PlayerRandomAmountsLinkNotExist,
+    RandomNftsNotFinalized
 }
 
 impl From<MathError> for WheelOfFortuneError {
